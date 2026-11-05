@@ -678,7 +678,7 @@ html{scroll-behavior:smooth}
     <div class="trust">
       <div><b>±1′</b><span>პლანეტების, სახლებისა და ასცენდენტის სიზუსტე, შემოწმებული astro-seek-თან</span></div>
       <div><b>NASA JPL</b><span>ქირონის ეფემერიდები 1900–2100 წლებისთვის</span></div>
-      <div><b>ღია სტატისტიკა</b><span>ვაჩვენებთ, რამდენად ხშირად ამოიცნობს მეთოდი სწორ ასცენდენტს</span></div>
+      <div><b>4300+ ადგილი</b><span>საქართველოს ყველა ქალაქი და სოფელი დაბადების ადგილის ასარჩევად</span></div>
     </div>
 
     <div class="sec-head"><span class="eyebrow">სხვა ხელსაწყოები</span><h2>ყველაფერი შენი რუკისთვის</h2></div>
@@ -855,10 +855,6 @@ html{scroll-behavior:smooth}
         <div class="qres" id="qRes" aria-live="polite"></div>
       </section>
 
-      <section class="step stats" id="stStats">
-        <h4>მეთოდის სიზუსტე: ჩვენი სტატისტიკა</h4>
-        <div id="statsBody"><p class="note">სტატისტიკა იტვირთება…</p></div>
-      </section>
       <p class="note">საუკეთესო წყაროა დაბადების მოწმობა ან სამშობიარო სახლის ჩანაწერი. ეს მეთოდი მათ ვერ ჩაანაცვლებს.</p>
     </div>
       </div>
@@ -5979,7 +5975,7 @@ const STATS={
   async watch(cb,err){if(!window.claude){const load=async()=>{try{const r=await fetch(SB.url+"/rest/v1/rectstats?select=data&order=id.desc&limit=1000",{headers:{apikey:SB.key}});if(!r.ok)throw 0;cb((await r.json()).map(x=>x.data));}catch(e){err()}};STATS.reload=load;load();return true}
     const db=await window.claude.use("db").catch(()=>null);if(!db)return false;db.collection("rectstats").limit(1000).onSnapshot(snap=>cb(snap.docs.map(d=>d.data())),err);return true;}};
 (async()=>{
-  const box=$("statsBody");
+  const box=$("statsBody");if(!box)return;
   const t=setTimeout(()=>{box.innerHTML='<p class="note">სტატისტიკა ჯერ ვერ ჩაიტვირთა.</p>';},10000);
   const ok=await STATS.watch(DATA=>{clearTimeout(t);const ALL=DATA.filter(x=>x&&x.v===1),R=ALL.filter(x=>x.rank>0);
     const keyed=ALL.filter(x=>x.key),list=keyed.length?'<h4 style="margin-top:14px">მონიშნული ტესტები</h4><div class="tbl"><table><thead><tr><th>დაბადების დღე</th><th>ნამდვილი დრო</th><th>გამოთვლილი</th><th>შედეგი</th></tr></thead><tbody>'+keyed.map(x=>{const [mm,dd]=x.key.split("-").map(Number);return '<tr><td>'+dd+' '+MONTHS[mm-1]+'</td><td class="num">'+(x.trueMin!=null?hm(x.trueMin):'—')+'</td><td class="num">'+(x.bestMin!=null?hm(x.bestMin):'—')+'</td><td>'+(x.rank===0?'ნამდვილი დრო შუალედის გარეთ იყო':x.hit1?'ასცენდენტი სწორად':'ასცენდენტი '+x.rank+'-ე ადგილზე')+', ცდომილება '+x.errMin+' წთ</td></tr>';}).join("")+'</tbody></table></div>':'';

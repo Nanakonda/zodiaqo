@@ -5962,20 +5962,26 @@ function runRect(){
 }
 $("qGo").addEventListener("click",runRect);
 $("qRes").addEventListener("click",async e=>{
-  if(e.target.id==="tSave"){const b=e.target;b.disabled=true;const db=(window.claude?await window.claude.use("db").catch(()=>null):null);
-    if(!db||!RW||!RW.test){$("tSaveNote").textContent="შენახვა ახლა მიუწვდომელია (საჭიროა claude.ai-ზე შესვლა).";return}
-    try{const rec={...RW.test};if($("tKey")&&$("tKey").checked)rec.key=pad(RW.f.M)+"-"+pad(RW.f.D);await db.collection("rectstats").add(rec);$("tSaveNote").textContent="შენახულია. მადლობა!";}catch(err){b.disabled=false;$("tSaveNote").textContent="ვერ შეინახა: "+(err.code==="invalid_argument"?"შენ ამ გვერდზე მონაცემების ჩაწერის უფლება არ გაქვს.":"სცადე მოგვიანებით.");}
+  if(e.target.id==="tSave"){const b=e.target;b.disabled=true;
+    if(!RW||!RW.test){$("tSaveNote").textContent="შენახვა ახლა მიუწვდომელია.";return}
+    try{const rec={...RW.test};if($("tKey")&&$("tKey").checked)rec.key=pad(RW.f.M)+"-"+pad(RW.f.D);await STATS.add(rec);$("tSaveNote").textContent="შენახულია. მადლობა!";}catch(err){b.disabled=false;$("tSaveNote").textContent="ვერ შეინახა: "+(err.code==="invalid_argument"?"შენ ამ გვერდზე მონაცემების ჩაწერის უფლება არ გაქვს.":"სცადე მოგვიანებით.");}
     return;}
   const b=e.target.closest("button[data-m]");if(!b)return;const m=+b.dataset.m,r=+b.dataset.r;
   $("bHour").value=Math.floor(m/60);$("bMin").value=m%60;$("pApprox").checked=true;
   const opts=[...$("bRange").options].map(o=>+o.value);$("bRange").value=opts.reduce((a,v)=>Math.abs(v-r)<Math.abs(a-r)?v:a,opts[0]);
   updPrec();updTz();buildNatal(false);location.hash="#report";});
 /* public accuracy statistics */
+/* statistics backend: Supabase on the public site, claude.ai database inside the artifact */
+const SB={url:"https://xxkthwsuqdgdqdivshha.supabase.co",key:"sb_publishable_uUqs_DstFbYniNNiLevggw_LWxy5ctp"};
+const STATS={
+  async add(rec){if(!window.claude){const r=await fetch(SB.url+"/rest/v1/rectstats",{method:"POST",headers:{apikey:SB.key,"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({data:rec})});if(!r.ok)throw {code:"http_"+r.status};STATS.reload&&STATS.reload();return}
+    const db=await window.claude.use("db").catch(()=>null);if(!db)throw {code:"unavailable"};await db.collection("rectstats").add(rec);},
+  async watch(cb,err){if(!window.claude){const load=async()=>{try{const r=await fetch(SB.url+"/rest/v1/rectstats?select=data&order=id.desc&limit=1000",{headers:{apikey:SB.key}});if(!r.ok)throw 0;cb((await r.json()).map(x=>x.data));}catch(e){err()}};STATS.reload=load;load();return true}
+    const db=await window.claude.use("db").catch(()=>null);if(!db)return false;db.collection("rectstats").limit(1000).onSnapshot(snap=>cb(snap.docs.map(d=>d.data())),err);return true;}};
 (async()=>{
-  const box=$("statsBody");const db=(window.claude?await window.claude.use("db").catch(()=>null):null);
-  if(!db){box.innerHTML='<p class="note">სტატისტიკის სანახავად claude.ai-ზე შესვლაა საჭირო. როცა საიტი საკუთარ დომენზე გადავა, ეს ნაწილი ყველასთვის ხელმისაწვდომი გახდება.</p>';return}
+  const box=$("statsBody");
   const t=setTimeout(()=>{box.innerHTML='<p class="note">სტატისტიკა ჯერ ვერ ჩაიტვირთა.</p>';},10000);
-  db.collection("rectstats").limit(1000).onSnapshot(snap=>{clearTimeout(t);const ALL=snap.docs.map(d=>d.data()).filter(x=>x&&x.v===1),R=ALL.filter(x=>x.rank>0);
+  const ok=await STATS.watch(DATA=>{clearTimeout(t);const ALL=DATA.filter(x=>x&&x.v===1),R=ALL.filter(x=>x.rank>0);
     const keyed=ALL.filter(x=>x.key),list=keyed.length?'<h4 style="margin-top:14px">მონიშნული ტესტები</h4><div class="tbl"><table><thead><tr><th>დაბადების დღე</th><th>ნამდვილი დრო</th><th>გამოთვლილი</th><th>შედეგი</th></tr></thead><tbody>'+keyed.map(x=>{const [mm,dd]=x.key.split("-").map(Number);return '<tr><td>'+dd+' '+MONTHS[mm-1]+'</td><td class="num">'+(x.trueMin!=null?hm(x.trueMin):'—')+'</td><td class="num">'+(x.bestMin!=null?hm(x.bestMin):'—')+'</td><td>'+(x.rank===0?'ნამდვილი დრო შუალედის გარეთ იყო':x.hit1?'ასცენდენტი სწორად':'ასცენდენტი '+x.rank+'-ე ადგილზე')+', ცდომილება '+x.errMin+' წთ</td></tr>';}).join("")+'</tbody></table></div>':'';
     if(!R.length){box.innerHTML='<p>ჯერ არცერთი ტესტი არ არის, რომელშიც ნამდვილი დრო არჩეულ შუალედში მოხვდა. თუ შენი ზუსტი დაბადების დრო იცი, ჩართე „ტესტის რეჟიმი“ მე-⁠5 ნაბიჯში და გაიარე კითხვარი.</p>'+list;return}
     if(false){box.innerHTML='<p>ჯერ არცერთი ტესტი არ არის. თუ შენი ზუსტი დაბადების დრო იცი, ჩართე „ტესტის რეჟიმი“ მე-⁠5 ნაბიჯში და გაიარე კითხვარი: ასე გავარკვევთ, რამდენად კარგად მუშაობს მეთოდი სინამდვილეში.</p>';return}
@@ -5983,7 +5989,8 @@ $("qRes").addEventListener("click",async e=>{
     const grp=(name,fn)=>{const g=R.filter(fn);return g.length?'<tr><td>'+name+'</td><td class="num">'+g.length+'</td><td class="num">'+pc(g.filter(x=>x.hit1).length/g.length)+'</td><td class="num">'+pc(g.reduce((a,x)=>a+1/x.nCand,0)/g.length)+'</td><td class="num">'+med(g.map(x=>x.errMin))+' წთ</td></tr>':''};
     box.innerHTML='<p>ტესტები ადამიანებისგან, რომლებმაც ზუსტი დრო იციან. „შემთხვევითი“ სვეტი გვიჩვენებს, რამდენს მივიღებდით კანდიდატის უბრალოდ შემთხვევით არჩევით. მეთოდი მაშინ მუშაობს, როცა სიზუსტე შემთხვევითზე შესამჩნევად მაღალია.</p><div class="tbl"><table><thead><tr><th>მეთოდი</th><th>ტესტი</th><th>ასცენდენტი სწორად</th><th>შემთხვევითი</th><th>საშუალო ცდომილება</th></tr></thead><tbody>'+
       grp("ყველა",()=>true)+grp("მხოლოდ კითხვარი",x=>x.m==="T")+grp("კითხვარი + ამომავალი პლანეტები",x=>x.m==="TR")+grp("მოვლენებით",x=>x.m.includes("E"))+'</tbody></table></div>'+(R.length<30?'<p class="note">'+R.length+' ტესტი ჯერ ძალიან ცოტაა სანდო დასკვნისთვის. საჭიროა მინიმუმ 30-50.</p>':'')+list;
-  },err=>{clearTimeout(t);box.innerHTML='<p class="note">სტატისტიკა ვერ ჩაიტვირთა.</p>';});
+  },()=>{clearTimeout(t);box.innerHTML='<p class="note">სტატისტიკა ვერ ჩაიტვირთა.</p>';});
+  if(!ok){clearTimeout(t);box.innerHTML='<p class="note">სტატისტიკა ახლა მიუწვდომელია.</p>';}
 })();
 
 updPrec();updTz();buildNatal(true);

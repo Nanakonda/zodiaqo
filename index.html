@@ -5831,7 +5831,7 @@ $("qList").addEventListener("change",e=>{const t=e.target;if(t.checked){const g=
 $("qReset").addEventListener("click",()=>{$("qList").querySelectorAll("input").forEach(i=>i.checked=false);$("evList").innerHTML="";addEvent();addEvent();addEvent();updCount();$("qRes").innerHTML="";});
 /* ---------- life events (transits + solar arc directions to angles and house cusps) ---------- */
 const EVT=[
- {id:"marriage",ka:"ქორწინება ან სერიოზული ურთიერთობის დაწყება",c:[7,1,5],p:["Venus","Jupiter","Sun","Moon"]},
+ {id:"marriage",ka:"ქორწინება ან პარტნიორთან ერთად ცხოვრების დაწყება",c:[7,1,5],p:["Venus","Jupiter","Sun","Moon"]},
  {id:"divorce",ka:"განქორწინება ან დაშორება",c:[7,1],p:["Uranus","Saturn","Pluto","Mars"]},
  {id:"child",ka:"შვილის დაბადება",c:[5,11,1],p:["Jupiter","Moon","Venus","Sun"]},
  {id:"move",ka:"საცხოვრებლის შეცვლა",c:[4,10],p:["Uranus","Jupiter","Saturn","Moon"]},
@@ -5839,7 +5839,7 @@ const EVT=[
  {id:"loss",ka:"ახლობლის გარდაცვალება",c:[8,4,10,1],p:["Saturn","Pluto","Neptune","Mars"]},
  {id:"jobup",ka:"ახალი სამსახური ან დაწინაურება",c:[10,6],p:["Jupiter","Saturn","Sun","Mars"]},
  {id:"joblost",ka:"სამსახურის დაკარგვა",c:[10,6,4],p:["Saturn","Uranus","Pluto"]},
- {id:"health",ka:"სერიოზული ავადმყოფობა, ოპერაცია ან ავარია",c:[1,6,8,12],p:["Mars","Saturn","Pluto","Uranus","Neptune"]},
+ {id:"health",ka:"სერიოზული ავადმყოფობა ან ოპერაცია",c:[1,6,8,12],p:["Mars","Saturn","Pluto","Uranus","Neptune"]},
  {id:"study",ka:"უნივერსიტეტში ჩაბარება ან დამთავრება",c:[9,3,10],p:["Jupiter","Mercury","Saturn"]},
  {id:"accident",ka:"ავარია, ტრავმა ან მოტეხილობა",c:[1,8,6],p:["Mars","Uranus","Saturn","Pluto"]},
  {id:"money",ka:"დიდი ფინანსური მოგება ან ზარალი",c:[2,8],p:["Jupiter","Venus","Pluto","Saturn","Uranus"]},
@@ -5847,7 +5847,7 @@ const EVT=[
  {id:"firstjob",ka:"პირველი სამსახური ან საკუთარი საქმის დაწყება",c:[10,6,1],p:["Saturn","Jupiter","Sun","Mars"]},
  {id:"sibling",ka:"და-ძმის დაბადება",c:[3,9,4],p:["Jupiter","Moon","Mercury"]},
  {id:"parents",ka:"მშობლების დაშორება ან ოჯახის დანგრევა",c:[4,10],p:["Uranus","Saturn","Pluto"]},
- {id:"love",ka:"დიდი სიყვარული ან მნიშვნელოვანი ურთიერთობის დაწყება",c:[5,7,1],p:["Venus","Jupiter","Uranus","Neptune"]}
+ {id:"love",ka:"ძლიერი შეყვარება: პირველი სიყვარული ან რომანი, რომელიც არ გაგავიწყდება",c:[5,7,1],p:["Venus","Jupiter","Uranus","Neptune"]}
 ];
 const SLOW={Jupiter:.6,Saturn:1,Uranus:1,Neptune:.8,Pluto:1};
 let evN=0;

@@ -5570,7 +5570,7 @@ $("bCity").value=CITIES[0][0];
 const cityIn=$("bCity"),cityList=$("cityList");let act=-1,shown=[];
 /* remember the visitor's own birth data in this browser only */
 const ME_KEY="zw_me";
-function meSave(){try{const pr=document.querySelector('input[name="prec"]:checked');localStorage.setItem(ME_KEY,JSON.stringify({D:$("bDay").value,M:$("bMonth").value,Y:$("bYear").value,h:$("bHour").value,mi:$("bMin").value,p:pr?pr.value:"exact",r:$("bRange").value,cn:!manual&&city>=0?CITIES[city][0]:"",man:manual?[$("nLat").value,$("nLon").value]:null}));}catch(e){}}
+function meSave(){try{window.__syncA&&window.__syncA(true);}catch(e){}try{const pr=document.querySelector('input[name="prec"]:checked');localStorage.setItem(ME_KEY,JSON.stringify({D:$("bDay").value,M:$("bMonth").value,Y:$("bYear").value,h:$("bHour").value,mi:$("bMin").value,p:pr?pr.value:"exact",r:$("bRange").value,cn:!manual&&city>=0?CITIES[city][0]:"",man:manual?[$("nLat").value,$("nLon").value]:null}));}catch(e){}}
 (()=>{try{const m=JSON.parse(localStorage.getItem(ME_KEY)||"null");if(!m)return;
   $("bDay").value=m.D;$("bMonth").value=m.M;$("bYear").value=m.Y;$("bHour").value=m.h;$("bMin").value=m.mi;
   const r=document.querySelector('input[name="prec"][value="'+m.p+'"]');if(r)r.checked=true;if(m.r)$("bRange").value=m.r;
@@ -6063,7 +6063,7 @@ function runRect(){
   const gap=runs.length>1?runs[0].best.tot-runs[1].best.tot:1;
   drawAscPreview(runs[0].best);buildVQ(runs);tbSetup(runs);
   try{localStorage.setItem("zw_asc",JSON.stringify({k:[f.Y,f.M,f.D,f.pl.lat.toFixed(3),f.pl.lo.toFixed(3)].join("|"),s:runs[0].s,m:runs[0].best.m,from:runs[0].from,to:runs[0].to,at:Date.now()}));}catch(e){}
-  showMyAsc();
+  showMyAsc();try{window.__syncA&&window.__syncA(false);}catch(e){}
   const conf=gap>.2?["მაღალი","good"]:gap>.08?["საშუალო","mid"]:["დაბალი","hard"];
   const sum=runs.slice(0,4).reduce((a,c)=>a+c.best.tot,0)||1;
   /* score curve */
@@ -6170,7 +6170,12 @@ function birthForm(root,pre,title,def){
     else if(e.key==="Enter"){e.preventDefault();if(act>=0)pick(shown[act]);else if(shown.length===1)pick(shown[0]);}else if(e.key==="Escape")close();});
   lst.addEventListener("mousedown",e=>{const li=e.target.closest("li[data-i]");if(li){e.preventDefault();pick(+li.dataset.i);}});
   q("Man").addEventListener("click",()=>{st.manual=!st.manual;q("ManRow").hidden=!st.manual;if(st.manual){st.city=-1;inp.value="";}});
-  return {read(){
+  root.addEventListener("change",e=>{if(e.isTrusted)root.dataset.own="1";});root.addEventListener("input",e=>{if(e.isTrusted)root.dataset.own="1";});
+  return {set(v){q("D").value=v.D;q("M").value=v.M;q("Y").value=v.Y;q("U").checked=!!v.unknown;q("H").value=v.H;q("Mi").value=v.Mi;q("H").disabled=q("Mi").disabled=!!v.unknown;
+      if(v.man){st.manual=true;st.city=-1;q("ManRow").hidden=false;inp.value="";q("Lat").value=v.man[0];q("Lon").value=v.man[1];}
+      else if(v.city>=0){st.manual=false;st.city=v.city;q("ManRow").hidden=true;inp.value=CITIES[v.city][0];}
+      delete root.dataset.own;q("D").dispatchEvent(new Event("change",{bubbles:true}));},
+    read(){
     const Y=+q("Y").value,M=+q("M").value,D=+q("D").value,max=new Date(Y,M,0).getDate();
     if(D>max)return {err:title+": "+Y+" წლის "+MONTHS_LOC[M-1]+" "+max+" დღეა."};
     let pl;
@@ -6677,6 +6682,14 @@ const liveSyn=debounce(()=>{if(!FA.read().err&&!FB.read().err)runSyn();},280);
 const liveKar=debounce(()=>{if(!FKA.read().err&&!FKB.read().err)runKarma();},280);
 ["pA","pB"].forEach(id=>["change","input"].forEach(ev=>$(id).addEventListener(ev,e=>{if(e.target.type==="text"&&ev==="input")return;liveSyn();})));
 ["kA","kB"].forEach(id=>["change","input"].forEach(ev=>$(id).addEventListener(ev,e=>{if(e.target.type==="text"&&ev==="input")return;liveKar();})));
+/* partner A on the compatibility and karmic pages follows the visitor's own birth data */
+function myData(){const D=+$("bDay").value,M=+$("bMonth").value,Y=+$("bYear").value;let H=+$("bHour").value,Mi=+$("bMin").value,unknown=prec()==="unknown";
+  if(unknown){try{const a=JSON.parse(localStorage.getItem("zw_asc")||"null"),pl=placeNow();
+    if(a&&pl.ok&&a.k===[Y,M,D,pl.lat.toFixed(3),pl.lo.toFixed(3)].join("|")){H=Math.floor(a.m/60);Mi=a.m%60;unknown=false;}}catch(e){}}
+  return {D,M,Y,H,Mi,unknown,city:manual?-1:city,man:manual?[$("nLat").value,$("nLon").value]:null};}
+window.__syncA=force=>{const v=myData();if(!v.man&&v.city<0)return;
+  [[FA,"pA"],[FKA,"kA"]].forEach(([F,id])=>{if(force||!$(id).dataset.own)F.set(v);});};
+window.__syncA(false);
 /* ---------- life tools: career, trials, marriage ---------- */
 const FIELDS=[
  {n:"მენეჯმენტი და ლიდერობა",ex:"ხელმძღვანელი, მეწარმე, პროექტის მენეჯერი, საჯარო სამსახური",pl:{Sun:3,Mars:1,Saturn:1.5,Jupiter:1},sg:[4,0,9]},

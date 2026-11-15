@@ -441,6 +441,8 @@ nav{row-gap:6px}
 .testres.ok{border-left-color:var(--water)} .testres.no{border-left-color:var(--fire)}
 .stats{background:transparent}
 
+footer .flinks a{color:var(--muted)}
+footer .flinks a:hover{color:var(--fg)}
 footer{border-top:1px solid var(--line);padding-top:18px;font-size:.85rem;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 
@@ -1047,6 +1049,7 @@ html{scroll-behavior:smooth}
   <footer>
     <span>ზოდიაქოს წრე · ტროპიკული ზოდიაქო</span>
     <span>ინტერპრეტაციები ასტროლოგიურ ტრადიციას ეყრდნობა და მეცნიერულად დადასტურებული არ არის.</span>
+    <span class="flinks"><a href="https://nanakonda.github.io/zodiaqo/terms.html" target="_blank" rel="noopener">წესები და პირობები</a> · <a href="https://nanakonda.github.io/zodiaqo/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკა</a></span>
   </footer>
 </div>
 
@@ -7122,7 +7125,7 @@ function renderAcctBox(msg){const el=$("acctBody");
   if(!ACCT.user){el.innerHTML='<h3 id="acctT">შესვლა ან რეგისტრაცია</h3><p class="note">ანგარიშით შენი და შენი ახლობლების დაბადების მონაცემები და ასცენდენტის შედეგი ყველა მოწყობილობაზე შეინახება. პირველი შესვლა ავტომატურად გიქმნის ანგარიშს.</p>'+
     '<button type="button" class="gbtn" id="acctG">'+GSVG+'Google-ით შესვლა</button><div class="orline">ან ელფოსტით</div>'+
     '<form id="acctF" class="col" style="display:flex;flex-direction:column;gap:10px"><label class="flabel" for="acctE">ელფოსტა</label><input type="email" id="acctE" required autocomplete="email" placeholder="name@example.com"><button type="submit" class="primary">შესვლის ბმულის გაგზავნა</button></form>'+
-    '<p class="note" id="acctMsg" aria-live="polite">'+(msg||'')+'</p><p class="note">შესვლით ეთანხმები <a href="terms.html" target="_blank" rel="noopener">მომსახურების პირობებს</a> და <a href="privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკას</a>.</p>';
+    '<p class="note" id="acctMsg" aria-live="polite">'+(msg||'')+'</p><p class="note">შესვლით ეთანხმები <a href="terms.html" target="_blank" rel="noopener">წესებსა და პირობებს</a> და <a href="privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკას</a>.</p>';
     $("acctG").addEventListener("click",acctGoogle);$("acctF").addEventListener("submit",acctEmail);return}
   el.innerHTML='<h3 id="acctT">ჩემი ანგარიში</h3><p class="note">შესული ხარ როგორც <b></b></p>'+
     '<div><b>ჩემი მონაცემები</b><p class="note">'+(ACCT.self?PFX(ACCT.self.data.Y?{D:+ACCT.self.data.D,M:+ACCT.self.data.M,Y:+ACCT.self.data.Y,H:ACCT.self.data.h,Mi:ACCT.self.data.mi,unknown:ACCT.self.data.p==="unknown",cn:ACCT.self.data.cn,man:ACCT.self.data.man}:null)+(ACCT.self.asc_result?' · ასცენდენტი '+S[ACCT.self.asc_result.s].ka:''):'ჯერ არ არის შენახული. შეავსე დაბადების მონაცემები ნებისმიერ გვერდზე და ავტომატურად შეინახება.')+'</p></div>'+

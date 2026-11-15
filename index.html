@@ -504,6 +504,9 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.85rem;color:
 #nCopy{align-self:flex-start}
 
 .vq .qh{margin:4px 0 8px}
+#tbBox .cmp ul{margin:8px 0 0;padding-left:18px;display:grid;gap:4px}
+#tbBox .cmp{margin-bottom:10px;display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+#tbBox .cmpc{min-width:0;overflow-wrap:anywhere}
 .vq legend .num{font-weight:700}
 .merow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
 .mebtn{background:none;border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:4px 12px;font:inherit;font-size:.82rem;cursor:pointer}
@@ -5916,7 +5919,7 @@ function updWin(){
     return {m,pr:PR[m],asc:an.asc,mc:an.mc,c2:norm(an.cusps[1]-an.asc),ramc:an.ramc,eps:an.eps,s:sIdx(an.asc),rise,lon};});
   const runs=[];pts.forEach((p,i)=>{const r=runs[runs.length-1];if(r&&r.s===p.s&&p.m-pts[i-1].m<=4)r.pts.push(p);else runs.push({s:p.s,pts:[p]});});
   const key=[f.Y,f.M,f.D,f.pl.lat,f.pl.lo,mins[0],mins[mins.length-1],mins.length].join("|");
-  if(!RW||RW.key!==key)VQ.list=[];
+  if(!RW||RW.key!==key){VQ.list=[];if(typeof TB!=="undefined"){TB.pair=null;TB.side=null;TB.look=null;}}
   RW={f,pts,runs,key,signs:[...new Set(pts.filter(p=>p.pr>=.6).map(p=>p.s))]};
   $("candBar").innerHTML='<span class="eyebrow">შესაძლო ასცენდენტები ('+RW.signs.length+')</span><div class="cbl">'+runs.filter(r=>r.pts.some(p=>p.pr>=.6)).map(r=>{const q=r.pts.filter(p=>p.pr>=.6);return '<span class="cbi"><span class="glyph el-'+S[r.s].el+'">'+gl(S[r.s])+'</span> '+S[r.s].ka+' <small class="num">'+hm(q[0].m)+'–'+hm(q[q.length-1].m+3)+'</small></span>';}).join("")+'</div>';
   /* hide trait questions that do not discriminate between remaining signs */
@@ -5977,6 +5980,47 @@ function buildVQ(runs){
     if(pick.some(p=>p.k===q.k&&p.ang===q.ang&&Math.abs(p.s-q.s)<365*864e5))continue;if(pick.filter(p=>p.k===q.k).length>=4)continue;pick.push(q);per[q.ci]=(per[q.ci]||0)+1;}
   VQ.list=pick.sort((x,y)=>x.s-y.s);
 }
+/* tie-breaker when two ascendants score close */
+const TBL=[
+ ["სწრაფი, მკვეთრი მოძრაობები და ლაპარაკი","სახეზე ან თავზე, ხშირად შუბლზე, ნაწიბური ან შესამჩნევი ნიშანი","ჯერ აკეთებ და მერე ფიქრობ, ლოდინი გიჭირს"],
+ ["მშვიდი, აუჩქარებელი ტემპი","მკვრივი აღნაგობა, ძლიერი კისერი, სასიამოვნო ხმა","გადაწყვეტილებას დიდხანს იღებ და მერე იშვიათად ცვლი"],
+ ["ცოცხალი სახე, ლაპარაკისას ხელებით ბევრს ხსნი","ასაკზე ახალგაზრდულად ჩანხარ","სწრაფად ლაპარაკობ და ერთდროულად რამდენიმე საქმეს აკეთებ"],
+ ["მრგვალი ან რბილი სახის ნაკვთები","უცნობებთან თავშეკავებული ხარ, ახლობლებთან თბილი და მზრუნველი","განწყობა მაშინვე სახეზე გეტყობა"],
+ ["შესამჩნევი თმა ან ვარცხნილობა, ამაყი დგომა","ოთახში შესვლისას ყურადღებას იპყრობ","ეფექტურად და გემოვნებით იცვამ"],
+ ["მოწესრიგებული, სუფთა იერი","დეტალებს ამჩნევ და მაშინვე ასწორებ","თავიდან მორცხვი და ცოტა კრიტიკული ჩანხარ"],
+ ["სასიამოვნო, სიმეტრიული სახე და ხშირი ღიმილი","კონფლიქტს თავს არიდებ","არჩევანის გაკეთება გიჭირს"],
+ ["მძიმე, ჩამკვირვალი მზერა","საკუთარ თავზე ცოტას ჰყვები","ადამიანები გრძნობენ, რომ ძლიერი ხასიათი გაქვს"],
+ ["მაღალი სიმაღლე ან გრძელი ფეხები, ფართო მოძრაობები","ღია, მხიარული და პირდაპირი ხარ","თავისუფლება და მოგზაურობა გჭირდება"],
+ ["ახალგაზრდობაში ასაკზე სერიოზულად და უფროსად ჩანდი","თავშეკავებული და პასუხისმგებლიანი ხარ","სახის ნაკვთები ან ძვლები გამოკვეთილია"],
+ ["უჩვეულო სტილი ან ქცევა","მეგობრული, მაგრამ ცოტა დისტანციური ხარ","მოულოდნელ გადაწყვეტილებებს იღებ"],
+ ["დიდი, ოცნებით სავსე თვალები","რბილი და მიმნდობი ხარ","ადვილად ერგები სხვების განწყობას"]];
+const TB={pair:null,side:null,look:null};
+function tbSetup(runs){const a=runs[0],b=runs[1];
+  const close=b&&b.best.tot>=a.best.tot*.85;
+  const key=b?[a.s,b.s].sort((x,y)=>x-y).join("-"):null;
+  if(TB.pair&&TB.pair.key!==key&&!(TB.side||TB.look))TB.pair=null;
+  if(!TB.pair&&close){
+    /* time boundary between the two candidates, when they are neighbours in time */
+    let B=null;const ia=RW.runs.indexOf(a.r),ib=RW.runs.indexOf(b.r);
+    if(Math.abs(ia-ib)===1){const first=RW.runs[Math.min(ia,ib)];B={m:first.pts[first.pts.length-1].m+2,early:first.s}}
+    TB.pair={key,s:[a.s,b.s],B,sun:sunTimes(RW.f)};TB.side=null;TB.look=null;}
+}
+function tbFactor(p){if(!TB.pair)return 1;let k=1;const P=TB.pair;
+  if(P.B&&TB.side&&TB.side!=="u"){const before=p.m<P.B.m;k*=(TB.side==="b")===before?1:.7;}
+  if(TB.look!=null&&TB.look!=="u"&&TB.look!=="eq"&&P.s.includes(p.s))k*=(+TB.look===p.s)?1.12:.88;
+  return k;}
+function tbHtml(){const P=TB.pair;if(!P)return "";const [x,y]=P.s;
+  let side="";
+  if(P.B){const sr=P.sun.rise,d=sr!=null?P.B.m-sr:null;
+    const ctx=d==null?"":Math.abs(d)<20?" ეს დაახლოებით მზის ამოსვლის დროა.":d>0?" ეს მზის ამოსვლიდან დაახლოებით "+(d<90?d+" წუთის":Math.round(d/60)+" საათის")+" შემდეგაა.":" ეს მზის ამოსვლამდე დაახლოებით "+(-d<90?-d+" წუთითაა":Math.round(-d/60)+" საათითაა")+".";
+    const late=P.s.find(t=>t!==P.B.early);
+    side='<fieldset class="q vqq"><legend>1. დაბადების დრო ზღვართან</legend><p class="qh">ამ ორ ნიშანს შორის ზღვარი <b class="num">'+hm(P.B.m)+'</b>-ზეა.'+ctx+' ჰკითხე ოჯახში: '+hm(P.B.m)+'-მდე დაიბადე თუ მერე? თუ ზუსტი დრო არავის ახსოვს, დაეხმარება ის, ბნელოდა, თენდებოდა თუ უკვე სინათლე იყო.</p>'+
+     '<div class="opts" style="--c:3;--ct:3;--cm:1">'+[["b",hm(P.B.m)+"-მდე ("+S[P.B.early].ka+")"],["a",hm(P.B.m)+"-ის შემდეგ ("+S[late].ka+")"],["u","არ ვიცი"]].map(([v,t])=>'<label class="opt"><input type="radio" name="tbSide" value="'+v+'"'+(TB.side===v?" checked":"")+'><span class="ot">'+t+'</span></label>').join("")+'</div></fieldset>';}
+  const col=t=>'<div class="cmpc"><div class="b3h"><span class="glyph el-'+S[t].el+'">'+gl(S[t])+'</span><div><b>'+S[t].ka+'</b></div></div><ul>'+TBL[t].map(l=>'<li>'+l+'</li>').join("")+'</ul></div>';
+  const look='<fieldset class="q vqq"><legend>'+(P.B?"2":"1")+'. რომელი აღწერა უფრო გიხდება?</legend><p class="qh">ასცენდენტი გარეგნობასა და პირველ შთაბეჭდილებაზე ჩანს. ჰკითხე ახლობლებს, რომლებიც კარგად გიცნობენ, ან შენი ფოტოები შეადარე.</p><div class="cmp">'+col(x)+col(y)+'</div>'+
+    '<div class="opts" style="--c:4;--ct:2;--cm:1">'+[[String(x),S[x].ka],[String(y),S[y].ka],["eq","ორივე თანაბრად"],["u","არ ვიცი"]].map(([v,t])=>'<label class="opt"><input type="radio" name="tbLook" value="'+v+'"'+(TB.look===v?" checked":"")+'><span class="ot">'+t+'</span></label>').join("")+'</div></fieldset>';
+  return '<div class="panel vq" id="tbBox"><h3>'+S[x].ka+' თუ '+S[y].ka+'?</h3><p class="note">ორი ვარიანტის ქულა ერთმანეთთან ახლოსაა. ეს კითხვები სწორედ მათ შორის არჩევაში დაგეხმარება. ყოველი პასუხის შემდეგ შედეგი თავიდან ითვლება.</p>'+side+look+'</div>';
+}
 function vqHtml(){
   if(!VQ.list.length)return "";
   const f=RW.f,bt=Date.UTC(f.Y,f.M-1,f.D),ag=t=>Math.floor((t-bt)/(365.25*864e5));
@@ -6013,11 +6057,11 @@ function runRect(){
     if(rR&&rR[1]>rR[0]){s+=1.3*(p.rr-rR[0])/(rR[1]-rR[0]);w+=1.3;}
     if(rE&&rE[1]>0){s+=1.6*p.e/rE[1];w+=1.6;}
     if(rV&&rV[1]>rV[0]){const VW=1;s+=VW*(p.v-rV[0])/(rV[1]-rV[0]);w+=VW;}
-    p.tot=(w?s/w:0)*(.45+.55*p.pr);});
+    p.tot=(w?s/w:0)*(.45+.55*p.pr)*tbFactor(p);});
   const runs=RW.runs.map(r=>{const best=r.pts.reduce((a,b)=>b.tot>a.tot?b:a,r.pts[0]);const good=r.pts.filter(p=>p.tot>=best.tot*.92);
     return {r,s:r.s,best,from:good[0].m,to:good[good.length-1].m+3};}).sort((a,b)=>b.best.tot-a.best.tot);
   const gap=runs.length>1?runs[0].best.tot-runs[1].best.tot:1;
-  drawAscPreview(runs[0].best);buildVQ(runs);
+  drawAscPreview(runs[0].best);buildVQ(runs);tbSetup(runs);
   try{localStorage.setItem("zw_asc",JSON.stringify({k:[f.Y,f.M,f.D,f.pl.lat.toFixed(3),f.pl.lo.toFixed(3)].join("|"),s:runs[0].s,m:runs[0].best.m,from:runs[0].from,to:runs[0].to,at:Date.now()}));}catch(e){}
   showMyAsc();
   const conf=gap>.2?["მაღალი","good"]:gap>.08?["საშუალო","mid"]:["დაბალი","hard"];
@@ -6045,12 +6089,14 @@ function runRect(){
       rise:rAns.map(r=>r.k+":"+r.v),nV:vAns.length,v3:1,prTrue:tpr==null?null:Math.round(tpr*100)/100,ev:evs.map(e=>({t:EVT.indexOf(e.e),age:Math.round((e.y-f.Y+(e.m-f.M)/12)*10)/10,exact:e.exact}))};
     test='<div class="panel testres '+(rank===1?"ok":"no")+'"><b>ტესტის შედეგი.</b> ნამდვილი ასცენდენტი: '+S[as].ka+' ('+hm(am)+'). '+(!inWin?'ნამდვილი დრო შენს მიერ არჩეულ შუალედში არ ხვდება, ამიტომ 1-⁠ლი ნაბიჯი უნდა გადაამოწმო.':rank===1?'მეთოდმა <b>სწორად</b> ამოიცნო ასცენდენტი, პირველ ადგილზე. ცდომილება: '+err+' წუთი.':'მეთოდმა ნამდვილი ასცენდენტი <b>მე-⁠'+rank+'</b> ადგილზე დააყენა. ცდომილება: '+err+' წუთი.')+
       '<label class="pill" style="align-self:flex-start;margin-top:10px"><input type="checkbox" id="tKey"> შეინახე დაბადების დღე და თვე ('+f.D+' '+MONTHS[f.M-1]+'), რომ ეს ტესტი მოგვიანებით ამოიცნო</label><div class="row" style="margin-top:10px"><button type="button" id="tSave">ანონიმურად შენახვა სტატისტიკისთვის</button><span class="note" id="tSaveNote">ინახება შედეგი, ნამდვილი და გამოთვლილი დრო, კითხვარის პასუხები და მოვლენების ტიპი ასაკთან ერთად. დაბადების წელი, ადგილი და მოვლენების თარიღები არ ინახება.</span></div></div>';}
-  $("qRes").innerHTML=test+vqHtml()+'<div class="panel"><div class="row" style="justify-content:space-between"><h3>ქულა დროის მიხედვით</h3><span class="conf '+conf[1]+'">სანდოობა: '+conf[0]+'</span></div>'+svg+'<p class="note">ზოლები ასცენდენტის ნიშნებია, ხაზი კი ყველა მონაცემის ჯამური ქულა. მკაფიო, მაღალი პიკი სანდო შედეგს ნიშნავს. თუ რამდენიმე პიკი თითქმის თანაბარია, დაამატე მოვლენები ან უპასუხე მეტ კითხვას.</p></div>'+
+  $("qRes").innerHTML=test+tbHtml()+vqHtml()+'<div class="panel"><div class="row" style="justify-content:space-between"><h3>ქულა დროის მიხედვით</h3><span class="conf '+conf[1]+'">სანდოობა: '+conf[0]+'</span></div>'+svg+'<p class="note">ზოლები ასცენდენტის ნიშნებია, ხაზი კი ყველა მონაცემის ჯამური ქულა. მკაფიო, მაღალი პიკი სანდო შედეგს ნიშნავს. თუ რამდენიმე პიკი თითქმის თანაბარია, დაამატე მოვლენები ან უპასუხე მეტ კითხვას.</p></div>'+
    '<h3 style="margin-top:6px">შეადარე კანდიდატები და აირჩიე, რომელი უფრო გგავს</h3><div class="cmp">'+runs.slice(0,3).map((c,k)=>'<div class="cmpc'+(k===0?' best':'')+'"><div class="b3h"><span class="glyph el-'+S[c.s].el+'">'+gl(S[c.s])+'</span><div><small>'+(k===0?"ყველაზე სავარაუდო":"მე-⁠"+(k+1)+" ვარიანტი")+' · '+Math.round(c.best.tot/sum*100)+'%</small><b>ასცენდენტი '+S[c.s].ka+'</b><small class="num">'+hm(c.from)+'–'+hm(c.to)+' · საუკეთესო '+hm(c.best.m)+'</small></div></div><p>'+RT.ASC[c.s]+'</p><p class="note">'+comp(c.best)+'</p><button type="button" data-m="'+c.best.m+'" data-r="'+Math.max(15,Math.round((c.to-c.from)/2))+'">ეს უფრო მგავს: გამოყენება</button></div>').join("")+'</div>'+
    (E&&E.bad?'<p class="note">'+E.bad+' მოვლენა დაბადებამდე თარიღით გამოტოვდა.</p>':'')+(E&&E.valid.length&&E.valid.length<3?'<p class="note">2 მოვლენით შედეგი ჯერ კიდევ არამდგრადია. დაამატე მეტი, სასურველია ზუსტი დღით.</p>':'');
 }
 $("qGo").addEventListener("click",runRect);
-$("qRes").addEventListener("change",e=>{const t=e.target;if(!t.name||!/^vq\d+$/.test(t.name))return;const q=VQ.list[+t.name.slice(2)];if(!q)return;q.a=t.value;
+$("qRes").addEventListener("change",e=>{const t=e.target;if(t.name==="tbSide"||t.name==="tbLook"){TB[t.name==="tbSide"?"side":"look"]=t.value;
+    const top=$("tbBox").getBoundingClientRect().top;runRect();const nb=$("tbBox");if(nb)window.scrollBy(0,nb.getBoundingClientRect().top-top);return;}
+  if(!t.name||!/^vq\d+$/.test(t.name))return;const q=VQ.list[+t.name.slice(2)];if(!q)return;q.a=t.value;
   const y=window.scrollY,top=$("vqBox").getBoundingClientRect().top;runRect();const nb=$("vqBox");if(nb)window.scrollBy(0,nb.getBoundingClientRect().top-top);});
 $("qRes").addEventListener("click",async e=>{
   if(e.target.id==="tSave"){const b=e.target;b.disabled=true;

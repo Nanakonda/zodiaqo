@@ -6,8 +6,7 @@
 <meta name="description" content="ზოდიაქოს წრე: ასცენდენტის დადგენა დაბადების დროის გარეშე, კარმული კავშირები, ნატალური რუკა, ნუმეროლოგია.">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
-<body>
-<title>ზოდიაქოს წრე</title>
+<body><title>ზოდიაქოს წრე</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -506,6 +505,11 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.85rem;color:
 
 .vq .qh{margin:4px 0 8px}
 .vq legend .num{font-weight:700}
+.merow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+.mebtn{background:none;border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:4px 12px;font:inherit;font-size:.82rem;cursor:pointer}
+.mebtn:hover{color:var(--fg)}
+.myasc{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 16px;border:1px solid var(--accent);border-radius:14px;margin-bottom:16px}
+.myasc .glyph{font-size:1.6rem}
 .cmu{display:block;font-size:.76rem;color:var(--muted);margin-top:1px}
 .nucards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
 .nucard{background:var(--surface2);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:4px;align-items:flex-start;min-width:0}
@@ -759,6 +763,7 @@ html{scroll-behavior:smooth}
             <div class="fctl"><select id="nTz"></select><span class="note" id="tzInfo"></span></div>
           </div>
         </div>
+          <div class="merow"><span class="note" id="meNote">შენი მონაცემები ამ ბრაუზერში ინახება და შემდეგ ჯერზე ავტომატურად ჩაიწერება.</span><button type="button" id="meClear" class="mebtn">დავიწყება</button></div>
         </div></div>
         <div class="livebar"><span class="livedot" aria-hidden="true"></span><span><b>ცოცხალი რუკა.</b> იცვლება შეყვანისთანავე.</span><button type="button" id="nGo" hidden>რუკის აგება</button></div><p class="note" id="nNote"></p>
         <div class="warn" id="nWarn" hidden></div>
@@ -803,6 +808,7 @@ html{scroll-behavior:smooth}
     </div>
     <div class="panel rect" id="rect">
       
+      <div id="myAsc"></div>
       <section class="step" id="st1">
         <h4><span class="sn">1</span> დროის შუალედი</h4>
         <p class="note" id="sunInfo"></p>
@@ -5559,6 +5565,14 @@ $("bCity").value=CITIES[0][0];
 
 /* city combobox */
 const cityIn=$("bCity"),cityList=$("cityList");let act=-1,shown=[];
+/* remember the visitor's own birth data in this browser only */
+const ME_KEY="zw_me";
+function meSave(){try{const pr=document.querySelector('input[name="prec"]:checked');localStorage.setItem(ME_KEY,JSON.stringify({D:$("bDay").value,M:$("bMonth").value,Y:$("bYear").value,h:$("bHour").value,mi:$("bMin").value,p:pr?pr.value:"exact",r:$("bRange").value,cn:!manual&&city>=0?CITIES[city][0]:"",man:manual?[$("nLat").value,$("nLon").value]:null}));}catch(e){}}
+(()=>{try{const m=JSON.parse(localStorage.getItem(ME_KEY)||"null");if(!m)return;
+  $("bDay").value=m.D;$("bMonth").value=m.M;$("bYear").value=m.Y;$("bHour").value=m.h;$("bMin").value=m.mi;
+  const r=document.querySelector('input[name="prec"][value="'+m.p+'"]');if(r)r.checked=true;if(m.r)$("bRange").value=m.r;
+  if(m.man){manual=true;$("manualRow").hidden=false;$("nLat").value=m.man[0];$("nLon").value=m.man[1];}
+  else if(m.cn){const i=CITIES.findIndex(c=>c[0]===m.cn);if(i>=0){city=i;cityIn.value=CITIES[i][0];}}}catch(e){}})();
 function openList(){
   const q=cityIn.value.trim().toLowerCase();
   shown=citySearch(q,10);
@@ -5876,7 +5890,7 @@ function sunTimes(f){
     const loc=t=>t?Math.round((t.date-t0)/60000):null;return {rise:loc(r),set:loc(s)};}catch(e){return {rise:null,set:null};}
 }
 function updWin(){
-  if(!HAS)return;const f=readForm();if(f.err){$("candBar").innerHTML='<p class="err">'+f.err+'</p>';RW=null;return}
+  if(!HAS)return;try{showMyAsc();}catch(e){}const f=readForm();if(f.err){$("candBar").innerHTML='<p class="err">'+f.err+'</p>';RW=null;return}
   const st=sunTimes(f);
   $("sunInfo").textContent=st.rise!=null?"ამ დღეს, არჩეულ ადგილას, მზე ამოვიდა "+hm(st.rise)+"-ზე და ჩავიდა "+hm(st.set)+"-ზე (ადგილობრივი დროით).":"მზის ამოსვლის დრო ვერ გამოითვალა.";
   const P={day:[0,1439],night:[0,359],morning:[360,719],afternoon:[720,1079],evening:[1080,1439]};
@@ -5918,6 +5932,12 @@ function updWin(){
   updCount();
   drawAscPreview();
 }
+function showMyAsc(){const box=$("myAsc");if(!box)return;let a=null;try{a=JSON.parse(localStorage.getItem("zw_asc")||"null");}catch(e){}
+  const f=readForm();if(!a||f.err||a.k!==[f.Y,f.M,f.D,f.pl.lat.toFixed(3),f.pl.lo.toFixed(3)].join("|")){box.innerHTML="";return}
+  box.innerHTML='<div class="myasc"><span class="glyph el-'+S[a.s].el+'">'+gl(S[a.s])+'</span><div><small class="muted">შენი ბოლო შედეგი ამ მონაცემებით</small><br><b>ასცენდენტი '+S[a.s].ka+', დაახლოებით '+hm(a.m)+'</b> <span class="muted num">('+hm(a.from)+'–'+hm(a.to)+')</span></div><button type="button" data-m="'+a.m+'" data-r="'+Math.max(15,Math.round((a.to-a.from)/2))+'">ნატალურ რუკაზე გამოყენება</button></div>';}
+$("myAsc")&&$("myAsc").addEventListener("click",e=>{const b=e.target.closest("button[data-m]");if(!b)return;const m=+b.dataset.m,r=+b.dataset.r;
+  $("bHour").value=Math.floor(m/60);$("bMin").value=m%60;$("pApprox").checked=true;const opts=[...$("bRange").options].map(o=>+o.value);$("bRange").value=opts.reduce((a,v)=>Math.abs(v-r)<Math.abs(a-r)?v:a,opts[0]);
+  updPrec();updTz();buildNatal(false);meSave();location.hash="#report";});
 function drawAscPreview(best){
   if(!RW||!$("ascChart"))return;const f=RW.f;
   if(best){const d=toUTC(f.Y,f.M,f.D,best.m,f.pl).d,an=angles(d,f.pl.lat,f.pl.lo);
@@ -5998,6 +6018,8 @@ function runRect(){
     return {r,s:r.s,best,from:good[0].m,to:good[good.length-1].m+3};}).sort((a,b)=>b.best.tot-a.best.tot);
   const gap=runs.length>1?runs[0].best.tot-runs[1].best.tot:1;
   drawAscPreview(runs[0].best);buildVQ(runs);
+  try{localStorage.setItem("zw_asc",JSON.stringify({k:[f.Y,f.M,f.D,f.pl.lat.toFixed(3),f.pl.lo.toFixed(3)].join("|"),s:runs[0].s,m:runs[0].best.m,from:runs[0].from,to:runs[0].to,at:Date.now()}));}catch(e){}
+  showMyAsc();
   const conf=gap>.2?["მაღალი","good"]:gap>.08?["საშუალო","mid"]:["დაბალი","hard"];
   const sum=runs.slice(0,4).reduce((a,c)=>a+c.best.tot,0)||1;
   /* score curve */
@@ -6038,7 +6060,9 @@ $("qRes").addEventListener("click",async e=>{
   const b=e.target.closest("button[data-m]");if(!b)return;const m=+b.dataset.m,r=+b.dataset.r;
   $("bHour").value=Math.floor(m/60);$("bMin").value=m%60;$("pApprox").checked=true;
   const opts=[...$("bRange").options].map(o=>+o.value);$("bRange").value=opts.reduce((a,v)=>Math.abs(v-r)<Math.abs(a-r)?v:a,opts[0]);
-  updPrec();updTz();buildNatal(false);location.hash="#report";});
+  updPrec();updTz();buildNatal(false);meSave();location.hash="#report";});
+$("bformBox").addEventListener("change",()=>setTimeout(meSave,0));{let mt=0;$("bformBox").addEventListener("input",()=>{clearTimeout(mt);mt=setTimeout(meSave,400);});}
+$("meClear").addEventListener("click",()=>{try{localStorage.removeItem(ME_KEY);localStorage.removeItem("zw_asc");}catch(e){}$("meNote").textContent="შენახული მონაცემები წაიშალა. ახლის შეყვანისას ისევ შეინახება.";const b=$("myAsc");if(b)b.innerHTML="";});
 /* public accuracy statistics */
 /* statistics backend: Supabase on the public site, claude.ai database inside the artifact */
 const SB={url:"https://xxkthwsuqdgdqdivshha.supabase.co",key:"sb_publishable_uUqs_DstFbYniNNiLevggw_LWxy5ctp"};
@@ -6991,6 +7015,5 @@ window.addEventListener("hashchange",route);
 updWin();runSyn();runRetro();route();
 })();
 </script>
-
 </body>
 </html>

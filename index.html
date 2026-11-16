@@ -25,14 +25,7 @@
   --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
   color-scheme:dark;
 }
-@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
-  --bg:#f8efe8; --surface:#ffffff; --surface2:#fbf5f0; --fg:#2a1633; --muted:#75597a; --line:#ead9d0;
-  --accent:#9a5b1e; --accent-ink:#ffffff; --rose:#b8594b; --mk1:#c98a4e; --mk2:#a8564a;
-  --fire:#c24f2e; --earth:#567f30; --air:#3b73b4; --water:#23877c; color-scheme:light; } }
-:root[data-theme="light"]{
-  --bg:#f8efe8; --surface:#ffffff; --surface2:#fbf5f0; --fg:#2a1633; --muted:#75597a; --line:#ead9d0;
-  --accent:#9a5b1e; --accent-ink:#ffffff; --rose:#b8594b; --mk1:#c98a4e; --mk2:#a8564a;
-  --fire:#c24f2e; --earth:#567f30; --air:#3b73b4; --water:#23877c; color-scheme:light; }
+/* the site is dark only: no light theme */
 
 body{background:radial-gradient(1100px 520px at 78% -8%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%) no-repeat, var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.65;
   padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));}
@@ -151,7 +144,7 @@ svg.foc .seg.on path{fill-opacity:.9}
 .chart svg,.wheel svg{overflow:visible}
 .pl{cursor:default}
 .chart,.wheel{filter:drop-shadow(0 14px 34px color-mix(in srgb, var(--accent) 12%, transparent))}
-.hero canvas#stars{position:absolute;inset:-40px -24px -24px -24px;width:calc(100% + 48px);height:calc(100% + 64px);z-index:-1;pointer-events:none}
+#sky{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none}
 .sim{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
 .simctl{width:100%;max-width:470px;display:flex;flex-direction:column;gap:10px}
 .simread{display:flex;align-items:center;gap:14px}
@@ -624,7 +617,7 @@ html{scroll-behavior:smooth}
 
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="#home" aria-label="ზენა, მთავარი გვერდი"><svg class="zmark" viewBox="12 6 84 80" aria-hidden="true"><defs><linearGradient id="zmg" x1="0.15" y1="0.1" x2="0.85" y2="0.95"><stop offset="0" style="stop-color:var(--mk1)"/><stop offset="1" style="stop-color:var(--mk2)"/></linearGradient></defs><path d="M71.4 66.3A30.0 30.0 0 1 1 39.2 24.4A26.5 26.5 0 0 0 71.4 66.3Z" fill="url(#zmg)"/><defs><radialGradient id="hzm"><stop offset="0" style="stop-color:var(--mk1)" stop-opacity=".45"/><stop offset="1" style="stop-color:var(--mk1)" stop-opacity="0"/></radialGradient></defs><circle cx="70.0" cy="24.0" r="12.0" fill="url(#hzm)"/><line x1="70.0" y1="24.0" x2="84.0" y2="40.0" stroke="url(#zmg)" stroke-width=".9" stroke-linecap="round" opacity=".55"/><line x1="70.0" y1="24.0" x2="80.0" y2="13.0" stroke="url(#zmg)" stroke-width=".9" stroke-linecap="round" opacity=".55"/><path d="M70.0 15.5 L71.0 23.0 L78.5 24.0 L71.0 25.0 L70.0 32.5 L69.0 25.0 L61.5 24.0 L69.0 23.0Z" fill="url(#zmg)"/><path d="M84.0 35.4 L84.7 39.3 L88.6 40.0 L84.7 40.7 L84.0 44.6 L83.3 40.7 L79.4 40.0 L83.3 39.3Z" fill="url(#zmg)"/><path d="M80.0 9.4 L80.6 12.4 L83.6 13.0 L80.6 13.6 L80.0 16.6 L79.4 13.6 L76.4 13.0 L79.4 12.4Z" fill="url(#zmg)"/><circle cx="91.0" cy="22.0" r="0.9" fill="url(#zmg)"/><circle cx="60.0" cy="12.0" r="0.8" fill="url(#zmg)"/><circle cx="92.0" cy="50.0" r="0.8" fill="url(#zmg)"/></svg><svg class="zwm" viewBox="-10 -720 2771 740" role="img" aria-label="ზენა"><path d="M344 16Q261 16 200 -18Q140 -51 107 -108Q75 -164 75 -230Q75 -272 90 -314Q105 -357 141 -387V-394Q84 -413 55 -457Q26 -500 26 -552Q26 -602 51 -643Q76 -684 122 -708Q169 -732 232 -732Q296 -732 342 -708Q388 -683 413 -644Q438 -605 438 -560Q438 -535 432 -513Q425 -491 411 -476V-469Q475 -458 520 -424Q565 -390 589 -341Q614 -291 614 -234Q614 -165 581 -108Q549 -51 488 -18Q427 16 344 16ZM344 -96Q384 -96 418 -113Q451 -131 471 -162Q491 -194 491 -234Q491 -275 472 -306Q452 -337 419 -355Q385 -373 344 -373Q303 -373 270 -355Q236 -337 217 -306Q197 -275 197 -234Q197 -195 217 -163Q236 -132 270 -114Q303 -96 344 -96ZM232 -466Q268 -466 293 -488Q319 -511 319 -546Q319 -580 293 -602Q268 -625 232 -625Q195 -625 170 -602Q145 -579 145 -546Q145 -511 170 -488Q195 -466 232 -466ZM1027 16Q946 16 886 -17Q826 -51 793 -107Q761 -163 761 -230Q761 -252 765 -276Q768 -300 777 -323L891 -300Q887 -284 885 -269Q883 -254 883 -239Q883 -179 920 -139Q957 -98 1026 -98Q1071 -98 1103 -117Q1136 -135 1154 -169Q1173 -203 1173 -249V-477Q1173 -520 1154 -551Q1136 -583 1105 -600Q1073 -617 1033 -617Q997 -617 965 -603Q934 -590 915 -564Q897 -538 897 -500Q897 -493 898 -484Q899 -475 900 -466L782 -452Q778 -467 776 -481Q774 -496 774 -509Q774 -575 809 -625Q844 -676 903 -704Q962 -732 1036 -732Q1109 -732 1167 -702Q1226 -672 1261 -615Q1295 -558 1295 -479V-245Q1295 -165 1261 -106Q1227 -48 1167 -16Q1106 16 1027 16ZM1746 16Q1666 16 1606 -20Q1545 -56 1511 -118Q1477 -179 1477 -253V-509Q1477 -572 1507 -618Q1536 -664 1587 -690Q1637 -716 1700 -716H1980V-600H1715Q1665 -600 1632 -576Q1600 -553 1600 -506V-475L1598 -425H1605Q1628 -454 1669 -477Q1709 -500 1770 -500Q1844 -500 1901 -465Q1959 -431 1991 -373Q2024 -315 2024 -242Q2024 -173 1990 -114Q1957 -55 1894 -19Q1832 16 1746 16ZM1748 -96Q1790 -96 1824 -115Q1859 -134 1880 -167Q1901 -200 1901 -242Q1901 -286 1880 -319Q1859 -352 1824 -370Q1790 -388 1747 -388Q1706 -388 1671 -370Q1636 -352 1615 -319Q1594 -286 1594 -242Q1594 -200 1615 -167Q1636 -134 1671 -115Q1706 -96 1748 -96ZM2438 16Q2355 16 2295 -20Q2235 -56 2203 -117Q2171 -178 2171 -251Q2171 -283 2176 -315Q2182 -348 2194 -380L2310 -358Q2302 -333 2297 -308Q2293 -283 2293 -259Q2293 -215 2310 -179Q2327 -143 2359 -121Q2391 -100 2438 -100Q2481 -100 2514 -119Q2546 -137 2565 -171Q2583 -204 2583 -249Q2583 -289 2570 -321Q2557 -353 2540 -378Q2523 -402 2508 -421L2464 -480Q2445 -506 2425 -540Q2405 -573 2391 -616Q2378 -660 2378 -716H2500Q2500 -664 2521 -622Q2541 -580 2565 -549L2615 -484Q2636 -457 2657 -424Q2677 -392 2691 -348Q2705 -305 2705 -244Q2705 -175 2672 -115Q2639 -56 2579 -20Q2519 16 2438 16Z" fill="currentColor"/></svg></a>
+    <a class="brand" href="#home" aria-label="ზენა, მთავარი გვერდი"><svg class="zmark" viewBox="12 6 84 80" aria-hidden="true"><defs><linearGradient id="zmg" x1="0.15" y1="0.1" x2="0.85" y2="0.95"><stop offset="0" style="stop-color:var(--mk1)"/><stop offset="1" style="stop-color:var(--mk2)"/></linearGradient></defs><path d="M71.4 66.3A30.0 30.0 0 1 1 39.2 24.4A26.5 26.5 0 0 0 71.4 66.3Z" fill="url(#zmg)"/><defs><radialGradient id="hzm"><stop offset="0" style="stop-color:var(--mk1)" stop-opacity=".45"/><stop offset="1" style="stop-color:var(--mk1)" stop-opacity="0"/></radialGradient></defs><circle cx="70.0" cy="24.0" r="12.0" fill="url(#hzm)"/><line x1="70.0" y1="24.0" x2="84.0" y2="40.0" stroke="url(#zmg)" stroke-width=".9" stroke-linecap="round" opacity=".55"/><line x1="70.0" y1="24.0" x2="80.0" y2="13.0" stroke="url(#zmg)" stroke-width=".9" stroke-linecap="round" opacity=".55"/><path d="M70.0 15.5 L71.0 23.0 L78.5 24.0 L71.0 25.0 L70.0 32.5 L69.0 25.0 L61.5 24.0 L69.0 23.0Z" fill="url(#zmg)"/><path d="M84.0 35.4 L84.7 39.3 L88.6 40.0 L84.7 40.7 L84.0 44.6 L83.3 40.7 L79.4 40.0 L83.3 39.3Z" fill="url(#zmg)"/><path d="M80.0 9.4 L80.6 12.4 L83.6 13.0 L80.6 13.6 L80.0 16.6 L79.4 13.6 L76.4 13.0 L79.4 12.4Z" fill="url(#zmg)"/><circle cx="91.0" cy="22.0" r="0.9" fill="url(#zmg)"/><circle cx="60.0" cy="12.0" r="0.8" fill="url(#zmg)"/><circle cx="92.0" cy="50.0" r="0.8" fill="url(#zmg)"/></svg><svg class="zwm" viewBox="10 -750 2711 776" overflow="visible" role="img" aria-label="ზენა"><path d="M344 16Q261 16 200 -18Q140 -51 107 -108Q75 -164 75 -230Q75 -272 90 -314Q105 -357 141 -387V-394Q84 -413 55 -457Q26 -500 26 -552Q26 -602 51 -643Q76 -684 122 -708Q169 -732 232 -732Q296 -732 342 -708Q388 -683 413 -644Q438 -605 438 -560Q438 -535 432 -513Q425 -491 411 -476V-469Q475 -458 520 -424Q565 -390 589 -341Q614 -291 614 -234Q614 -165 581 -108Q549 -51 488 -18Q427 16 344 16ZM344 -96Q384 -96 418 -113Q451 -131 471 -162Q491 -194 491 -234Q491 -275 472 -306Q452 -337 419 -355Q385 -373 344 -373Q303 -373 270 -355Q236 -337 217 -306Q197 -275 197 -234Q197 -195 217 -163Q236 -132 270 -114Q303 -96 344 -96ZM232 -466Q268 -466 293 -488Q319 -511 319 -546Q319 -580 293 -602Q268 -625 232 -625Q195 -625 170 -602Q145 -579 145 -546Q145 -511 170 -488Q195 -466 232 -466ZM1027 16Q946 16 886 -17Q826 -51 793 -107Q761 -163 761 -230Q761 -252 765 -276Q768 -300 777 -323L891 -300Q887 -284 885 -269Q883 -254 883 -239Q883 -179 920 -139Q957 -98 1026 -98Q1071 -98 1103 -117Q1136 -135 1154 -169Q1173 -203 1173 -249V-477Q1173 -520 1154 -551Q1136 -583 1105 -600Q1073 -617 1033 -617Q997 -617 965 -603Q934 -590 915 -564Q897 -538 897 -500Q897 -493 898 -484Q899 -475 900 -466L782 -452Q778 -467 776 -481Q774 -496 774 -509Q774 -575 809 -625Q844 -676 903 -704Q962 -732 1036 -732Q1109 -732 1167 -702Q1226 -672 1261 -615Q1295 -558 1295 -479V-245Q1295 -165 1261 -106Q1227 -48 1167 -16Q1106 16 1027 16ZM1746 16Q1666 16 1606 -20Q1545 -56 1511 -118Q1477 -179 1477 -253V-509Q1477 -572 1507 -618Q1536 -664 1587 -690Q1637 -716 1700 -716H1980V-600H1715Q1665 -600 1632 -576Q1600 -553 1600 -506V-475L1598 -425H1605Q1628 -454 1669 -477Q1709 -500 1770 -500Q1844 -500 1901 -465Q1959 -431 1991 -373Q2024 -315 2024 -242Q2024 -173 1990 -114Q1957 -55 1894 -19Q1832 16 1746 16ZM1748 -96Q1790 -96 1824 -115Q1859 -134 1880 -167Q1901 -200 1901 -242Q1901 -286 1880 -319Q1859 -352 1824 -370Q1790 -388 1747 -388Q1706 -388 1671 -370Q1636 -352 1615 -319Q1594 -286 1594 -242Q1594 -200 1615 -167Q1636 -134 1671 -115Q1706 -96 1748 -96ZM2438 16Q2355 16 2295 -20Q2235 -56 2203 -117Q2171 -178 2171 -251Q2171 -283 2176 -315Q2182 -348 2194 -380L2310 -358Q2302 -333 2297 -308Q2293 -283 2293 -259Q2293 -215 2310 -179Q2327 -143 2359 -121Q2391 -100 2438 -100Q2481 -100 2514 -119Q2546 -137 2565 -171Q2583 -204 2583 -249Q2583 -289 2570 -321Q2557 -353 2540 -378Q2523 -402 2508 -421L2464 -480Q2445 -506 2425 -540Q2405 -573 2391 -616Q2378 -660 2378 -716H2500Q2500 -664 2521 -622Q2541 -580 2565 -549L2615 -484Q2636 -457 2657 -424Q2677 -392 2691 -348Q2705 -305 2705 -244Q2705 -175 2672 -115Q2639 -56 2579 -20Q2519 16 2438 16Z" fill="currentColor"/></svg></a>
     <nav class="mainnav" aria-label="გვერდები">
       <a href="#ascendant" class="star" data-p="ascendant">ასცენდენტის დადგენა</a>
       <a href="#karmic" data-p="karmic">კარმული კავშირები</a>
@@ -640,9 +633,9 @@ html{scroll-behavior:smooth}
   </header>
   <div id="acctBox" class="acctov" hidden><div class="panel acctp" role="dialog" aria-modal="true" aria-labelledby="acctT"><button type="button" class="acctx" id="acctX" aria-label="დახურვა">×</button><div id="acctBody"></div></div></div>
 
+  <canvas id="sky" aria-hidden="true"></canvas>
   <section class="sec page home" data-page="home" id="home">
     <div class="hero">
-      <canvas id="stars" aria-hidden="true"></canvas>
       <div class="hero-text">
         <span class="eyebrow">ასტროლოგია ქართულად</span>
         <h1>იპოვე შენი <em>ასცენდენტი</em>, მაშინაც კი, როცა დაბადების დრო არ იცი</h1>
@@ -6699,23 +6692,40 @@ $("kGo").addEventListener("click",runKarma);
   $("simPlay").addEventListener("click",play);
   $("simNow").addEventListener("click",()=>{stop();render(nowMin);});
   render(nowMin);
-  /* starfield */
-  const cv=$("stars"),cx=cv.getContext("2d"),RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let W=0,H=0,stars=[],px=0,py=0,tx=0,ty=0;
-  const col=()=>{const cs=getComputedStyle(document.documentElement);return [cs.getPropertyValue("--fg").trim()||"#ebe6d9",cs.getPropertyValue("--accent").trim()||"#d6a84e"];};
-  function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
-    stars=Array.from({length:Math.round(W*H/5200)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.3+.3,z:Math.random()*.9+.1,ph:Math.random()*6.28,a:Math.random()<.08}));}
+  /* night sky across the whole site: slowly drifting, twinkling stars and an occasional shooting star */
+  const cv=$("sky"),cx=cv.getContext("2d"),RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W=0,H=0,stars=[],px=0,py=0,tx=0,ty=0,shoot=null,nextShot=performance.now()+4000+Math.random()*5000,lastT=0;
+  const FG="246,231,216",GOLD="232,184,90",ROSE="227,155,143";
+  function size(){const dpr=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+    stars=Array.from({length:Math.round(W*H/4200)},()=>{const r=Math.random();return {x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.3,z:Math.random()*.9+.1,ph:Math.random()*6.28,c:r<.06?GOLD:r<.1?ROSE:FG};});}
+  function newShot(){const fromLeft=Math.random()<.5,x=W*(fromLeft?.1+Math.random()*.4:.5+Math.random()*.4),y=H*(.05+Math.random()*.3),ang=(fromLeft?1:-1)*(.35+Math.random()*.25),sp=W*.0004+.3;
+    shoot={x,y,vx:Math.cos(ang)*sp*(fromLeft?1:-1)*(fromLeft?1:-1),vy:Math.abs(Math.sin(ang))*sp+.08,life:0,max:900+Math.random()*500,len:120+Math.random()*90};
+    shoot.vx=(fromLeft?1:-1)*Math.abs(Math.cos(ang))*sp;}
   function frame(t){
-    if(!$("home").hidden){
-      px+=(tx-px)*.05;py+=(ty-py)*.05;const [fg,ac]=col();cx.clearRect(0,0,W,H);
-      for(const s of stars){const tw=RM?.7:.45+.45*Math.sin(t/900*s.z+s.ph);cx.globalAlpha=tw*(.35+.5*s.z);cx.fillStyle=s.a?ac:fg;
-        cx.beginPath();cx.arc(s.x+px*s.z*18,s.y+py*s.z*12,s.r*(s.a?1.6:1),0,6.283);cx.fill();}
+    const dt=Math.min(64,t-(lastT||t));lastT=t;
+    if(!document.hidden){
+      px+=(tx-px)*.04;py+=(ty-py)*.04;cx.clearRect(0,0,W,H);
+      for(const s of stars){
+        if(!RM){s.x+=dt*.004*s.z;s.y+=dt*.0012*s.z;if(s.x>W+4)s.x=-4;if(s.y>H+4)s.y=-4;}
+        const tw=RM?.7:.5+.5*Math.sin(t/1100*(.6+s.z)+s.ph);
+        cx.globalAlpha=tw*(.3+.55*s.z);cx.fillStyle="rgb("+s.c+")";
+        cx.beginPath();cx.arc(s.x+px*s.z*16,s.y+py*s.z*10,s.r*(s.c===FG?1:1.5),0,6.283);cx.fill();}
+      if(!RM){
+        if(!shoot&&t>nextShot)newShot();
+        if(shoot){shoot.life+=dt;shoot.x+=shoot.vx*dt;shoot.y+=shoot.vy*dt;
+          const k=shoot.life/shoot.max,a=k<.15?k/.15:1-(k-.15)/.85,n=Math.hypot(shoot.vx,shoot.vy),ux=shoot.vx/n,uy=shoot.vy/n;
+          const g=cx.createLinearGradient(shoot.x,shoot.y,shoot.x-ux*shoot.len,shoot.y-uy*shoot.len);
+          g.addColorStop(0,"rgba("+FG+","+(.95*a)+")");g.addColorStop(.25,"rgba("+GOLD+","+(.5*a)+")");g.addColorStop(1,"rgba("+GOLD+",0)");
+          cx.globalAlpha=1;cx.strokeStyle=g;cx.lineWidth=1.6;cx.lineCap="round";cx.beginPath();cx.moveTo(shoot.x,shoot.y);cx.lineTo(shoot.x-ux*shoot.len,shoot.y-uy*shoot.len);cx.stroke();
+          cx.fillStyle="rgba("+FG+","+a+")";cx.beginPath();cx.arc(shoot.x,shoot.y,1.8,0,6.283);cx.fill();
+          if(shoot.life>shoot.max){shoot=null;nextShot=t+7000+Math.random()*9000;}}
+      }
       cx.globalAlpha=1;
     }
     if(!RM)requestAnimationFrame(frame);
   }
   addEventListener("resize",size);
-  document.querySelector(".hero").addEventListener("pointermove",e=>{const r=cv.getBoundingClientRect();tx=(e.clientX-r.left)/r.width-.5;ty=(e.clientY-r.top)/r.height-.5;});
+  addEventListener("pointermove",e=>{tx=e.clientX/W-.5;ty=e.clientY/H-.5;},{passive:true});
   size();requestAnimationFrame(frame);
 })();
 document.querySelectorAll(".sidebig").forEach(b=>b.addEventListener("click",()=>{const sd=b.closest(".side"),on=sd.classList.toggle("big");b.setAttribute("aria-pressed",String(on));b.textContent=on?"რუკის დაპატარავება":"რუკის გადიდება";}));

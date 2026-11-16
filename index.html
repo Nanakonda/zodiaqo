@@ -336,6 +336,7 @@ select:disabled{opacity:.45}
 .partner{display:flex;flex-direction:column;gap:12px;padding-bottom:20px;border-bottom:3px double var(--line)}
 .partner.pb{border-bottom:0;padding-bottom:0}
 .ptitle{font-size:1.2rem}
+.nmin{max-width:280px}
 .pa .ptitle,.ca{color:var(--air)} .pb .ptitle,.cb{color:var(--fire)}
 .prow{display:flex;flex-wrap:wrap;gap:16px 32px}
 .clist{position:absolute;z-index:5;left:0;right:0;top:calc(100% + 4px);margin:0;padding:4px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.25);max-height:280px;overflow:auto}
@@ -1230,7 +1231,7 @@ function drawChart(el,ps,opt){
     (opt.lines||[]).forEach(L=>{const [a,b]=pt(r2-13,L.a),[c,e]=pt(r2-13,L.b);h+='<line x1="'+a+'" y1="'+b+'" x2="'+c+'" y2="'+e+'" stroke="var(--'+(L.t==="good"?"water":"fire")+')" stroke-width=".9" opacity=".8"/>';});
     const s2=opt.ps2.map(p=>({p,d:p.lon})).sort((a,b)=>a.d-b.d);
     for(let pass=0;pass<3;pass++)for(let i=1;i<s2.length;i++){if(s2[i].d-s2[i-1].d<11)s2[i].d=s2[i-1].d+11;}
-    s2.forEach(({p,d})=>{const [gx,gy]=pt(r2,d);h+='<text class="glyph" x="'+gx+'" y="'+gy+'" text-anchor="middle" dominant-baseline="central" font-size="13" fill="var(--fire)"><title>B: '+p.ka+' '+deg(p.lon)+' '+S[sIdx(p.lon)].ka+'</title>'+p.g+VS+'</text>';});}
+    s2.forEach(({p,d})=>{const [gx,gy]=pt(r2,d);h+='<text class="glyph" x="'+gx+'" y="'+gy+'" text-anchor="middle" dominant-baseline="central" font-size="13" fill="var(--fire)"><title>'+(window.__GB||"B-ს")+' '+p.ka+' '+deg(p.lon)+' '+S[sIdx(p.lon)].ka+'</title>'+p.g+VS+'</text>';});}
   /* planets: glyph discs with degree labels, spread to avoid overlap */
   const sorted=ps.map(p=>({p,d:p.lon})).sort((a,b)=>a.d-b.d);
   for(let pass=0;pass<4;pass++)for(let i=0;i<sorted.length;i++){const j=(i+1)%sorted.length;if(j===i)break;let gap=norm(sorted[j].d-sorted[i].d);if(gap<10&&!(j===0&&gap>300))sorted[j].d=sorted[i].d+10;}
@@ -6174,9 +6175,14 @@ function toUTCg(Y,M,D,mins,pl){
   if(pl.tz){let off=zoneOffset(pl.tz,base);off=zoneOffset(pl.tz,base-off*60000);return {d:new Date(base-off*60000),off};}
   return {d:new Date(base-pl.off*3600000),off:pl.off*60};
 }
+/* partner names: NM holds escaped display names, GEN builds the genitive (ნინო → ნინოს, გიორგი → გიორგის, დავით → დავითის) */
+const NM={A:"A",B:"B"};
+const escH=t=>String(t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function GEN(n){if(/^[AB]$/.test(n)||/[^\u10d0-\u10ff\s-]/.test(n))return n+"-ს";const l=n.slice(-1);return /[აეოუი]/.test(l)?n+"ს":n+"ის";}
+function setNames(F1,F2){NM.A=escH(F1.name()||"A");NM.B=escH(F2.name()||"B");window.__GB=GEN(NM.B);}
 function birthForm(root,pre,title,def){
   const id=x=>pre+x;
-  root.innerHTML='<h3 class="ptitle">'+title+'</h3>'+
+  root.innerHTML='<h3 class="ptitle">'+title+'</h3>'+(def.named?'<div class="frow"><label class="flabel" for="'+id("Nm")+'">სახელი</label><div class="fctl"><input id="'+id("Nm")+'" class="nmin" type="text" maxlength="24" autocomplete="off" placeholder="'+(def.ph||"სახელი")+'"></div></div>':'')+
    '<div class="prow"><div class="frow"><span class="flabel">დაბადების თარიღი</span><div class="fctl"><select id="'+id("D")+'" aria-label="დღე"></select><select id="'+id("M")+'" aria-label="თვე"></select><select id="'+id("Y")+'" aria-label="წელი"></select></div></div>'+
    '<div class="frow"><span class="flabel">დრო <span class="muted" style="font-weight:400">(ადგილობრივი)</span></span><div class="fctl"><select id="'+id("H")+'" aria-label="საათი"></select><span class="unit">სთ</span><select id="'+id("Mi")+'" aria-label="წუთი"></select><span class="unit">წთ</span>'+
    '<label class="pill"><input type="checkbox" id="'+id("U")+'"> დრო უცნობია</label></div></div></div>'+
@@ -6206,7 +6212,9 @@ function birthForm(root,pre,title,def){
   lst.addEventListener("mousedown",e=>{const li=e.target.closest("li[data-i]");if(li){e.preventDefault();pick(+li.dataset.i);}});
   q("Man").addEventListener("click",()=>{st.manual=!st.manual;q("ManRow").hidden=!st.manual;if(st.manual){st.city=-1;inp.value="";}});
   root.addEventListener("change",e=>{if(e.isTrusted)root.dataset.own="1";});root.addEventListener("input",e=>{if(e.isTrusted)root.dataset.own="1";});
-  return {set(v){q("D").value=v.D;q("M").value=v.M;q("Y").value=v.Y;q("U").checked=!!v.unknown;q("H").value=v.H;q("Mi").value=v.Mi;q("H").disabled=q("Mi").disabled=!!v.unknown;
+  if(def.named)q("Nm").addEventListener("input",()=>{root.querySelector(".ptitle").textContent=q("Nm").value.trim()||title;});
+  return {name(){return def.named?q("Nm").value.trim():""},setName(n){if(!def.named)return;q("Nm").value=n||"";root.querySelector(".ptitle").textContent=n||title;},
+    set(v){q("D").value=v.D;q("M").value=v.M;q("Y").value=v.Y;q("U").checked=!!v.unknown;q("H").value=v.H;q("Mi").value=v.Mi;q("H").disabled=q("Mi").disabled=!!v.unknown;
       if(v.man){st.manual=true;st.city=-1;q("ManRow").hidden=false;inp.value="";q("Lat").value=v.man[0];q("Lon").value=v.man[1];}
       else if(v.city>=0){st.manual=false;st.city=v.city;q("ManRow").hidden=true;inp.value=CITIES[v.city][0];}
       delete root.dataset.own;q("D").dispatchEvent(new Event("change",{bubbles:true}));},
@@ -6222,8 +6230,8 @@ function birthForm(root,pre,title,def){
     return {Y,M,D,unknown,mins:unknown?720:+q("H").value*60+ +q("Mi").value,pl};
   }};
 }
-const FA=birthForm($("pA"),"sa","პარტნიორი A",{D:15,M:7,Y:1995,H:12,Mi:0,city:0});
-const FB=birthForm($("pB"),"sb","პარტნიორი B",{D:3,M:3,Y:1993,H:8,Mi:30,city:1});
+const FA=birthForm($("pA"),"sa","პარტნიორი A",{D:15,M:7,Y:1995,H:12,Mi:0,city:0,named:1,ph:"მაგ. ნინო"});
+const FB=birthForm($("pB"),"sb","პარტნიორი B",{D:3,M:3,Y:1993,H:8,Mi:30,city:1,named:1,ph:"მაგ. გიორგი"});
 
 const PAIR={"Moon|Sun":["მზე და მთვარე","წყვილისთვის ერთ-ერთი ყველაზე მნიშვნელოვანი კავშირი: ერთის ნება და მეორის ემოციები ერთმანეთს ეხმიანება."],
  "Mars|Venus":["ვენერა და მარსი","რომანტიკული და ფიზიკური მიზიდულობის კლასიკური ასპექტი."],
@@ -6279,18 +6287,18 @@ function bigRow(C){const s=k=>{const p=C.ps.find(x=>x.k===k);return p?gl(S[sIdx(
 function synExtra(A,B){
   const row=p=>'<td>'+(p?'<span class="glyph el-'+S[sIdx(p.lon)].el+'">'+gl(S[sIdx(p.lon)])+'</span> '+S[sIdx(p.lon)].ka+' <span class="num muted">'+deg(p.lon)+'</span>'+(p.retro?'<span class="badge">R</span>':''):'<span class="muted">—</span>')+'</td>';
   const keys=[...BODIES.map(b=>b.k),"ASC"];
-  const tbl='<div class="tbl"><table><thead><tr><th></th><th>პლანეტა</th><th class="ca">პარტნიორი A</th><th class="cb">პარტნიორი B</th></tr></thead><tbody>'+keys.map(k=>{const a=A.ps.find(x=>x.k===k),b=B.ps.find(x=>x.k===k);
+  const tbl='<div class="tbl"><table><thead><tr><th></th><th>პლანეტა</th><th class="ca">'+NM.A+'</th><th class="cb">'+NM.B+'</th></tr></thead><tbody>'+keys.map(k=>{const a=A.ps.find(x=>x.k===k),b=B.ps.find(x=>x.k===k);
     return '<tr><td class="pg glyph">'+(k==="ASC"?"AC":BODIES.find(x=>x.k===k).g+VS)+'</td><td>'+KA(k)+'</td>'+row(k==="Moon"&&A.b.unknown?null:a)+row(k==="Moon"&&B.b.unknown?null:b)+'</tr>';}).join("")+'</tbody></table></div>';
   const ph=C=>norm(C.ps[1].lon-C.ps[0].lon),pa=ph(A),pb=ph(B),dd=sep(pa,pb);
   const txt=dd<=45?"ერთნაირი ან მეზობელი ფაზა: ცხოვრების რიტმი და ჩვევები მსგავსი გაქვთ. ერთმანეთს მარტივად უგებთ, მაგრამ ერთნაირ შეცდომებსაც უშვებთ.":dd>=135?"საპირისპირო ფაზები: ერთი „იწყებს“, მეორე „ასრულებს“. ერთმანეთს ავსებთ და ერთად უფრო მთლიანი ხართ, თუმცა განსხვავებულ ტემპზე უნდა შეთანხმდეთ.":"განსხვავებული, მაგრამ თავსებადი ფაზები: ცხოვრებას სხვადასხვა კუთხით უყურებთ, რაც ურთიერთობას საინტერესოს ხდის.";
   const unk=A.b.unknown||B.b.unknown;
   return '<div class="panel syn-mid" id="s-pos"><div><h3 style="margin-bottom:12px">პლანეტების პოზიციები</h3>'+tbl+'</div>'+
-   '<div><h3 style="margin-bottom:12px">მთვარის ფაზების თავსებადობა</h3><div class="phases"><div><span class="ca">A</span>'+moonSvg(pa)+'<b>'+phName(pa)+'</b><small class="num">'+Math.round(pa)+'°</small></div><div><span class="cb">B</span>'+moonSvg(pb)+'<b>'+phName(pb)+'</b><small class="num">'+Math.round(pb)+'°</small></div></div>'+
+   '<div><h3 style="margin-bottom:12px">მთვარის ფაზების თავსებადობა</h3><div class="phases"><div><span class="ca">'+NM.A+'</span>'+moonSvg(pa)+'<b>'+phName(pa)+'</b><small class="num">'+Math.round(pa)+'°</small></div><div><span class="cb">'+NM.B+'</span>'+moonSvg(pb)+'<b>'+phName(pb)+'</b><small class="num">'+Math.round(pb)+'°</small></div></div>'+
    '<p style="margin-top:12px">'+txt+'</p><p class="note" style="margin-top:8px">დაბადების მთვარის ფაზა ზრდასრული ცხოვრების რიტმსა და ინსტინქტურ ქცევას აჩვენებს. ფაზებს შორის სხვაობა: '+Math.round(dd)+'°.'+(unk?' დრო უცნობია, ამიტომ ფაზა მიახლოებითია.':'')+'</p></div></div>';
 }
 function runSyn(){
   if(!HAS){$("sRes").innerHTML='<p class="err">ასტრონომიული ბიბლიოთეკა ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';return}
-  const a=FA.read(),b=FB.read();if(a.err||b.err){$("sNote").textContent=a.err||b.err;return}
+  const a=FA.read(),b=FB.read();if(a.err||b.err){$("sNote").textContent=a.err||b.err;return}setNames(FA,FB);
   $("sNote").textContent="";
   const A=chartOf(a),B=chartOf(b),asp=synastry(A,B);
   const cats=CATS.map(c=>{const xs=asp.filter(c.f),sum=xs.reduce((s,x)=>s+x.v,0);return {...c,n:xs.length,score:Math.round(50+45*Math.tanh(sum/3))};});
@@ -6303,9 +6311,9 @@ function runSyn(){
   $("sRes").innerHTML=
    '<div class="panel syn-top"><div class="syn-score"><span class="eyebrow">საერთო თავსებადობა</span><b>'+overall+'%</b><span>'+verdict+'</span><span class="note">კავშირის ინტენსივობა: '+intensity+'% · ნაპოვნია '+asp.length+' ასპექტი</span></div>'+
    '<div class="cats">'+cats.map(c=>'<div class="cat"><div class="catl"><span>'+c.ka+'</span><b>'+c.score+'%</b></div><div class="bar"><i style="width:'+c.score+'%"></i></div>'+(c.n?'':'<span class="note">ასპექტები არ არის, ნეიტრალური</span>')+'</div>').join("")+'</div></div>'+
-   '<div class="panel syn-mid"><div><h3 style="margin-bottom:10px">დიდი სამეული</h3><div class="tbl"><table><thead><tr><th></th><th class="ca">A</th><th class="cb">B</th></tr></thead><tbody>'+
+   '<div class="panel syn-mid"><div><h3 style="margin-bottom:10px">დიდი სამეული</h3><div class="tbl"><table><thead><tr><th></th><th class="ca">'+NM.A+'</th><th class="cb">'+NM.B+'</th></tr></thead><tbody>'+
      ["მზე","მთვარე","ასცენდენტი"].map((n,i)=>'<tr><td>'+n+'</td><td>'+ra[i]+'</td><td>'+rb[i]+'</td></tr>').join("")+'</tbody></table></div>'+
-     '<p class="note" style="margin-top:10px">შიდა რგოლში B-ს პლანეტებია, გარე რგოლში A-ს. ხაზები ასპექტებია: მწვანე ჰარმონიული, წითელი დაძაბული.</p>'+
+     '<p class="note" style="margin-top:10px">შიდა რგოლში '+GEN(NM.B)+' პლანეტებია, გარე რგოლში '+GEN(NM.A)+'. ხაზები ასპექტებია: მწვანე ჰარმონიული, წითელი დაძაბული.</p>'+
      (a.unknown||b.unknown?'<p class="note">ერთ-ერთის დრო უცნობია: ასცენდენტი გამოტოვებულია, მთვარის ასპექტებს ნახევარი წონა აქვს.</p>':'')+'</div>'+
    '<div class="chart" id="sChart"></div></div>'+
    synExtra(A,B)+
@@ -6313,9 +6321,9 @@ function runSyn(){
      top.map(x=>{const key=[x.p.k,x.q.k].sort().join("|"),pr=PAIR[key];
        const other=pr?null:(PL_THEME[x.p.k]&&x.p.k!=="ASC"?x.p.k:PL_THEME[x.q.k]?x.q.k:null);
        const PN_={Sun:"ხასიათი",Moon:"გრძნობები",Mercury:"აზროვნება",Venus:"სიყვარულის სტილი",Mars:"სურვილები",ASC:"პირველი შთაბეჭდილება",Chiron:"ძველი ჭრილობები",Node:"ცხოვრების მიმართულება"};
-       const theme=pr?pr[1]:other?PL_THEME[other]:(PN_[x.p.k]&&PN_[x.q.k]?"A-ს "+PN_[x.p.k]+" და B-ს "+PN_[x.q.k]+" ერთმანეთზე პირდაპირ მოქმედებს.":"ამ ორი პლანეტის თვისებები ერთმანეთზე პირდაპირ მოქმედებს.");
+       const theme=pr?pr[1]:other?PL_THEME[other]:(PN_[x.p.k]&&PN_[x.q.k]?GEN(NM.A)+" "+PN_[x.p.k]+" და "+GEN(NM.B)+" "+PN_[x.q.k]+" ერთმანეთზე პირდაპირ მოქმედებს.":"ამ ორი პლანეტის თვისებები ერთმანეთზე პირდაპირ მოქმედებს.");
        const tone=x.X.a===0?"შეერთებაა: ეს თქვენი ურთიერთობის ერთ-ერთი მთავარი საკითხია.":x.h>0?"ჰარმონიული ასპექტია: ამ საკითხში ერთმანეთს ადვილად უგებთ.":"დაძაბული ასპექტია: ამ საკითხში ხშირად კამათობთ, მაგრამ სწორედ ეს გიზიდავთ ერთმანეთისკენ და გზრდით.";
-       return '<div class="aspi '+(x.X.a===0?"":x.h>0?"good":"hard")+'"><div class="asph"><span class="ca"><span class="glyph">'+(x.p.k==="ASC"?"AC":x.p.g+VS)+'</span> '+KA(x.p.k)+' A</span><span class="ag"><span class="glyph">'+x.X.g+VS+'</span> '+x.X.n+'</span><span class="cb"><span class="glyph">'+(x.q.k==="ASC"?"AC":x.q.g+VS)+'</span> '+KA(x.q.k)+' B</span><span class="num muted">'+x.orb.toFixed(1)+'°</span></div><p>'+theme+' '+tone+'</p></div>';}).join("")+
+       return '<div class="aspi '+(x.X.a===0?"":x.h>0?"good":"hard")+'"><div class="asph"><span class="ca"><span class="glyph">'+(x.p.k==="ASC"?"AC":x.p.g+VS)+'</span> '+GEN(NM.A)+' '+KA(x.p.k)+'</span><span class="ag"><span class="glyph">'+x.X.g+VS+'</span> '+x.X.n+'</span><span class="cb"><span class="glyph">'+(x.q.k==="ASC"?"AC":x.q.g+VS)+'</span> '+GEN(NM.B)+' '+KA(x.q.k)+'</span><span class="num muted">'+x.orb.toFixed(1)+'°</span></div><p>'+theme+' '+tone+'</p></div>';}).join("")+
    '</div><p class="note" style="margin-top:12px">შედეგი ასტროლოგიურ ტრადიციას ეყრდნობა და გასართობი მიზნით იქმნება. ურთიერთობის ბედს ადამიანები წყვეტენ და არა პლანეტები.</p></div>';
   drawChart($("sChart"),A.ps.filter(p=>p.k!=="ASC"),{asc:A.an?A.an.asc:null,mc:A.an?A.an.mc:null,cusps:A.an?A.an.cusps:null,ps2:B.ps.filter(p=>p.k!=="ASC"),lines,label:"სინასტრიის ორმაგი წრე"});
   const X=coupleExtras(a,b,A,B);
@@ -6528,13 +6536,13 @@ const midL=(a,b)=>norm(a+(((b-a)%360+540)%360-180)/2);
 function coupleExtras(a,b,A,B){
   /* both personal summaries */
   const who=(C,lab,cls)=>{const s=k=>C.ps.find(p=>p.k===k),sun=s("Sun"),moon=s("Moon");
-    return '<div class="b3"><div class="b3h"><span class="glyph '+cls+'" style="font-family:var(--mono);font-size:1.4rem">'+lab+'</span><div><small>'+C.b.D+' '+MONTHS[C.b.M-1]+' '+C.b.Y+(C.b.unknown?', დრო უცნობია':', '+hm(C.b.mins))+'</small><b>'+gl(S[sIdx(sun.lon)])+' '+S[sIdx(sun.lon)].ka+' · '+(C.b.unknown?'≈ ':'')+gl(S[sIdx(moon.lon)])+' '+S[sIdx(moon.lon)].ka+(C.an?' · AC '+S[sIdx(C.an.asc)].ka:'')+'</b></div></div>'+
+    return '<div class="b3"><div class="b3h"><span class="'+cls+'" style="font-weight:700;font-size:1.15rem">'+lab+'</span><div><small>'+C.b.D+' '+MONTHS[C.b.M-1]+' '+C.b.Y+(C.b.unknown?', დრო უცნობია':', '+hm(C.b.mins))+'</small><b>'+gl(S[sIdx(sun.lon)])+' '+S[sIdx(sun.lon)].ka+' · '+(C.b.unknown?'≈ ':'')+gl(S[sIdx(moon.lon)])+' '+S[sIdx(moon.lon)].ka+(C.an?' · AC '+S[sIdx(C.an.asc)].ka:'')+'</b></div></div>'+
      '<p><b>მზე '+LOC[sIdx(sun.lon)]+'.</b> '+RT.Sun[sIdx(sun.lon)]+'</p>'+(C.b.unknown?'':'<p><b>მთვარე '+LOC[sIdx(moon.lon)]+'.</b> '+RT.Moon[sIdx(moon.lon)]+'</p>')+(C.an?'<p><b>ასცენდენტი '+LOC[sIdx(C.an.asc)]+'.</b> '+RT.ASC[sIdx(C.an.asc)]+'</p>':'')+
      '<p><b>სიყვარულში (ვენერა '+LOC[sIdx(s("Venus").lon)]+').</b> '+RT.Venus[sIdx(s("Venus").lon)]+'</p><p><b>მოქმედებაში (მარსი '+LOC[sIdx(s("Mars").lon)]+').</b> '+RT.Mars[sIdx(s("Mars").lon)]+'</p></div>';};
-  const people='<div class="b3grid two">'+who(A,"A","ca")+who(B,"B","cb")+'</div>';
+  const people='<div class="b3grid two">'+who(A,NM.A,"ca")+who(B,NM.B,"cb")+'</div>';
   /* sign-level compatibility */
   const sa=sIdx(A.ps[0].lon),sb=sIdx(B.ps[0].lon);let dd=Math.abs(sa-sb);dd=Math.min(dd,12-dd);const asp=ASP[dd];
-  const signs='<div class="phases"><div><span class="ca">A</span><span class="glyph" style="font-size:2.4rem">'+gl(S[sa])+'</span><b>'+S[sa].ka+'</b><small>'+EL[S[sa].el]+'</small></div><div><span class="cb">B</span><span class="glyph" style="font-size:2.4rem">'+gl(S[sb])+'</span><b>'+S[sb].ka+'</b><small>'+EL[S[sb].el]+'</small></div></div>'+
+  const signs='<div class="phases"><div><span class="ca">'+NM.A+'</span><span class="glyph" style="font-size:2.4rem">'+gl(S[sa])+'</span><b>'+S[sa].ka+'</b><small>'+EL[S[sa].el]+'</small></div><div><span class="cb">'+NM.B+'</span><span class="glyph" style="font-size:2.4rem">'+gl(S[sb])+'</span><b>'+S[sb].ka+'</b><small>'+EL[S[sb].el]+'</small></div></div>'+
     '<div class="score" style="margin-top:12px"><b>'+asp.v+'%</b><span class="muted">'+asp.n+'</span></div><p>'+asp.t+'</p><p class="muted">'+elText(S[sa].el,S[sb].el)+'</p>';
   /* composite chart */
   const comp=BODIES.filter(bd=>A.ps.some(x=>x.k===bd.k)&&B.ps.some(x=>x.k===bd.k)).map(bd=>{const p=A.ps.find(x=>x.k===bd.k),q=B.ps.find(x=>x.k===bd.k);return {k:bd.k,ka:bd.ka,g:bd.g,m:bd.m,lon:midL(p.lon,q.lon)};});
@@ -6555,8 +6563,8 @@ function coupleExtras(a,b,A,B){
    draw:()=>drawChart($("cChart"),comp,{asc:casc,mc:cmc,label:"კომპოზიტური რუკა",center:casc==null?["კომპოზიტი",""]:null})};
 }
 /* ---------- karmic connections page ---------- */
-const FKA=birthForm($("kA"),"ka","პარტნიორი A",{D:15,M:7,Y:1995,H:12,Mi:0,city:0});
-const FKB=birthForm($("kB"),"kb","პარტნიორი B",{D:3,M:3,Y:1993,H:8,Mi:30,city:1});
+const FKA=birthForm($("kA"),"ka","პარტნიორი A",{D:15,M:7,Y:1995,H:12,Mi:0,city:0,named:1,ph:"მაგ. ნინო"});
+const FKB=birthForm($("kB"),"kb","პარტნიორი B",{D:3,M:3,Y:1993,H:8,Mi:30,city:1,named:1,ph:"მაგ. გიორგი"});
 const PERS=["Sun","Moon","Mercury","Venus","Mars"];
 /* planet-specific meaning of a contact */
 const KP={
@@ -6632,11 +6640,11 @@ function kFind(X,Y,xl,yl){
   if(Y.an){const asc=Y.an.asc,dsc=norm(asc+180);let pers12=0;
     X.ps.filter(p=>!(X.b.unknown&&p.k==="Moon")).forEach(p=>{
       const w=PERS.includes(p.k)?2:1;
-      let o=sep(p.lon,asc);if(o<=4)hit("axis",p,{k:"ASC",ka:"ასცენდენტი",g:"AC"},ASPECTS[0],o,4,w,p.ka+" "+yl+"-ს ასცენდენტზე: "+xl+" ძლიერად მოქმედებს "+yl+"-ს თვითაღქმასა და გარეგნულ ქცევაზე.");
-      o=sep(p.lon,dsc);if(o<=4)hit("axis",p,{k:"DSC",ka:"დესცენდენტი",g:"DC"},ASPECTS[0],o,4,w,p.ka+" "+yl+"-ს დესცენდენტზე: "+xl+" "+yl+"-სთვის „ტიპური პარტნიორის“ თვისებებს ატარებს.");
-      if(houseIdx(p.lon,Y.an.cusps)===12){if(PERS.includes(p.k))pers12++;out.h12.push({p,q:null,orb:0,w:PERS.includes(p.k)?1.5:.5,from:xl,to:yl,txt:xl+"-ს "+p.ka+" "+yl+"-ს მე-⁠12 სახლშია: "+yl+" "+xl+"-ს "+({Sun:"ხასიათს",Moon:"განწყობას",Mercury:"ფიქრებს",Venus:"სიყვარულს",Mars:"სურვილებს",Jupiter:"იმედებს",Saturn:"შიშებს"}[p.k]||"შინაგან სამყაროს")+" ღრმად, თითქმის უსიტყვოდ გრძნობს. ეს ხშირად „ბედისწერისეული“ კავშირის განცდას ქმნის, მაგრამ ზოგჯერ გაურკვევლობასაც."});}
+      let o=sep(p.lon,asc);if(o<=4)hit("axis",p,{k:"ASC",ka:"ასცენდენტი",g:"AC"},ASPECTS[0],o,4,w,GEN(NM[xl])+" "+p.ka+" "+GEN(NM[yl])+" ასცენდენტზე: "+NM[xl]+" ძლიერად მოქმედებს "+GEN(NM[yl])+" თვითაღქმასა და გარეგნულ ქცევაზე.");
+      o=sep(p.lon,dsc);if(o<=4)hit("axis",p,{k:"DSC",ka:"დესცენდენტი",g:"DC"},ASPECTS[0],o,4,w,GEN(NM[xl])+" "+p.ka+" "+GEN(NM[yl])+" დესცენდენტზე: "+NM[xl]+" "+GEN(NM[yl])+"თვის „ტიპური პარტნიორის“ თვისებებს ატარებს.");
+      if(houseIdx(p.lon,Y.an.cusps)===12){if(PERS.includes(p.k))pers12++;out.h12.push({p,q:null,orb:0,w:PERS.includes(p.k)?1.5:.5,from:xl,to:yl,txt:GEN(NM[xl])+" "+p.ka+" "+GEN(NM[yl])+" მე-⁠12 სახლშია: "+NM[yl]+" "+GEN(NM[xl])+" "+({Sun:"ხასიათს",Moon:"განწყობას",Mercury:"ფიქრებს",Venus:"სიყვარულს",Mars:"სურვილებს",Jupiter:"იმედებს",Saturn:"შიშებს"}[p.k]||"შინაგან სამყაროს")+" ღრმად, თითქმის უსიტყვოდ გრძნობს. ეს ხშირად „ბედისწერისეული“ კავშირის განცდას ქმნის, მაგრამ ზოგჯერ გაურკვევლობასაც."});}
     });
-    if(pers12>=2)out.h12.push({p:{k:"X",ka:xl+"-ს "+pers12+" პირადი პლანეტა",g:"⚠"},q:null,orb:0,w:0,from:xl,to:yl,txt:"ერთზე მეტი პირადი პლანეტა მე-⁠12 სახლში: ზოგი ასტროლოგის აზრით, ასეთ წყვილში ნდობა ძნელად ყალიბდება და ამაზე ორივემ უნდა იმუშაოს.",warn:true});}
+    if(pers12>=2)out.h12.push({p:{k:"X",ka:GEN(NM[xl])+" "+pers12+" პირადი პლანეტა",g:"⚠"},q:null,orb:0,w:0,from:xl,to:yl,txt:"ერთზე მეტი პირადი პლანეტა მე-⁠12 სახლში: ზოგი ასტროლოგის აზრით, ასეთ წყვილში ნდობა ძნელად ყალიბდება და ამაზე ორივემ უნდა იმუშაოს.",warn:true});}
   return out;
 }
 function nodeNode(A,B){const d=sep(A.nodes.nn,B.nodes.nn),T={0:"საერთო კვანძური ღერძი: მსგავსი ცხოვრებისეული მიზანი. ერთმანეთს ზრდაში ეხმარებით, თუმცა შეიძლება ერთმანეთის კომფორტის ზონაც გააძლიეროთ.",180:"საპირისპირო კვანძები: თითოეულს აქვს ის, რასაც მეორე სწავლობს. ერთმანეთის მასწავლებლები ხართ, მაგრამ ფრთხილად, რომ ერთის წინსვლა მეორის უკან დახევას არ ნიშნავდეს.",90:"კვადრატი კვანძებს შორის: ერთის ზრდა მეორის ჩვევებს არღვევს. ხახუნი ორივეს მოქნილსა და ძლიერს ხდის.",120:"ტრიგონი კვანძებს შორის: ჰარმონიული, ურთიერთმხარდამჭერი გზა, თუმცა რისკია, რომ კომფორტი ზრდას ჩაანაცვლებს.",60:"სექსტილი კვანძებს შორის: ერთის განვითარება მეორისას ეხმარება. ღია საუბარი ამ კავშირს აძლიერებს."};
@@ -6650,19 +6658,19 @@ function karmaHTML(a,b){
     const lvl=sum>=4?"ძლიერი":sum>=1.5?"საშუალო":list.length?"სუსტი":"არ არის";
     const needT=["axis","h12","vx"].includes(c.id)&&(!A.an||!B.an);
     return {sum,c,html:'<article class="panel kcat'+(list.length?' on':'')+'"><div class="kh"><span class="kg glyph">'+c.g+'</span><div><h3>'+c.t+'</h3><span class="klvl l'+(list.length?Math.min(3,Math.ceil(sum/1.5)):0)+'">'+lvl+(list.length?' · '+list.filter(x=>!x.warn).length+' კავშირი':'')+'</span></div></div><p>'+c.d+'</p>'+
-     (list.length?(()=>{const cnt={};list.forEach(x=>{if(x.txt)cnt[x.txt]=(cnt[x.txt]||0)+1});const rep=Object.keys(cnt).filter(t=>cnt[t]>1);return '<ul class="klist">'+list.map(x=>'<li'+(x.warn?' class="kwarn"':'')+'><div class="kline"><span class="'+(x.from==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.p)+'</span> '+x.p.ka+(x.p.k==="X"?'':' '+x.from)+'</span>'+
-       (x.q?' <span class="ag"><span class="glyph">'+x.A.g+VS+'</span> '+x.A.n+'</span> <span class="'+(x.to==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.q)+'</span> '+x.q.ka+' '+x.to+'</span> <span class="num muted">'+x.orb.toFixed(1)+'°</span>':(x.warn?'':' <span class="ag">'+x.to+'-ს მე-⁠12 სახლში</span>'))+'</div>'+(x.txt&&!rep.includes(x.txt)?'<p>'+x.txt+'</p>':'')+'</li>').join("")+'</ul>'+(rep.length?'<div class="ksum"><b>რას ნიშნავს ეს კავშირები ერთად</b>'+rep.map(t=>'<p>'+t+'</p>').join("")+'</div>':'')})():
+     (list.length?(()=>{const cnt={};list.forEach(x=>{if(x.txt)cnt[x.txt]=(cnt[x.txt]||0)+1});const rep=Object.keys(cnt).filter(t=>cnt[t]>1);return '<ul class="klist">'+list.map(x=>'<li'+(x.warn?' class="kwarn"':'')+'><div class="kline"><span class="'+(x.from==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.p)+'</span> '+(x.p.k==="X"?x.p.ka:GEN(NM[x.from])+' '+x.p.ka)+'</span>'+
+       (x.q?' <span class="ag"><span class="glyph">'+x.A.g+VS+'</span> '+x.A.n+'</span> <span class="'+(x.to==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.q)+'</span> '+GEN(NM[x.to])+' '+x.q.ka+'</span> <span class="num muted">'+x.orb.toFixed(1)+'°</span>':(x.warn?'':' <span class="ag">'+GEN(NM[x.to])+' მე-⁠12 სახლში</span>'))+'</div>'+(x.txt&&!rep.includes(x.txt)?'<p>'+x.txt+'</p>':'')+'</li>').join("")+'</ul>'+(rep.length?'<div class="ksum"><b>რას ნიშნავს ეს კავშირები ერთად</b>'+rep.map(t=>'<p>'+t+'</p>').join("")+'</div>':'')})():
        '<p class="muted">'+(needT?"ამ ფაქტორის შესამოწმებლად ორივეს ზუსტი დაბადების დროა საჭირო.":"ამ წყვილში ასეთი კავშირი არ არის.")+'</p>')+'</article>'};});
   const score=Math.min(100,Math.round(total*5));
   const verdict=score>=70?"ძალიან ძლიერი კარმული კავშირი":score>=45?"მკაფიო კარმული კავშირი":score>=20?"ზომიერი კარმული კავშირი":"სუსტი კარმული კავშირი";
   const found=KCAT.filter(c=>r1[c.id].length+r2[c.id].length);
   return {score,html:'<div class="panel syn-top"><div class="syn-score"><span class="eyebrow">კარმული ინტენსივობა</span><b>'+score+'%</b><span>'+verdict+'</span><span class="note">'+found.length+' / '+KCAT.length+' კარმული ფაქტორი აქტიურია</span></div>'+
     '<div class="kdesc"><p>კარმული კავშირი თავისთავად არც კარგია და არც ცუდი. ის მხოლოდ აჩვენებს, რამდენი რამის სწავლა შეუძლიათ ამ ორ ადამიანს ერთმანეთისგან. რა გამოვა ამ ურთიერთობიდან, თავად მათზეა დამოკიდებული.</p>'+
-    '<p class="note">კვანძები: A ☊ '+deg(A.nodes.nn)+' '+S[sIdx(A.nodes.nn)].ka+' · B ☊ '+deg(B.nodes.nn)+' '+S[sIdx(B.nodes.nn)].ka+' (ჭეშმარიტი კვანძი)'+(A.vx!=null?' · Vertex: A '+deg(A.vx)+' '+S[sIdx(A.vx)].ka:'')+(B.vx!=null?', B '+deg(B.vx)+' '+S[sIdx(B.vx)].ka:'')+(a.unknown||b.unknown?' · ერთ-ერთის დრო უცნობია: მთვარე, ასცენდენტი, Vertex და მე-⁠12 სახლი გამოტოვებულია.':'')+'</p></div></div>'+cards.filter(x=>x.sum>=0).sort((a,b)=>b.sum-a.sum).map(x=>x.html).join("")+(cards.some(x=>x.sum<0)?'<details class="panel knone"><summary><b>ამ წყვილში არ გამოვლინდა ('+cards.filter(x=>x.sum<0).length+')</b><span class="chips2">'+cards.filter(x=>x.sum<0).map(x=>'<span class="chip2"><span class="glyph">'+x.c.g+'</span> '+x.c.t.split(":")[0]+(x.needT?' <small>(საჭიროა დრო)</small>':'')+'</span>').join("")+'</span></summary>'+cards.filter(x=>x.sum<0).map(x=>'<div class="knd"><b>'+x.c.t+'</b><p>'+x.c.d+'</p></div>').join("")+'</details>':'')};
+    '<p class="note">კვანძები: '+NM.A+' ☊ '+deg(A.nodes.nn)+' '+S[sIdx(A.nodes.nn)].ka+' · '+NM.B+' ☊ '+deg(B.nodes.nn)+' '+S[sIdx(B.nodes.nn)].ka+' (ჭეშმარიტი კვანძი)'+(A.vx!=null?' · Vertex: '+NM.A+' '+deg(A.vx)+' '+S[sIdx(A.vx)].ka:'')+(B.vx!=null?', '+NM.B+' '+deg(B.vx)+' '+S[sIdx(B.vx)].ka:'')+(a.unknown||b.unknown?' · ერთ-ერთის დრო უცნობია: მთვარე, ასცენდენტი, Vertex და მე-⁠12 სახლი გამოტოვებულია.':'')+'</p></div></div>'+cards.filter(x=>x.sum>=0).sort((a,b)=>b.sum-a.sum).map(x=>x.html).join("")+(cards.some(x=>x.sum<0)?'<details class="panel knone"><summary><b>ამ წყვილში არ გამოვლინდა ('+cards.filter(x=>x.sum<0).length+')</b><span class="chips2">'+cards.filter(x=>x.sum<0).map(x=>'<span class="chip2"><span class="glyph">'+x.c.g+'</span> '+x.c.t.split(":")[0]+(x.needT?' <small>(საჭიროა დრო)</small>':'')+'</span>').join("")+'</span></summary>'+cards.filter(x=>x.sum<0).map(x=>'<div class="knd"><b>'+x.c.t+'</b><p>'+x.c.d+'</p></div>').join("")+'</details>':'')};
 }
 function runKarma(){
   if(!HAS){$("kRes").innerHTML='<p class="err">ასტრონომიული ბიბლიოთეკა ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';return}
-  const a=FKA.read(),b=FKB.read();if(a.err||b.err){$("kNote").textContent=a.err||b.err;return}
+  const a=FKA.read(),b=FKB.read();if(a.err||b.err){$("kNote").textContent=a.err||b.err;return}setNames(FKA,FKB);
   $("kNote").textContent="";$("kRes").innerHTML=karmaHTML(a,b).html;
 }
 $("kGo").addEventListener("click",runKarma);
@@ -7202,13 +7210,13 @@ async function acctLoad(){const {data,error}=await ACCT.sb.from("people").select
 function renderPick(){document.querySelectorAll(".savedpick").forEach(box=>{
   if(!ACCT.user){box.hidden=true;box.innerHTML="";return}
   const F=box.dataset.for==="pB"?FB:FKB;box.hidden=false;
-  box.innerHTML='<label>პარტნიორი B: <select><option value="">შენახული ადამიანებიდან…</option>'+ACCT.people.map(p=>'<option value="'+p.id+'"></option>').join("")+'</select></label>'+
-    '<span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="text" placeholder="სახელი" aria-label="სახელი შესანახად"><button type="button">B-ს შენახვა</button></span><span class="sp-note" aria-live="polite"></span>';
-  const sel=box.querySelector("select"),inp=box.querySelector("input"),btn=box.querySelector("button"),note=box.querySelector(".sp-note");
+  box.innerHTML='<label>შენახულებიდან: <select><option value="">აირჩიე ადამიანი…</option>'+ACCT.people.map(p=>'<option value="'+p.id+'"></option>').join("")+'</select></label>'+
+    '<button type="button">ამ ადამიანის შენახვა</button><span class="sp-note" aria-live="polite"></span>';
+  const sel=box.querySelector("select"),inp={get value(){return F.name()},set value(v){F.setName(v)},focus(){}},btn=box.querySelector("button"),note=box.querySelector(".sp-note");
   [...sel.options].slice(1).forEach((o,i)=>{o.textContent=ACCT.people[i].name;});
   sel.addEventListener("change",()=>{const p=ACCT.people.find(x=>x.id===sel.value);if(p){F.set(personToSet(p.data));inp.value=p.name;note.textContent="";}});
-  btn.addEventListener("click",async()=>{const nm=inp.value.trim();if(!nm){note.textContent="ჩაწერე სახელი.";inp.focus();return}
-    const d=personFromForm(F);if(!d){note.textContent="ჯერ B-ს მონაცემები სწორად შეავსე.";return}
+  btn.addEventListener("click",async()=>{const nm=inp.value.trim();if(!nm){note.textContent="ჯერ ზემოთ სახელი ჩაწერე.";return}
+    const d=personFromForm(F);if(!d){note.textContent="ჯერ მონაცემები სწორად შეავსე.";return}
     btn.disabled=true;const ex=ACCT.people.find(x=>x.name===nm);
     const q=ex?ACCT.sb.from("people").update({data:d,updated_at:new Date().toISOString()}).eq("id",ex.id).select().single():ACCT.sb.from("people").insert({name:nm,data:d}).select().single();
     const {data,error}=await q;btn.disabled=false;

@@ -679,6 +679,18 @@ html{scroll-behavior:smooth}
 .afoot .btn{padding:8px 18px;font-size:.9rem;min-height:0}
 .alinks a,.alinks .linkbtn{text-decoration:none}
 .alinks a:hover,.alinks .linkbtn:hover{text-decoration:underline}
+.rex{color:var(--muted);line-height:1.6;max-width:68ch;margin:0 0 14px!important;padding:10px 14px;border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 6%,transparent);border-radius:0 10px 10px 0}
+.rex b{color:var(--fg)}
+.rsec .pih{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;row-gap:2px;align-items:baseline}
+.rsec .pih .prole{grid-column:2;font-size:.8rem;margin:0}
+.techmore{margin-top:8px;border:1px solid var(--line);border-radius:16px;padding:14px 18px;background:color-mix(in srgb,var(--surface) 60%,transparent)}
+.techmore>summary{cursor:pointer;list-style:none;display:flex;flex-direction:column;gap:2px}
+.techmore>summary::-webkit-details-marker{display:none}
+.techmore>summary b::before{content:"▸ ";color:var(--accent)}
+.techmore[open]>summary b::before{content:"▾ "}
+.techmore>summary .muted{font-size:.85rem}
+.techmore[open]>summary{margin-bottom:14px}
+.techmore>.panel{margin-top:14px}
 </style>
 
 <div class="wrap">
@@ -866,6 +878,8 @@ html{scroll-behavior:smooth}
       <nav class="toc" id="rpToc" aria-label="ანგარიშის ნაწილები"></nav>
       <div class="report" id="rpBody"></div>
     </div>
+    <details class="techmore">
+      <summary><b>დეტალური მონაცემები</b><span class="muted">გრადუსები, ასპექტები და ტექნიკური ცხრილები ასტროლოგიის მცოდნეთათვის</span></summary>
     <div class="panel">
       <h3 style="margin-bottom:12px">პლანეტები ნიშნებსა და სახლებში</h3>
       <div class="tbl"><table id="nTable"></table></div>
@@ -876,6 +890,7 @@ html{scroll-behavior:smooth}
       <p class="note" style="margin-top:12px">სახლები: <span class="hsname">პლაციდუსი</span>. ორბისი: შეერთება და ოპოზიცია 8°, ტრიგონი და კვადრატი 7°, სექსტილი 5°.</p>
     </div>
     <div class="nmore" id="nMore"></div>
+    </details>
       </div>
       <aside class="side" aria-label="რუკა">
         <div class="sidecard">
@@ -6515,7 +6530,9 @@ function meanNode(d){const T=(d.getTime()/864e5+2440587.5-2451545)/36525;return 
 const hNum=n=>n===1?"1-⁠ლი":"მე-⁠"+n;const hOrd=n=>hNum(n)+" სახლი";const hLoc=n=>(n===1?"1-⁠ელ":"მე-⁠"+n)+" სახლში";
 function buildReport(ps,an,f,moonAlt){
   const unk=!an,body=$("rpBody"),sec=[],toc=[];
-  const add=(id,t,h)=>{toc.push([id,t]);sec.push('<article class="panel rsec" id="rp-'+id+'"><h3>'+t+'</h3>'+h+'</article>');};
+  const add=(id,t,h,ex)=>{toc.push([id,t]);sec.push('<article class="panel rsec" id="rp-'+id+'"><h3>'+t+'</h3>'+(ex?'<p class="rex">'+ex+'</p>':'')+h+'</article>');};
+  const PROLE={Sun:"შენი არსი",Moon:"გრძნობები და შინაგანი სიმშვიდე",Mercury:"აზროვნება და საუბარი",Venus:"სიყვარული და გემოვნება",Mars:"მოქმედება და ბრაზი",Jupiter:"იღბალი და ზრდა",Saturn:"მოვალეობა და შიშები",Uranus:"თავისუფლება და მოულოდნელი ცვლილებები",Neptune:"ოცნება და ინტუიცია",Pluto:"შინაგანი ძალა და დიდი ცვლილებები",Chiron:"ტკივილი და განკურნება"};
+  const sph=i=>HOUSE_M[i].split(",")[0];
   const sg=l=>S[sIdx(l)],P=k=>ps.find(p=>p.k===k);
   const house=l=>an?houseIdx(l,an.cusps):null;
   const pts=ps.filter(p=>!(moonAlt&&p.k==="Moon")).map(p=>({...p}));
@@ -6523,24 +6540,23 @@ function buildReport(ps,an,f,moonAlt){
   $("rpTitle").textContent="რას ნიშნავს შენი რუკა";
   $("rpSub").textContent=unk?"დაბადების დრო უცნობია, ამიტომ ანგარიში შეზღუდულია: ასცენდენტის, სახლებისა და რუკის მმართველის გარეშე. დაზუსტების კითხვარის გავლის შემდეგ ანგარიში სრული გახდება.":(f.p==="approx"?"დაბადების დრო მიახლოებითია. ასცენდენტი და სახლების საზღვრები შეიძლება ოდნავ განსხვავდებოდეს.":"ანგარიში აგებულია ზუსტი დაბადების დროით.")+" "+f.pl.name+".";
   /* 1. big three */
-  const card=(t,k,l,txt)=>{const s=sg(l);return '<div class="b3"><div class="b3h"><span class="glyph el-'+s.el+'">'+gl(s)+'</span><div><small>'+t+'</small><b>'+s.ka+'</b><small class="num">'+deg(l)+(an&&k!=="ASC"?' · '+hOrd(house(l)):'')+'</small></div></div><p>'+txt+'</p>'+
-    '<dl class="facts"><div><dt>სტიქია</dt><dd class="el-'+s.el+'">'+EL[s.el]+'</dd></div><div><dt>მოდალობა</dt><dd>'+s.mod+'</dd></div><div><dt>მმართველი</dt><dd>'+s.pl+'</dd></div><div><dt>ქვა</dt><dd>'+s.stone+'</dd></div></dl>'+
+  const card=(t,k,l,txt)=>{const s=sg(l);return '<div class="b3"><div class="b3h"><span class="glyph el-'+s.el+'">'+gl(s)+'</span><div><small>'+t+'</small><b>'+s.ka+'</b></div></div><p>'+txt+'</p>'+
     '<p class="note">ძლიერი მხარეები: '+s.s.join(", ")+'. გასათვალისწინებელი: '+s.w.join(", ")+'.</p></div>';};
   let b3=card("მზე: შენი არსი","Sun",P("Sun").lon,RT.Sun[sIdx(P("Sun").lon)]);
   b3+=moonAlt?'<div class="b3"><div class="b3h"><span class="glyph">☽︎</span><div><small>მთვარე: ემოციები</small><b>'+S[moonAlt[0]].ka+' ან '+S[moonAlt[1]].ka+'</b></div></div><p>'+RT.Moon[moonAlt[0]]+'</p><p>ან: '+RT.Moon[moonAlt[1]]+'</p><p class="note">დაბადების დღეს მთვარემ ნიშანი შეიცვალა. რომელი უფრო გგავს?</p></div>':card("მთვარე: ემოციები","Moon",P("Moon").lon,RT.Moon[sIdx(P("Moon").lon)]);
   b3+=an?card("ასცენდენტი: როგორ გხედავენ","ASC",an.asc,RT.ASC[sIdx(an.asc)]):'<div class="b3"><div class="b3h"><span class="glyph">?</span><div><small>ასცენდენტი</small><b>უცნობია</b></div></div><p>ასცენდენტის დასადგენად საჭიროა დაბადების დრო. გაიარე <a href="#ascendant">დაზუსტების კითხვარი</a>.</p></div>';
-  add("big3","დიდი სამეული: მზე, მთვარე, ასცენდენტი",'<div class="b3grid">'+b3+'</div>');
+  add("big3","დიდი სამეული: მზე, მთვარე, ასცენდენტი",'<div class="b3grid">'+b3+'</div>',"რუკაში სამი რამ ყველაზე მეტს ამბობს შენზე. <b>მზე</b> გვიჩვენებს, ვინ ხარ სიღრმეში. <b>მთვარე</b> იმას, რას გრძნობ და რა გჭირდება სიმშვიდისთვის. <b>ასცენდენტი</b> კი იმას, როგორ გხედავენ სხვები პირველივე შეხვედრაზე.");
   /* 2. elements & modalities */
   const ec={fire:0,earth:0,air:0,water:0},mc={};
   pts.forEach(p=>{const s=sg(p.lon),w=W[p.k]||1;ec[s.el]+=w;mc[s.mod]=(mc[s.mod]||0)+w;});
   const tot=Object.values(ec).reduce((a,b)=>a+b,0);
   const eS=Object.entries(ec).sort((a,b)=>b[1]-a[1]),mS=Object.entries(mc).sort((a,b)=>b[1]-a[1]);
   const lack=eS.filter(x=>x[1]/tot<.1);
-  add("balance","სტიქიებისა და მოდალობების ბალანსი",
+  add("balance","ოთხი სტიქია: ცეცხლი, მიწა, ჰაერი, წყალი",
    '<div class="bal">'+eS.map(([e,v])=>'<div class="cat"><div class="catl"><span class="el-'+e+'">'+EL[e]+'</span><b>'+Math.round(v/tot*100)+'%</b></div><div class="bar"><i style="width:'+Math.round(v/tot*100)+'%;background:var(--'+e+')"></i></div></div>').join("")+'</div>'+
-   '<p><b>დომინანტი სტიქია: '+EL[eS[0][0]]+'.</b> შენს რუკაში ყველაზე ძლიერია '+ELT[eS[0][0]]+'.</p>'+
-   (lack.length?'<p><b>ნაკლებად წარმოდგენილი: '+lack.map(x=>EL[x[0]]).join(", ")+'.</b> '+lack.map(x=>ELT[x[0]]).join("; ")+' შეიძლება შეგნებულად განსავითარებელი იყოს.</p>':'<p>სტიქიები შედარებით თანაბრადაა განაწილებული, რაც მრავალმხრივ ბუნებაზე მიუთითებს.</p>')+
-   '<p><b>დომინანტი მოდალობა: '+mS[0][0]+'.</b> '+MODT[mS[0][0]]+'</p><p class="note">წონები: მზე, მთვარე, ასცენდენტი 3; მერკური, ვენერა, მარსი 2; იუპიტერი, სატურნი 1; ურანი, ნეპტუნი, პლუტონი 0,5.</p>');
+   '<p><b>შენში ყველაზე ძლიერია '+EL[eS[0][0]].toLowerCase()+'.</b> ეს ნიშნავს, რომ ხასიათში მეტად ჩანს '+ELT[eS[0][0]]+'.</p>'+
+   (lack.length?'<p><b>ნაკლებად გაქვს: '+lack.map(x=>EL[x[0]]).join(", ")+'.</b> '+lack.map(x=>ELT[x[0]]).join("; ")+' შეიძლება შეგნებულად განსავითარებელი იყოს.</p>':'<p>სტიქიები შედარებით თანაბრადაა განაწილებული, რაც მრავალმხრივ ბუნებაზე მიუთითებს.</p>')+
+   '<p><b>როგორ მოქმედებ:</b> '+MODT[mS[0][0]]+'</p>',"ზოდიაქოს ყველა ნიშანი ერთ-ერთ სტიქიას ეკუთვნის. რომელ სტიქიაში მეტი პლანეტა გაქვს, მისი თვისებები შენს ხასიათში უფრო ძლიერად ჩანს.");
   /* 3. chart ruler & dominant planet */
   const asp=aspects(pts);
   const score={};ps.forEach(p=>{let s=0;const si=sIdx(p.lon);
@@ -6549,36 +6565,36 @@ function buildReport(ps,an,f,moonAlt){
     if(an&&RULER[sIdx(an.asc)]===p.k)s+=3;
     s+=asp.filter(x=>x.p.k===p.k||x.q.k===p.k).length*.5;score[p.k]=s;});
   const dom=Object.entries(score).sort((a,b)=>b[1]-a[1])[0][0],domP=P(dom);
-  let rh='<p><b>დომინანტი პლანეტა: '+domP.ka+' '+domP.g+VS+'.</b> '+(PD[domP.k]||'')+' ის '+LOC[sIdx(domP.lon)]+'ა'+(an?', '+hLoc(house(domP.lon)):'')+'.</p>';
+  let rh='<p><b>ყველაზე ძლიერი პლანეტა: '+domP.ka+' '+domP.g+VS+'</b> ('+PROLE[domP.k]+'). '+(PD[domP.k]||'')+'</p>';
   if(an){const rk=RULER[sIdx(an.asc)],rp=P(rk);
-    rh='<p><b>რუკის მმართველი: '+rp.ka+' '+rp.g+VS+'.</b> ასცენდენტი '+LOC[sIdx(an.asc)]+'ა, ამიტომ შენი რუკის „კაპიტანი“ '+rp.ka+'ა. ის '+LOC[sIdx(rp.lon)]+' და '+hLoc(house(rp.lon))+'ა: ცხოვრების მთავარი მიმართულება ხშირად იკვეთება '+HL[house(rp.lon)-1]+'.</p>'+rh;}
-  add("ruler","რუკის მმართველი და დომინანტი პლანეტა",rh);
+    rh='<p><b>შენი რუკის „კაპიტანი“: '+rp.ka+' '+rp.g+VS+'</b> ('+PROLE[rp.k]+'). ის შენს ასცენდენტს მართავს, ამიტომ ცხოვრების მთავარ მიმართულებას აძლევს. ეს მიმართულება ყველაზე ხშირად ჩანს '+HL[house(rp.lon)-1]+'.</p>'+rh;}
+  add("ruler","რომელი პლანეტა წარმართავს შენს რუკას",rh,"ყველა რუკაში არის ერთი-ორი პლანეტა, რომელიც სხვებზე ძლიერია. მისი თვისებები შენში ყველაზე მეტად ჩანს.");
   /* 4. planets in signs */
-  add("planets","პლანეტები ნიშნებში",'<div class="plist">'+ps.map(p=>{if(p.k==="Moon"&&moonAlt)return "";const si=sIdx(p.lon),s=S[si];
+  add("planets","პლანეტები: შენი ხასიათის ნაწილები",'<div class="plist">'+ps.map(p=>{if(p.k==="Moon"&&moonAlt)return "";const si=sIdx(p.lon),s=S[si];
     const txt=RT[p.k]?RT[p.k][si]:RT2[p.k]?RT2[p.k][si]+(["Uranus","Neptune","Pluto"].includes(p.k)?' <span class="muted">ეს ნელი პლანეტაა, რომელიც ერთ ნიშანში წლობით რჩება, ამიტომ პირად ხასიათზე მეტად შენს თაობას აღწერს.</span>':""):p.k==="Chiron"?CHT[si]:"";
-    return '<div class="pitem"><div class="pih"><span class="glyph pg">'+p.g+VS+'</span><b>'+p.ka+' '+LOC[si]+'</b><span class="num muted">'+deg(p.lon)+(p.retro?' R':'')+'</span></div><p>'+txt+(p.retro?' <span class="muted">რეტროგრადული: ეს თვისებები ჯერ შინაგანად მწიფდება და სხვებისთვის მოგვიანებით ხდება შესამჩნევი.</span>':'')+'</p></div>';}).join("")+'</div>');
+    return '<div class="pitem"><div class="pih"><span class="glyph pg">'+p.g+VS+'</span><b>'+p.ka+' '+LOC[si]+'</b><span class="muted prole">'+(PROLE[p.k]||'')+'</span></div><p>'+txt+(p.retro?' <span class="muted">რეტროგრადული: ეს თვისებები ჯერ შინაგანად მწიფდება და სხვებისთვის მოგვიანებით ხდება შესამჩნევი.</span>':'')+'</p></div>';}).join("")+'</div>',"ყოველი პლანეტა ხასიათის ერთ მხარეს აღწერს: მაგალითად, ვენერა სიყვარულს, მარსი მოქმედებას. ნიშანი კი გვიჩვენებს, როგორია ეს მხარე შენთან.");
   /* 5. planets in houses + house cusps */
   if(an){
-    add("houses","პლანეტები სახლებში",'<div class="plist">'+ps.map(p=>{const h=house(p.lon);return '<div class="pitem"><div class="pih"><span class="glyph pg">'+p.g+VS+'</span><b>'+p.ka+' · '+hOrd(h)+'</b></div><p>'+(PHS[p.k]?PHS[p.k][h-1]:'')+'</p></div>';}).join("")+'</div>');
+    add("houses","ცხოვრების რომელ სფეროში მუშაობს თითოეული პლანეტა",'<div class="plist">'+ps.map(p=>{const h=house(p.lon);return '<div class="pitem"><div class="pih"><span class="glyph pg">'+p.g+VS+'</span><b>'+p.ka+': '+sph(h-1).toLowerCase()+'</b><span class="muted prole">'+hOrd(h)+'</span></div><p>'+(PHS[p.k]?PHS[p.k][h-1]:'')+'</p></div>';}).join("")+'</div>',"რუკა 12 ნაწილად იყოფა და თითოეული ცხოვრების ერთ სფეროს ეკუთვნის: საკუთარი თავი, ფული, ოჯახი, სიყვარული, სამსახური და ა.შ. ასტროლოგიაში ამ ნაწილებს <b>სახლებს</b> ვუწოდებთ. სადაც პლანეტაა, ის სფერო შენს ცხოვრებაში განსაკუთრებით მნიშვნელოვანია.");
     const occ=Array(12).fill(0).map((_,i)=>ps.filter(p=>house(p.lon)===i+1));
-    add("cusps","12 სახლი და მათი ნიშნები",'<div class="tbl"><table><thead><tr><th>სახლი</th><th>სფერო</th><th>ნიშანი</th><th>როგორ იქცევი ამ სფეროში</th><th>პლანეტები</th></tr></thead><tbody>'+
-      Array.from({length:12},(_,i)=>{const c=an.cusps[i],s=sIdx(c);return '<tr><td class="num">'+(i+1)+'</td><td>'+HOUSE_M[i]+'</td><td><span class="glyph el-'+S[s].el+'">'+gl(S[s])+'</span> '+S[s].ka+'</td><td class="muted">'+HQ[i]+' '+SA[s]+'.</td><td>'+(occ[i].length?occ[i].map(p=>'<span class="glyph" title="'+p.ka+'">'+p.g+VS+'</span>').join(" "):'<span class="muted">—</span>')+'</td></tr>';}).join("")+'</tbody></table></div><p class="note" style="margin-top:10px">ცარიელი სახლი არ ნიშნავს, რომ ეს სფერო მნიშვნელოვანი არ არის: მას მართავს სახლის ნიშნის მმართველი პლანეტა.</p>');
+    add("cusps","როგორ იქცევი ცხოვრების თითოეულ სფეროში",'<div class="tbl"><table><thead><tr><th>სახლი</th><th>სფერო</th><th>ნიშანი</th><th>რას ნიშნავს</th><th>პლანეტები</th></tr></thead><tbody>'+
+      Array.from({length:12},(_,i)=>{const c=an.cusps[i],s=sIdx(c);return '<tr><td class="num">'+(i+1)+'</td><td>'+HOUSE_M[i]+'</td><td><span class="glyph el-'+S[s].el+'">'+gl(S[s])+'</span> '+S[s].ka+'</td><td class="muted">'+HQ[i]+' '+SA[s]+'.</td><td>'+(occ[i].length?occ[i].map(p=>'<span class="glyph" title="'+p.ka+'">'+p.g+VS+'</span>').join(" "):'<span class="muted">—</span>')+'</td></tr>';}).join("")+'</tbody></table></div><p class="note" style="margin-top:10px">ცარიელი სახლი არ ნიშნავს, რომ ეს სფერო მნიშვნელოვანი არ არის. უბრალოდ, მასში შენი ხასიათი უფრო მშვიდად და ბუნებრივად მოქმედებს.</p>',"ყოველ სფეროს თავისი ნიშანი აქვს და ის გვიჩვენებს, როგორ იქცევი ამ სფეროში. მაგალითად, შენი 1-⁠ლი სახლი, ანუ ის, როგორ წარუდგენ თავს სხვებს, "+LOC[sIdx(an.cusps[0])]+"ა. ამიტომ ამ სფეროში ასე იქცევი: "+SA[sIdx(an.cusps[0])]+".");
   }
   /* 6. aspects */
   const toneN=(A,a,b)=>A.a===0?a+" და "+b+" ერთმანეთს ერწყმის: ერთი ყოველთვის მეორეს ააქტიურებს, ამიტომ ეს შენი ხასიათის ძლიერი და თვალსაჩინო ნაწილია.":A.t==="good"?a+" და "+b+" ერთმანეთს ეხმარება: ეს ბუნებრივი ნიჭია, რომელიც დიდი ძალისხმევის გარეშე მუშაობს.":A.t==="hard"?a+" და "+b+" ერთმანეთს ეწინააღმდეგება: ხშირად გრძნობ, რომ ერთი მეორეს ხელს უშლის. როცა ამ დაძაბულობას აცნობიერებ, ის მოქმედების ძალად იქცევა.":a+" და "+b+" ერთმანეთს ძნელად ერგება: ერთმანეთს გამუდმებით მორგება სჭირდებათ.";
-  add("aspects","ასპექტები შენს რუკაში",asp.length?'<div class="aspl">'+asp.slice(0,20).map(x=>'<div class="aspi '+(x.A.t||"")+'"><div class="asph"><span><span class="glyph">'+(x.p.k==="ASC"?"AC":x.p.g+VS)+'</span> '+x.p.ka+'</span><span class="ag"><span class="glyph">'+x.A.g+VS+'</span> '+x.A.n+'</span><span><span class="glyph">'+(x.q.k==="ASC"?"AC":x.q.g+VS)+'</span> '+x.q.ka+'</span><span class="num muted">'+x.orb.toFixed(1)+'°</span></div><p>'+toneN(x.A,PN[x.p.k]||x.p.ka,(PN[x.q.k]||x.q.ka).replace(/^შენი /,""))+'</p></div>').join("")+'</div>':'<p class="muted">ძირითადი ასპექტები ვერ მოიძებნა.</p>');
+  add("aspects","როგორ მოქმედებენ პლანეტები ერთმანეთზე",asp.length?'<div class="aspl">'+asp.slice(0,12).map(x=>'<div class="aspi '+(x.A.t||"")+'"><div class="asph"><span><span class="glyph">'+(x.p.k==="ASC"?"AC":x.p.g+VS)+'</span> '+x.p.ka+'</span><span class="ag"><span class="glyph">'+x.A.g+VS+'</span> '+x.A.n+'</span><span><span class="glyph">'+(x.q.k==="ASC"?"AC":x.q.g+VS)+'</span> '+x.q.ka+'</span></div><p>'+toneN(x.A,PN[x.p.k]||x.p.ka,(PN[x.q.k]||x.q.ka).replace(/^შენი /,""))+'</p></div>').join("")+'</div>':'<p class="muted">ძირითადი ასპექტები ვერ მოიძებნა.</p>',"როცა ორი პლანეტა რუკაში განსაკუთრებულ კუთხეს ქმნის, ხასიათის ეს ორი მხარე ერთმანეთზე მოქმედებს. ზოგჯერ ერთმანეთს ეხმარება, ზოგჯერ ეწინააღმდეგება. ქვემოთ ყველაზე ძლიერი კავშირებია. ასტროლოგიაში მათ <b>ასპექტებს</b> ვუწოდებთ.");
   /* 7. moon phase & nodes */
   const bd=toUTC(f.Y,f.M,f.D,unk?720:f.mins,f.pl).d,ph=norm(P("Moon").lon-P("Sun").lon),pi=Math.floor(norm(ph+22.5)/45)%8;
   const nn=trueNode(bd),sn=norm(nn+180);
   {const bd0=toUTC(f.Y,f.M,f.D,unk?720:f.mins,f.pl).d,lil=meanLilith(bd0),fo=an?fortuneOf(an.asc,P("Sun").lon,P("Moon").lon,an.cusps):null,ch=P("Chiron");
-   add("points","ქირონი, ლილიტი და ბედის წერტილი",'<div class="b3grid">'+
-    (ch?'<div class="b3"><div class="b3h"><span class="glyph">⚷︎</span><div><small>ქირონი: ჭრილობა და განკურნება</small><b>'+sg(ch.lon).ka+(an?' · '+hOrd(house(ch.lon)):'')+'</b><small class="num">'+deg(ch.lon)+(ch.retro?' R':'')+'</small></div></div><p>'+CHT[sIdx(ch.lon)]+'</p>'+(an?'<p class="note">ამ ტკივილს ყველაზე ხშირად '+HL[house(ch.lon)-1]+' იგრძნობ.</p>':'')+'</div>':'')+
-    '<div class="b3"><div class="b3h"><span class="glyph">⚸︎</span><div><small>ლილიტი (შავი მთვარე, საშუალო)</small><b>'+sg(lil).ka+(an?' · '+hOrd(house(lil)):'')+'</b><small class="num">'+deg(lil)+'</small></div></div><p>'+LIT[sIdx(lil)]+'</p>'+(an?'<p class="note">ყველაზე ხშირად ამას '+HL[house(lil)-1]+' იგრძნობ.</p>':'')+'</div>'+
-    (fo?'<div class="b3"><div class="b3h"><span class="glyph">⊗</span><div><small>ბედის წერტილი ('+(fo.day?'დღის':'ღამის')+' ფორმულა)</small><b>'+sg(fo.lon).ka+' · '+hOrd(house(fo.lon))+'</b><small class="num">'+deg(fo.lon)+'</small></div></div><p>წარმატებასა და კმაყოფილებას ყველაზე ადვილად პოულობ '+HL[house(fo.lon)-1]+'. ამ ნიშნის მიხედვით, ამას ყველაზე ადვილად ასე აღწევ: '+SA[sIdx(fo.lon)]+'.</p></div>':'<div class="b3"><div class="b3h"><span class="glyph">⊗</span><div><small>ბედის წერტილი</small><b>უცნობია</b></div></div><p>ბედის წერტილისთვის ასცენდენტია საჭირო, ანუ დაბადების დრო.</p></div>')+'</div>');}
-  add("karma","დაბადების მთვარის ფაზა და მთვარის კვანძები",
-   '<div class="b3grid two"><div class="b3"><div class="b3h"><span class="glyph" style="width:44px;height:44px">'+moonSvg(ph)+'</span><div><small>მთვარის ფაზა დაბადებისას</small><b>'+PH[pi]+'</b><small class="num">'+Math.round(ph)+'°'+(unk?' · მიახლოებით':'')+'</small></div></div><p>'+PHT[pi]+'</p></div>'+
-   '<div class="b3"><div class="b3h"><span class="glyph">☊︎</span><div><small>ჩრდილოეთი კვანძი: ცხოვრების მიმართულება</small><b>'+sg(nn).ka+(an?' · '+hOrd(house(nn)):'')+'</b><small class="num">'+deg(nn)+'</small></div></div><p>შენი ცხოვრების გაკვეთილია, '+NNT[sIdx(nn)]+(an?' ყველაზე მეტად '+HL[house(nn)-1]+' გაიზრდები.':'')+'</p>'+
-   '<p class="note">სამხრეთი კვანძი '+LOC[sIdx(sn)]+(an?', '+hLoc(house(sn)):'')+': ეს არის ის, რაც ბუნებრივად გამოგდის, მაგრამ მასზე ზედმეტად დაყრდნობა ზრდას აფერხებს.</p></div></div>');
+   add("points","ტკივილი, ფარული მხარე და იღბალი",'<div class="b3grid">'+
+    (ch?'<div class="b3"><div class="b3h"><span class="glyph">⚷︎</span><div><small>ქირონი: სად გტკივა</small><b>'+sg(ch.lon).ka+'</b></div></div><p>'+CHT[sIdx(ch.lon)]+'</p>'+(an?'<p class="note">ამ ტკივილს ყველაზე ხშირად '+HL[house(ch.lon)-1]+' იგრძნობ.</p>':'')+'</div>':'')+
+    '<div class="b3"><div class="b3h"><span class="glyph">⚸︎</span><div><small>ლილიტი: რასაც მალავ</small><b>'+sg(lil).ka+'</b></div></div><p>'+LIT[sIdx(lil)]+'</p>'+(an?'<p class="note">ყველაზე ხშირად ამას '+HL[house(lil)-1]+' იგრძნობ.</p>':'')+'</div>'+
+    (fo?'<div class="b3"><div class="b3h"><span class="glyph">⊗</span><div><small>ბედის წერტილი: სად გიმართლებს</small><b>'+sg(fo.lon).ka+'</b></div></div><p>წარმატებასა და კმაყოფილებას ყველაზე ადვილად პოულობ '+HL[house(fo.lon)-1]+'. ამ ნიშნის მიხედვით, ამას ყველაზე ადვილად ასე აღწევ: '+SA[sIdx(fo.lon)]+'.</p></div>':'<div class="b3"><div class="b3h"><span class="glyph">⊗</span><div><small>ბედის წერტილი</small><b>უცნობია</b></div></div><p>ბედის წერტილისთვის ასცენდენტია საჭირო, ანუ დაბადების დრო.</p></div>')+'</div>',"ეს რუკის სამი განსაკუთრებული წერტილია. <b>ქირონი</b> გვიჩვენებს, სად გტკივა ყველაზე მეტად და როგორ შეგიძლია სწორედ ამით სხვებს დაეხმარო. <b>ლილიტი</b> იმას, რასაც ხშირად მალავ. <b>ბედის წერტილი</b> კი იმას, სად გიმართლებს ყველაზე ადვილად.");}
+  add("karma","შენი ცხოვრების გზა",
+   '<div class="b3grid two"><div class="b3"><div class="b3h"><span class="glyph" style="width:44px;height:44px">'+moonSvg(ph)+'</span><div><small>მთვარის ფაზა დაბადებისას</small><b>'+PH[pi]+'</b><small>'+(unk?'მიახლოებით':'')+'</small></div></div><p>'+PHT[pi]+'</p></div>'+
+   '<div class="b3"><div class="b3h"><span class="glyph">☊︎</span><div><small>საით უნდა გაიზარდო (ჩრდილოეთი კვანძი)</small><b>'+sg(nn).ka+'</b></div></div><p>შენი ცხოვრების გაკვეთილია, '+NNT[sIdx(nn)]+(an?' ყველაზე მეტად '+HL[house(nn)-1]+' გაიზრდები.':'')+'</p>'+
+   '<p class="note">რაც უკვე ბუნებრივად გამოგდის (სამხრეთი კვანძი), '+LOC[sIdx(sn)]+'ა. მასზე ზედმეტად დაყრდნობა წინსვლას გიშლის.</p></div></div>',"მთვარის ფაზა, რომელშიც დაიბადე, შენს ბუნებრივ რიტმს აღწერს. მთვარის კვანძები კი გვიჩვენებს, საით უნდა გაიზარდო ამ ცხოვრებაში და რა უნდა დატოვო უკან.");
   $("rpToc").innerHTML=toc.map(([id,t])=>'<button type="button" class="chip" data-t="rp-'+id+'">'+t.split(":")[0]+'</button>').join("");
   body.innerHTML=sec.join("");
 }

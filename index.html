@@ -756,7 +756,8 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
 .ast{font-size:.78rem;padding:2px 9px;border-radius:999px;border:1px solid var(--line)}.ast.paid{color:var(--earth);border-color:var(--earth)}.ast.refunded{color:var(--fire);border-color:var(--fire)}
 .aprod input[type=number]{width:7em}.aprod .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
 .aform{display:flex;flex-direction:column;gap:12px;align-items:flex-start}.aform label{display:flex;flex-direction:column;gap:4px;font-size:.9rem}.aform label.pill{flex-direction:row}
-.ahrow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}.ahrow h3{margin:0}.ahrow input{max-width:260px}.ausers{max-height:520px;overflow:auto}
+.amk{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;color:var(--muted);cursor:pointer}.amk input{margin-top:4px}
+.ahrow .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.ahrow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}.ahrow h3{margin:0}.ahrow input{max-width:260px}.ausers{max-height:520px;overflow:auto}
 .ain{display:flex;align-items:center;gap:6px}.ain input{width:6em}
 </style>
 
@@ -7421,7 +7422,7 @@ window.addEventListener("hashchange",route);
 PW.init();updWin();runSyn();runRetro();route();
 
 /* ---------- accounts: Supabase auth + saved people (public site only) ---------- */
-const ACCT={sb:null,user:null,self:null,people:[]};window.ACCT_USER=()=>ACCT.user;
+const ACCT={sb:null,user:null,self:null,people:[],mk:false};window.ACCT_USER=()=>ACCT.user;
 const PFX=d=>{if(!d)return"";const pl=d.cn||(d.man?(+d.man[0]).toFixed(2)+"°, "+(+d.man[1]).toFixed(2)+"°":"");return d.D+" "+MONTHS[d.M-1]+" "+d.Y+(d.unknown?"":", "+pad(+d.H)+":"+pad(+d.Mi))+(pl?", "+pl:"");};
 function personFromForm(F){const r=F.read();if(r.err)return null;const man=r.pl.off!==undefined;
   return {D:r.D,M:r.M,Y:r.Y,H:Math.floor(r.mins/60),Mi:r.mins%60,unknown:!!r.unknown,cn:man?"":r.pl.name,man:man?[r.pl.lat,r.pl.lo]:null};}
@@ -7441,7 +7442,7 @@ function renderAcctBox(msg){const el=$("acctBody");
     el.innerHTML='<h3 id="acctT">'+(fg?'პაროლის აღდგენა':reg?'რეგისტრაცია':'შესვლა')+'</h3>'+
     (fg?'':'<div class="atabs" role="tablist"><button type="button" role="tab" aria-selected="'+!reg+'" data-m="in">შესვლა</button><button type="button" role="tab" aria-selected="'+reg+'" data-m="reg">რეგისტრაცია</button></div>'+
       '<p class="note">'+(reg?'ანგარიშით შენი და შენი ახლობლების დაბადების მონაცემები და ასცენდენტის შედეგი ყველა მოწყობილობაზე შეინახება.':'შედი ანგარიშზე, რომ შენი მონაცემები ყველა მოწყობილობაზე გქონდეს.')+'</p>'+
-      '<button type="button" class="gbtn" id="acctG">'+GSVG+(reg?'Google-ით რეგისტრაცია':'Google-ით შესვლა')+'</button><div class="orline">ან ელფოსტით</div>')+
+      (reg?'<label class="amk"><input type="checkbox" id="acctMk"> მსურს ციალის სიახლეებისა და შეთავაზებების მიღება ელფოსტით</label>':'')+'<button type="button" class="gbtn" id="acctG">'+GSVG+(reg?'Google-ით რეგისტრაცია':'Google-ით შესვლა')+'</button><div class="orline">ან ელფოსტით</div>')+
     '<form id="acctF" style="display:flex;flex-direction:column;gap:10px"><label class="flabel" for="acctE">ელფოსტა</label><input type="email" id="acctE" required autocomplete="email" placeholder="name@example.com">'+
     (fg?'<p class="note">მიუთითე ელფოსტა და გამოგიგზავნით ბმულს, რომლითაც ახალ პაროლს დააყენებ.</p><button type="submit" class="primary">ბმულის გაგზავნა</button><button type="button" class="linkbtn" data-m="in">უკან, შესვლაზე</button>':
      '<label class="flabel" for="acctP">პაროლი</label><input type="password" id="acctP" required minlength="8" autocomplete="'+(reg?'new-password':'current-password')+'"'+(reg?' aria-describedby="acctPh"':'')+'>'+
@@ -7459,12 +7460,16 @@ function renderAcctBox(msg){const el=$("acctBody");
   el.innerHTML='<div class="ahead"><span class="aava" aria-hidden="true"></span><div><h3 id="acctT">ჩემი ანგარიში</h3><p class="amail"></p></div></div>'+
     '<section class="acard"><h4 class="ah">ჩემი მონაცემები</h4>'+selfHtml+'</section>'+
     '<section class="acard"><h4 class="ah">შენახული ადამიანები'+(ACCT.people.length?' <span class="acount">'+ACCT.people.length+'</span>':'')+'</h4>'+ppl+'</section>'+
+    '<section class="acard"><h4 class="ah">სიახლეები</h4><label class="amk"><input type="checkbox" id="acctMk2"'+(ACCT.mk?' checked':'')+'> მსურს ციალის სიახლეებისა და შეთავაზებების მიღება ელფოსტით</label><small class="muted" id="acctMkN" aria-live="polite">თანხმობის გაუქმება ნებისმიერ დროს შეგიძლია.</small></section>'+
     '<p class="note" id="acctMsg" aria-live="polite">'+(msg||'')+'</p>'+
     (ADM.ok?'<a class="btn primary" href="#admin" data-close style="align-self:flex-start">ადმინ პანელი</a>':'')+'<div class="afoot"><button type="button" class="btn ghost" id="acctOut">გასვლა</button><span class="alinks"><a href="privacy.html" target="_blank" rel="noopener">კონფიდენციალურობა</a><button type="button" id="acctDel" class="linkbtn adanger">ანგარიშის წაშლა</button></span></div>';
   el.querySelector(".amail").textContent=em;el.querySelector(".aava").textContent=(em[0]||"?").toUpperCase();
   el.querySelectorAll("[data-close]").forEach(a=>a.addEventListener("click",acctClose));
   el.querySelectorAll(".plist2 .pinit").forEach((n,i)=>{n.textContent=(ACCT.people[i].name||"?")[0];});
   el.querySelectorAll(".plist2 .pn").forEach((n,i)=>{n.textContent=ACCT.people[i].name;});
+  $("acctMk2").addEventListener("change",async e=>{const v=e.target.checked;e.target.disabled=true;
+    const {error}=await ACCT.sb.from("marketing_consents").upsert({user_id:ACCT.user.id,consent:v,updated_at:new Date().toISOString()});e.target.disabled=false;
+    if(error){e.target.checked=!v;$("acctMkN").textContent="ვერ შეინახა. სცადე თავიდან.";return}ACCT.mk=v;$("acctMkN").textContent=v?"შენახულია: სიახლეებს მიიღებ.":"შენახულია: სიახლეებს აღარ მიიღებ.";});
   $("acctOut").addEventListener("click",async()=>{await ACCT.sb.auth.signOut();acctClose();});
   $("acctDel").addEventListener("click",async e=>{const b=e.currentTarget;
     if(b.dataset.ok!=="1"){b.dataset.ok="1";b.textContent="დიახ, სამუდამოდ წაშალე ანგარიში და ყველა მონაცემი";$("acctMsg").textContent="ეს ქმედება შეუქცევადია. დასადასტურებლად კიდევ ერთხელ დააჭირე.";return}
@@ -7478,7 +7483,7 @@ function renderAcctBox(msg){const el=$("acctBody");
     if(error){renderAcctBox("ვერ წაიშალა. სცადე თავიდან.");return}ACCT.people=ACCT.people.filter(p=>p.id!==b.dataset.del);renderAcctBox();renderPick();}));
 }
 const acctBack=()=>{try{sessionStorage.setItem("zw_back",location.hash||"");}catch(e){}return location.origin+location.pathname;};
-async function acctGoogle(){const {error}=await ACCT.sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:acctBack()}});
+async function acctGoogle(){try{const m=$("acctMk");if(m&&m.checked)localStorage.setItem("tsiali_mk","1");}catch(e){}const {error}=await ACCT.sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:acctBack()}});
   if(error)renderAcctBox("Google-ით შესვლა ჯერ არ არის ჩართული. სცადე ელფოსტით.");}
 const AERR=e=>!e?"":e.status===429?"ძალიან ბევრი მცდელობაა. სცადე რამდენიმე წუთში.":/invalid login|invalid_credentials/i.test(e.message||e.code||"")?"ელფოსტა ან პაროლი არასწორია.":/not confirmed/i.test(e.message||"")?"ელფოსტა ჯერ დადასტურებული არ არის. გახსენი წერილი და დააჭირე ბმულს.":/already registered|already exists/i.test(e.message||"")?"ამ ელფოსტით ანგარიში უკვე არსებობს. შედი ან აღადგინე პაროლი.":/password/i.test(e.message||"")?"პაროლი ძალიან სუსტია. გამოიყენე მინიმუმ 8 სიმბოლო, ასოები და ციფრები.":"ვერ მოხერხდა. სცადე თავიდან.";
 async function acctSignIn(e){e.preventDefault();const btn=e.target.querySelector("button[type=submit]");btn.disabled=true;
@@ -7487,7 +7492,8 @@ async function acctSignIn(e){e.preventDefault();const btn=e.target.querySelector
 async function acctSignUp(e){e.preventDefault();const em=$("acctE").value.trim(),p1=$("acctP").value,p2=$("acctP2").value;
   if(p1!==p2){$("acctMsg").textContent="პაროლები არ ემთხვევა.";$("acctP2").focus();return}
   const btn=e.target.querySelector("button[type=submit]");btn.disabled=true;
-  const {data,error}=await ACCT.sb.auth.signUp({email:em,password:p1,options:{emailRedirectTo:acctBack()}});btn.disabled=false;
+  const mk=!!($("acctMk")&&$("acctMk").checked);try{if(mk)localStorage.setItem("tsiali_mk","1");}catch(e){}
+  const {data,error}=await ACCT.sb.auth.signUp({email:em,password:p1,options:{emailRedirectTo:acctBack(),data:{marketing:mk}}});btn.disabled=false;
   if(error){$("acctMsg").textContent=AERR(error);return}
   if(data&&data.user&&data.user.identities&&!data.user.identities.length){$("acctMsg").textContent=AERR({message:"already registered"});return}
   if(data&&data.session){ACCT.mode="in";acctClose();return}
@@ -7517,8 +7523,13 @@ async function acctLoad(){const {data,error}=await ACCT.sb.from("people").select
     else if(la&&(!ca||(la.at||0)>(ca.at||0)))window.__acctAsc();
     meApply(ACCT.self.data);try{updPrec();updTz();buildNatal(false);updWin();showMyAsc();window.__syncA&&window.__syncA(false);}catch(e){}}
   else await acctSaveSelf();
-  renderPick();if(!$("acctBox").hidden)renderAcctBox();PW.loadOwned();
+  renderPick();if(!$("acctBox").hidden)renderAcctBox();PW.loadOwned();mkLoad();
   admCheck().then(()=>{if(!$("acctBox").hidden)renderAcctBox();if(location.hash==="#admin")admOpen();});}
+async function mkLoad(){const {data}=await ACCT.sb.from("marketing_consents").select("consent").maybeSingle();
+  let pend=false;try{pend=localStorage.getItem("tsiali_mk")==="1";}catch(e){}
+  const meta=ACCT.user&&ACCT.user.user_metadata&&ACCT.user.user_metadata.marketing===true;
+  if(!data&&(pend||meta)){const r=await ACCT.sb.from("marketing_consents").insert({consent:true});ACCT.mk=!r.error;}else ACCT.mk=!!(data&&data.consent);
+  try{localStorage.removeItem("tsiali_mk");}catch(e){}if(!$("acctBox").hidden)renderAcctBox();}
 function renderPick(){document.querySelectorAll(".savedpick").forEach(box=>{
   if(!ACCT.user){box.hidden=true;box.innerHTML="";return}
   const F=box.dataset.for==="pB"?FB:FKB;box.hidden=false;
@@ -7580,15 +7591,18 @@ async function admOpen(){const el=$("admBody");if(!el)return;
     '<div class="akpis">'+kpi("მომხმარებლები",O.users_total,"+"+O.users_7d+" ბოლო 7 დღეში")+kpi("მყიდველები",O.buyers,O.users_total?Math.round(O.buyers/O.users_total*100)+"% მომხმარებლებიდან":"")+kpi("საშუალო ჩეკი",paid.length?PW.fmt(sum(paid)/paid.length):"—")+kpi("შენახული ადამიანები",O.people_saved,"პარტნიორები და ახლობლები")+'</div>'+
     '<div class="agrid"><section class="panel"><h3 class="ph3">შემოსავალი ბოლო 30 დღეში</h3>'+chart+'</section><section class="panel"><h3 class="ph3">რა იყიდება ყველაზე მეტად</h3>'+topHtml+'</section></div>'+
     '<section class="panel"><h3 class="ph3">ბოლო შესყიდვები</h3>'+recHtml+'</section>'+
-    '<section class="panel"><div class="ahrow"><h3 class="ph3">რეგისტრირებული მომხმარებლები <span class="acount">'+U.length+'</span></h3><input type="search" id="admQ" placeholder="ძებნა ელფოსტით…" aria-label="მომხმარებლის ძებნა ელფოსტით"></div>'+
-      (U.length?'<div class="tbl ausers"><table><thead><tr><th>ელფოსტა</th><th>რეგისტრაცია</th><th>ბოლო შესვლა</th><th>როგორ</th><th>შენახული ადამიანები</th><th>შესყიდვები</th></tr></thead><tbody id="admU"></tbody></table></div>':'<p class="aempty">ჯერ არავინ დარეგისტრირებულა.</p>')+'</section>'+
+    '<section class="panel"><div class="ahrow"><h3 class="ph3">რეგისტრირებული მომხმარებლები <span class="acount">'+U.length+'</span></h3><div class="row"><label class="pill"><input type="checkbox" id="admMk"> მხოლოდ სიახლეებზე თანხმობით ('+U.filter(u=>u.marketing).length+')</label><button type="button" class="btn ghost" id="admCopy">თანხმობიანი ელფოსტების კოპირება</button><input type="search" id="admQ" placeholder="ძებნა ელფოსტით…" aria-label="მომხმარებლის ძებნა ელფოსტით"></div></div><p class="note" id="admCopyN" aria-live="polite"></p>'+
+      (U.length?'<div class="tbl ausers"><table><thead><tr><th>ელფოსტა</th><th>რეგისტრაცია</th><th>ბოლო შესვლა</th><th>როგორ</th><th>სიახლეები</th><th>შენახული ადამიანები</th><th>შესყიდვები</th></tr></thead><tbody id="admU"></tbody></table></div>':'<p class="aempty">ჯერ არავინ დარეგისტრირებულა.</p>')+'</section>'+
     '<div class="agrid"><section class="panel"><h3 class="ph3">ფასები</h3>'+prodHtml+'</section><section class="panel"><h3 class="ph3">გახსნის ფასდაკლება</h3>'+promoHtml+'</section></div>'+
     '<p class="note">ახალი რეგისტრაციები ბოლო 30 დღეში: '+Object.values(sgn).reduce((a,b)=>a+b,0)+'. მონაცემები განახლდება გვერდის ხელახლა გახსნისას. <button type="button" class="linkbtn" id="admRe">ახლავე განახლება</button></p>';
   el.querySelectorAll("td.aem").forEach((td,i)=>{td.textContent=rec[i].email||"";});
   const fd=t=>admDT(t,true);
-  const drawU=q=>{const tb=$("admU");if(!tb)return;tb.innerHTML="";U.filter(u=>!q||(u.email||"").toLowerCase().includes(q)).forEach(u=>{const tr=document.createElement("tr");
-    [u.email||"—",fd(u.created_at),fd(u.last_sign_in_at),u.provider==="google"?"Google":"ელფოსტა"+(u.confirmed?"":" (დაუდასტურებელი)"),String(u.people),u.buys?u.buys+" · "+PW.fmt(u.spent):"—"].forEach((v,i)=>{const td=document.createElement("td");td.textContent=v;if(i===1||i===2)td.className="num";tr.appendChild(td);});tb.appendChild(tr);});};
-  drawU("");$("admQ").addEventListener("input",e=>drawU(e.target.value.trim().toLowerCase()));
+  const drawU=()=>{const tb=$("admU");if(!tb)return;const q=$("admQ").value.trim().toLowerCase(),om=$("admMk").checked;tb.innerHTML="";U.filter(u=>(!q||(u.email||"").toLowerCase().includes(q))&&(!om||u.marketing)).forEach(u=>{const tr=document.createElement("tr");
+    [u.email||"—",fd(u.created_at),fd(u.last_sign_in_at),u.provider==="google"?"Google":"ელფოსტა"+(u.confirmed?"":" (დაუდასტურებელი)"),u.marketing?"✓ თანახმაა":"—",String(u.people),u.buys?u.buys+" · "+PW.fmt(u.spent):"—"].forEach((v,i)=>{const td=document.createElement("td");td.textContent=v;if(i===1||i===2)td.className="num";tr.appendChild(td);});tb.appendChild(tr);});};
+  if($("admU")){drawU();$("admQ").addEventListener("input",drawU);$("admMk").addEventListener("change",drawU);
+  $("admCopy").addEventListener("click",()=>{const list=U.filter(u=>u.marketing&&u.email).map(u=>u.email).join(", ");const n=$("admCopyN");
+    if(!list){n.textContent="სიახლეებზე თანხმობით ჯერ არავინაა.";return}
+    navigator.clipboard.writeText(list).then(()=>{n.textContent=U.filter(u=>u.marketing).length+" ელფოსტა დაკოპირდა.";},()=>{n.textContent=list;});});}
   $("admRe").addEventListener("click",admOpen);
   $("admProd").addEventListener("submit",async e=>{e.preventDefault();const f=e.currentTarget,msg=f.querySelector(".note"),b=f.querySelector("button");b.disabled=true;msg.textContent="ინახება…";
     let bad=0;for(const p of pr.data){const np=Math.round(parseFloat(f["p_"+p.id].value)*100)/100,na=f["a_"+p.id].checked;

@@ -691,6 +691,10 @@ html{scroll-behavior:smooth}
 .techmore>summary .muted{font-size:.85rem}
 .techmore[open]>summary{margin-bottom:14px}
 .techmore>.panel{margin-top:14px}
+.ktag{display:inline-block;font-size:.76rem;padding:1px 8px;border-radius:99px;background:var(--surface);color:var(--muted);margin:0 4px}
+.ktag.good{color:#8fd19e;background:color-mix(in srgb,#8fd19e 14%,transparent)}
+.ktag.hard{color:var(--rose);background:color-mix(in srgb,var(--rose) 14%,transparent)}
+.ktag.one{color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent)}
 </style>
 
 <div class="wrap">
@@ -6361,9 +6365,9 @@ function synExtra(A,B){
   const ph=C=>norm(C.ps[1].lon-C.ps[0].lon),pa=ph(A),pb=ph(B),dd=sep(pa,pb);
   const txt=dd<=45?"ერთნაირი ან მეზობელი ფაზა: ცხოვრების რიტმი და ჩვევები მსგავსი გაქვთ. ერთმანეთს მარტივად უგებთ, მაგრამ ერთნაირ შეცდომებსაც უშვებთ.":dd>=135?"საპირისპირო ფაზები: ერთი „იწყებს“, მეორე „ასრულებს“. ერთმანეთს ავსებთ და ერთად უფრო მთლიანი ხართ, თუმცა განსხვავებულ ტემპზე უნდა შეთანხმდეთ.":"განსხვავებული, მაგრამ თავსებადი ფაზები: ცხოვრებას სხვადასხვა კუთხით უყურებთ, რაც ურთიერთობას საინტერესოს ხდის.";
   const unk=A.b.unknown||B.b.unknown;
-  return '<div class="panel syn-mid" id="s-pos"><div><h3 style="margin-bottom:12px">პლანეტების პოზიციები</h3>'+tbl+'</div>'+
-   '<div><h3 style="margin-bottom:12px">მთვარის ფაზების თავსებადობა</h3><div class="phases"><div><span class="ca">'+NM.A+'</span>'+moonSvg(pa)+'<b>'+phName(pa)+'</b><small class="num">'+Math.round(pa)+'°</small></div><div><span class="cb">'+NM.B+'</span>'+moonSvg(pb)+'<b>'+phName(pb)+'</b><small class="num">'+Math.round(pb)+'°</small></div></div>'+
-   '<p style="margin-top:12px">'+txt+'</p><p class="note" style="margin-top:8px">დაბადების მთვარის ფაზა ზრდასრული ცხოვრების რიტმსა და ინსტინქტურ ქცევას აჩვენებს. ფაზებს შორის სხვაობა: '+Math.round(dd)+'°.'+(unk?' დრო უცნობია, ამიტომ ფაზა მიახლოებითია.':'')+'</p></div></div>';
+  return '<div class="panel syn-mid" id="s-pos"><div><details class="techmore"><summary><b>პლანეტების ზუსტი პოზიციები</b><span class="muted">ნიშნები და გრადუსები ორივესთვის, ასტროლოგიის მცოდნეთათვის</span></summary>'+tbl+'</details></div>'+
+   '<div><h3 style="margin-bottom:12px">მთვარის ფაზების თავსებადობა</h3><div class="phases"><div><span class="ca">'+NM.A+'</span>'+moonSvg(pa)+'<b>'+phName(pa)+'</b></div><div><span class="cb">'+NM.B+'</span>'+moonSvg(pb)+'<b>'+phName(pb)+'</b></div></div>'+
+   '<p style="margin-top:12px">'+txt+'</p><p class="note" style="margin-top:8px">დაბადების მთვარის ფაზა ზრდასრული ცხოვრების რიტმსა და ინსტინქტურ ქცევას აჩვენებს. '+(unk?'დრო უცნობია, ამიტომ ფაზა მიახლოებითია.':'')+'</p></div></div>';
 }
 function runSyn(){
   if(!HAS){$("sRes").innerHTML='<p class="err">ასტრონომიული ბიბლიოთეკა ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';return}
@@ -6378,7 +6382,7 @@ function runSyn(){
   const top=asp.slice(0,12);
   const lines=asp.filter(x=>x.p.k!=="ASC"&&x.q.k!=="ASC"&&x.X.a!==0).slice(0,14).map(x=>({a:x.p.lon,b:x.q.lon,t:x.h>0?"good":"hard"}));
   $("sRes").innerHTML=
-   '<div class="panel syn-top"><div class="syn-score"><span class="eyebrow">საერთო თავსებადობა</span><b>'+overall+'%</b><span>'+verdict+'</span><span class="note">კავშირის ინტენსივობა: '+intensity+'% · ნაპოვნია '+asp.length+' ასპექტი</span></div>'+
+   '<div class="panel syn-top"><div class="syn-score"><span class="eyebrow">საერთო თავსებადობა</span><b>'+overall+'%</b><span>'+verdict+'</span><span class="note">რამდენად ძლიერად მოქმედებთ ერთმანეთზე: '+intensity+'%</span></div>'+
    '<div class="cats">'+cats.map(c=>'<div class="cat"><div class="catl"><span>'+c.ka+'</span><b>'+c.score+'%</b></div><div class="bar"><i style="width:'+c.score+'%"></i></div>'+(c.n?'':'<span class="note">ასპექტები არ არის, ნეიტრალური</span>')+'</div>').join("")+'</div></div>'+
    '<div class="panel syn-mid"><div><h3 style="margin-bottom:10px">დიდი სამეული</h3><div class="tbl"><table><thead><tr><th></th><th class="ca">'+NM.A+'</th><th class="cb">'+NM.B+'</th></tr></thead><tbody>'+
      ["მზე","მთვარე","ასცენდენტი"].map((n,i)=>'<tr><td>'+n+'</td><td>'+ra[i]+'</td><td>'+rb[i]+'</td></tr>').join("")+'</tbody></table></div>'+
@@ -6386,13 +6390,13 @@ function runSyn(){
      (a.unknown||b.unknown?'<p class="note">ერთ-ერთის დრო უცნობია: ასცენდენტი გამოტოვებულია, მთვარის ასპექტებს ნახევარი წონა აქვს.</p>':'')+'</div>'+
    '<div class="chart" id="sChart"></div></div>'+
    synExtra(A,B)+
-   '<div class="panel" id="s-asp"><h3 style="margin-bottom:12px">მთავარი ასპექტები წყვილს შორის</h3><div class="aspl">'+
+   '<div class="panel" id="s-asp"><h3 style="margin-bottom:12px">როგორ მოქმედებთ ერთმანეთზე</h3><p class="rex">როცა ერთის პლანეტა მეორის პლანეტასთან განსაკუთრებულ კუთხეს ქმნის, ხასიათის ეს ორი მხარე ერთმანეთზე მოქმედებს. მწვანე ნიშნავს, რომ ერთმანეთს ეხმარებით, წითელი კი, რომ ერთმანეთს ეჯახებით. ასტროლოგიაში ამას <b>ასპექტებს</b> ვუწოდებთ.</p><div class="aspl">'+
      top.map(x=>{const key=[x.p.k,x.q.k].sort().join("|"),pr=PAIR[key];
        const other=pr?null:(PL_THEME[x.p.k]&&x.p.k!=="ASC"?x.p.k:PL_THEME[x.q.k]?x.q.k:null);
        const PN_={Sun:"ხასიათი",Moon:"გრძნობები",Mercury:"აზროვნება",Venus:"სიყვარულის სტილი",Mars:"სურვილები",ASC:"პირველი შთაბეჭდილება",Chiron:"ძველი ჭრილობები",Node:"ცხოვრების მიმართულება"};
        const theme=pr?pr[1]:other?PL_THEME[other]:(PN_[x.p.k]&&PN_[x.q.k]?GEN(NM.A)+" "+PN_[x.p.k]+" და "+GEN(NM.B)+" "+PN_[x.q.k]+" ერთმანეთზე პირდაპირ მოქმედებს.":"ამ ორი პლანეტის თვისებები ერთმანეთზე პირდაპირ მოქმედებს.");
-       const tone=x.X.a===0?"შეერთებაა: ეს თქვენი ურთიერთობის ერთ-ერთი მთავარი საკითხია.":x.h>0?"ჰარმონიული ასპექტია: ამ საკითხში ერთმანეთს ადვილად უგებთ.":"დაძაბული ასპექტია: ამ საკითხში ხშირად კამათობთ, მაგრამ სწორედ ეს გიზიდავთ ერთმანეთისკენ და გზრდით.";
-       return '<div class="aspi '+(x.X.a===0?"":x.h>0?"good":"hard")+'"><div class="asph"><span class="ca"><span class="glyph">'+(x.p.k==="ASC"?"AC":x.p.g+VS)+'</span> '+GEN(NM.A)+' '+KA(x.p.k)+'</span><span class="ag"><span class="glyph">'+x.X.g+VS+'</span> '+x.X.n+'</span><span class="cb"><span class="glyph">'+(x.q.k==="ASC"?"AC":x.q.g+VS)+'</span> '+GEN(NM.B)+' '+KA(x.q.k)+'</span><span class="num muted">'+x.orb.toFixed(1)+'°</span></div><p>'+theme+' '+tone+'</p></div>';}).join("")+
+       const tone=x.X.a===0?"ეს თქვენი ურთიერთობის ერთ-ერთი მთავარი საკითხია.":x.h>0?"კავშირი ჰარმონიულია: ამ საკითხში ერთმანეთს ადვილად უგებთ.":"კავშირი დაძაბულია: ამ საკითხში ხშირად კამათობთ, მაგრამ სწორედ ეს გიზიდავთ ერთმანეთისკენ და გზრდით.";
+       return '<div class="aspi '+(x.X.a===0?"":x.h>0?"good":"hard")+'"><div class="asph"><span class="ca"><span class="glyph">'+(x.p.k==="ASC"?"AC":x.p.g+VS)+'</span> '+GEN(NM.A)+' '+KA(x.p.k)+'</span><span class="ktag '+(x.X.a===0?"one":x.h>0?"good":"hard")+'">'+(x.X.a===0?"ერწყმის":x.h>0?"ჰარმონია":"დაძაბულობა")+'</span><span class="cb"><span class="glyph">'+(x.q.k==="ASC"?"AC":x.q.g+VS)+'</span> '+GEN(NM.B)+' '+KA(x.q.k)+'</span></div><p>'+theme+' '+tone+'</p></div>';}).join("")+
    '</div><p class="note" style="margin-top:12px">შედეგი ასტროლოგიურ ტრადიციას ეყრდნობა და გასართობი მიზნით იქმნება. ურთიერთობის ბედს ადამიანები წყვეტენ და არა პლანეტები.</p></div>';
   drawChart($("sChart"),A.ps.filter(p=>p.k!=="ASC"),{asc:A.an?A.an.asc:null,mc:A.an?A.an.mc:null,cusps:A.an?A.an.cusps:null,ps2:B.ps.filter(p=>p.k!=="ASC"),lines,label:"სინასტრიის ორმაგი წრე"});
   const X=coupleExtras(a,b,A,B);
@@ -6613,23 +6617,23 @@ function coupleExtras(a,b,A,B){
   /* sign-level compatibility */
   const sa=sIdx(A.ps[0].lon),sb=sIdx(B.ps[0].lon);let dd=Math.abs(sa-sb);dd=Math.min(dd,12-dd);const asp=ASP[dd];
   const signs='<div class="phases"><div><span class="ca">'+NM.A+'</span><span class="glyph" style="font-size:2.4rem">'+gl(S[sa])+'</span><b>'+S[sa].ka+'</b><small>'+EL[S[sa].el]+'</small></div><div><span class="cb">'+NM.B+'</span><span class="glyph" style="font-size:2.4rem">'+gl(S[sb])+'</span><b>'+S[sb].ka+'</b><small>'+EL[S[sb].el]+'</small></div></div>'+
-    '<div class="score" style="margin-top:12px"><b>'+asp.v+'%</b><span class="muted">'+asp.n+'</span></div><p>'+asp.t+'</p><p class="muted">'+elText(S[sa].el,S[sb].el)+'</p>';
+    '<div class="score" style="margin-top:12px"><b>'+asp.v+'%</b><span class="muted">ნიშნების თავსებადობა</span></div><p>'+asp.t+'</p><p class="muted">'+elText(S[sa].el,S[sb].el)+'</p>';
   /* composite chart */
   const comp=BODIES.filter(bd=>A.ps.some(x=>x.k===bd.k)&&B.ps.some(x=>x.k===bd.k)).map(bd=>{const p=A.ps.find(x=>x.k===bd.k),q=B.ps.find(x=>x.k===bd.k);return {k:bd.k,ka:bd.ka,g:bd.g,m:bd.m,lon:midL(p.lon,q.lon)};});
   const casc=A.an&&B.an?midL(A.an.asc,B.an.asc):null,cmc=A.an&&B.an?midL(A.an.mc,B.an.mc):null;
   const cs=k=>comp.find(x=>x.k===k);
   const ch=l=>casc!=null?Math.floor(norm(l-casc)/30)+1:null;
-  const cl=(t,k,txt,T)=>{const l=cs(k).lon;return '<p><b>'+t+' '+LOC[sIdx(l)]+(ch(l)?', '+hLoc(ch(l)):'')+'.</b> '+txt.replace("{}",(T||CW)[sIdx(l)])+(ch(l)?' '+CPH[ch(l)-1]:'')+'</p>';};
-  const compH='<div class="syn-mid"><div><p class="note" style="margin-bottom:10px">კომპოზიტური რუკა ორივე პარტნიორის პლანეტების შუა წერტილებით იგება და ურთიერთობას, როგორც ცალკე „არსებას“, აღწერს.</p><div class="interp">'+
-    cl("კომპოზიტური მზე","Sun","წყვილის ძალა ასე ჩანს: {}.")+cl("კომპოზიტური მთვარე","Moon","ემოციურად ერთმანეთთან ასე ხართ: {}.")+cl("კომპოზიტური ვენერა","Venus","სიყვარულსა და სინაზეს ასე გამოხატავთ: {}.")+cl("კომპოზიტური მარსი","Mars","ერთად მოქმედებისას და კამათში ასე ხართ: {}.")+cl("კომპოზიტური სატურნი","Saturn","ურთიერთობის მთავარი გამოცდაა {}. აქ ერთად სწავლა და მოთმინება გჭირდებათ.",CS)+
-    (casc!=null?'<p><b>კომპოზიტური ასცენდენტი '+LOC[sIdx(casc)]+'.</b> სხვები თქვენს წყვილს ასე ხედავენ: '+CW[sIdx(casc)]+'.</p>':'<p class="note">კომპოზიტური ასცენდენტისთვის ორივეს დაბადების დროა საჭირო.</p>')+'</div></div><div class="chart" id="cChart"></div></div>';
+  const seen=new Set(),cl=(t,k,txt,T)=>{const l=cs(k).lon,o=txt.replace("{}",(T||CW)[sIdx(l)]);if(seen.has(o))return "";seen.add(o);return '<p><b>'+t+':</b> '+o+'</p>';};
+  const compH='<div class="syn-mid"><div><div class="interp">'+
+    cl("წყვილის ძალა","Sun","{}.")+cl("ემოციები","Moon","{}.")+cl("სიყვარული","Venus","{}.")+cl("მოქმედება და კამათი","Mars","{}.")+cl("მთავარი გამოცდა","Saturn","ურთიერთობის მთავარი გამოცდაა {}. აქ ერთად სწავლა და მოთმინება გჭირდებათ.",CS)+
+    (casc!=null?'<p><b>როგორ ხედავენ თქვენს წყვილს სხვები:</b> '+CW[sIdx(casc)]+'.</p>':'<p class="note">იმის გასაგებად, როგორ ხედავენ თქვენს წყვილს სხვები, ორივეს დაბადების დროა საჭირო.</p>')+'</div></div><div class="chart" id="cChart"></div></div>';
   const K=karmaHTML(a,b);
-  const toc=[["s-sum","შედეგი"],["s-people","პარტნიორები"],["s-signs","ნიშნები"],["s-comp","კომპოზიტი"],["s-karma","კარმული კავშირები"]];
+  const toc=[["s-sum","შედეგი"],["s-people","პარტნიორები"],["s-signs","ნიშნები"],["s-comp","ურთიერთობის ხასიათი"],["s-karma","კარმული კავშირები"]];
   return {toc,html:
    '<article class="panel rsec" id="s-people"><h3>ორი პარტნიორი</h3>'+people+'</article>'+
-   '<article class="panel rsec" id="s-signs"><h3>ზოდიაქოს ნიშნების თავსებადობა (მზის ნიშნები)</h3>'+signs+'</article>'+
-   '<article class="panel rsec" id="s-comp"><h3>კომპოზიტური რუკა: თქვენი ურთიერთობა</h3>'+compH+'</article>'+
-   '<div class="rsec" id="s-karma"><div class="sec-head"><span class="eyebrow">კარმული ასტროლოგია</span><h3 style="font-size:1.35rem">კარმული კავშირები</h3></div>'+K.html+'</div>',
+   '<article class="panel rsec" id="s-signs"><h3>თქვენი ზოდიაქოს ნიშნები ერთად</h3>'+signs+'</article>'+
+   '<article class="panel rsec" id="s-comp"><h3>თქვენი ურთიერთობის ხასიათი</h3><p class="rex">ორი ადამიანის რუკიდან ერთი საერთო რუკა იქმნება, რომელიც თავად ურთიერთობას აღწერს, თითქოს ის ცალკე ადამიანი იყოს: როგორია თქვენი წყვილი და როგორ ხედავენ მას სხვები. ასტროლოგიაში ამას <b>კომპოზიტურ რუკას</b> ვუწოდებთ.</p>'+compH+'</article>'+
+   '<div class="rsec" id="s-karma"><div class="sec-head"><h3 style="font-size:1.35rem">კარმული კავშირები</h3></div>'+K.html+'</div>',
    draw:()=>drawChart($("cChart"),comp,{asc:casc,mc:cmc,label:"კომპოზიტური რუკა",center:casc==null?["კომპოზიტი",""]:null})};
 }
 /* ---------- karmic connections page ---------- */
@@ -6646,26 +6650,26 @@ const KP={
  vx:"Vertex-ის კავშირი ტრადიციულად „ბედისწერის“ შეხვედრად ითვლება. ხშირად თავიდან მიზიდულობა არ არის, ზოგჯერ თავშეკავებაც კი, შემდეგ კი გრძნობა მოულოდნელად ჩნდება."
 };
 const KCAT=[
- {id:"sn",t:"სამხრეთი კვანძი: წარსულიდან მომდინარე კავშირი",g:"☋",
-  d:"სამხრეთი კვანძი აღნიშნავს დაგროვილ გამოცდილებას და კომფორტის ზონას. როცა ერთის პირადი პლანეტა ან ასცენდენტი მეორის სამხრეთ კვანძზეა, ურთიერთობა ძალიან ნაცნობად და ბუნებრივად იგრძნობა. თავიდან ეს კომფორტულია, მაგრამ დროთა განმავლობაში შეიძლება მოგბეზრდეთ და ძველი შეცდომები გაიმეოროთ, თუ ერთად ახალ მიზანს არ იპოვით."},
- {id:"nn",t:"ჩრდილოეთი კვანძი: ერთად ზრდის გზა",g:"☊",
-  d:"ჩრდილოეთი კვანძი ზრდის მიმართულებაა. როცა ერთის პლანეტა მეორის ჩრდილოეთ კვანძზეა, ეს ადამიანი მეორეს ახალი გამოცდილებისკენ უბიძგებს. ხშირად ამას თან ახლავს გარკვეული თავშეკავება ან შიში, რადგან ზრდა ყოველთვის კომფორტული არ არის."},
- {id:"nodes",t:"კვანძი კვანძთან: საერთო ცხოვრებისეული გზა",g:"☊☋",
-  d:"როცა ორი ადამიანის კვანძების ღერძები ერთმანეთს ასპექტს უქმნის, მათი ცხოვრებისეული მიზნები ერთმანეთს ეხება. შეერთება საერთო მიზნებზე მიუთითებს, ოპოზიცია ნიშნავს, რომ თითოეულს აქვს ის, რასაც მეორე სწავლობს, კვადრატი კი ზრდის ხახუნს ქმნის."},
- {id:"sat",t:"სატურნი: კარმის მასწავლებელი",g:"♄",
-  d:"სატურნი სინასტრიაში „შემაკავშირებელი“ პლანეტაა: მისი კავშირები ყოველთვის სასიამოვნო არ არის, მაგრამ ადამიანებს ერთმანეთზე აბამს. ძლიერი სატურნის ასპექტები ხშირია ხანგრძლივ, სერიოზულ ურთიერთობებში. თუმცა ძალიან ბევრი სატურნი ურთიერთობას მძიმედ აქცევს. სატურნი კვანძზე ტრადიციულად გამყოფ ფაქტორად ითვლება."},
- {id:"ret",t:"რეტროგრადული პლანეტები: დაუსრულებელი საქმე",g:"℞",
-  d:"რეტროგრადული პლანეტის თემებზე ადამიანი ხმამაღლა იშვიათად ლაპარაკობს: უფრო თავისთვის ფიქრობს, ხშირად უბრუნდება და ხელახლა აფასებს. როცა ასეთი პლანეტა მეორის პირად პლანეტას ეხება, ურთიერთობაში ჩნდება განცდა, რომ რაღაც დაუმთავრებელია, თითქოს წარსულიდან დარჩა. ასეთ კავშირს ხშირად „მეორე შანსად“ აღიქვამენ."},
- {id:"plu",t:"პლუტონი: ღრმა გარდაქმნა",g:"♇",
-  d:"პლუტონის ასპექტები პირად პლანეტებთან ინტენსიურ, გარდამქმნელ კავშირს ქმნის. ამოტივტივდება დამალული შიშები და კითხვა, ვინ ვის აკონტროლებს. ვისაც პლუტონი ეკუთვნის, ხშირად მეტ გავლენას ახდენს იმაზე, როგორ განვითარდება ურთიერთობა."},
- {id:"out",t:"ურანი და ნეპტუნი: ელექტრული და სულიერი კავშირი",g:"♅♆",
-  d:"ურანი და ნეპტუნი პლუტონთან ერთად ტრადიციულად კარმულ პლანეტებად ითვლება. როცა ეს პლანეტები მეორის პირად პლანეტებს ეხება, ურთიერთობა უჩვეულო ხდება: ურანი მოულოდნელობასა და თავისუფლებას მოაქვს, ნეპტუნი რომანტიკას, სულიერებასა და იდეალიზაციას."},
- {id:"axis",t:"ასცენდენტ-დესცენდენტის ღერძი: „ეს ადამიანი მნიშვნელოვანია“",g:"AC",
-  d:"როცა ერთის პლანეტა მეორის ასცენდენტს ან დესცენდენტს ერწყმის, ჩნდება მყისიერი მიზიდულობა და განცდა, რომ ეს შეხვედრა შემთხვევითი არ არის. დესცენდენტზე მყოფი პლანეტა მეორისთვის „იდეალური პარტნიორის“ თვისებებს ატარებს."},
- {id:"vx",t:"Vertex: ბედისწერის წერტილი",g:"Vx",
-  d:"Vertex არის წერტილი, სადაც ეკლიპტიკა პირველ ვერტიკალს კვეთს რუკის დასავლეთ ნახევარში. ასტროლოგები მას „ბედისწერის“ შეხვედრებს უკავშირებენ. ყველაზე ძლიერი კავშირია, როცა ერთის პირადი პლანეტა ან ასცენდენტი მეორის Vertex-ს ერწყმის (ორბისი დაახლოებით 2°). ასეთი კავშირი ძლიერ ბმას ქმნის, მაგრამ ბედნიერ ურთიერთობას არ იძლევა გარანტიას."},
- {id:"h12",t:"მე-⁠12 სახლი: ფარული, ინტუიციური კავშირი",g:"12",
-  d:"როცა ერთის პლანეტები მეორის მე-⁠12 სახლში ხვდება, კავშირი იდუმალი და ინტუიციურია: აუხსნელი მიჯაჭვულობა, უანგარო მსახურება ან ფარული ვალები. ზოგი ასტროლოგი გვაფრთხილებს, რომ როცა მე-⁠12 სახლში ერთზე მეტი პირადი პლანეტაა, ურთიერთობაში შეიძლება ნდობის პრობლემა გაჩნდეს."}
+ {id:"sn",t:"„თითქოს დიდი ხანია ვიცნობთ ერთმანეთს“",g:"☋",
+  d:"ეს ის კავშირია, როცა ადამიანთან პირველივე დღიდან თავს ძალიან ბუნებრივად გრძნობ, თითქოს დიდი ხნის ნაცნობი იყოს. ასეთი ურთიერთობა თბილი და მყუდროა, მაგრამ დროთა განმავლობაში შეიძლება მოგბეზრდეთ, თუ ერთად ახალ მიზანს არ იპოვით. (ასტროლოგიაში: სამხრეთი კვანძი)"},
+ {id:"nn",t:"„ის მაიძულებს, ვიზრდებოდე“",g:"☊",
+  d:"ერთი ადამიანი მეორეს წინ უბიძგებს: ახალ გამოცდილებას, ახალ ნაბიჯებს და ცვლილებებს აძლევს. ზოგჯერ ეს შიშს ან უხერხულობას იწვევს, რადგან ზრდა ყოველთვის მარტივი არ არის. (ასტროლოგიაში: ჩრდილოეთი კვანძი)"},
+ {id:"nodes",t:"საერთო ცხოვრებისეული გზა",g:"☊☋",
+  d:"აქ ჩანს, რამდენად ემთხვევა ერთმანეთს თქვენი ცხოვრებისეული მიზნები: ერთი მიმართულებით მიდიხართ, ერთმანეთს ავსებთ, თუ ერთმანეთს ეჯახებით. (ასტროლოგიაში: მთვარის კვანძები)"},
+ {id:"sat",t:"სერიოზული, ხანგრძლივი კავშირი",g:"♄",
+  d:"ეს კავშირი ადამიანებს ერთმანეთზე აბამს და პასუხისმგებლობას აჩენს. ხშირია ხანგრძლივ ურთიერთობებსა და ქორწინებაში. თუმცა თუ ასეთი კავშირი ძალიან ბევრია, ურთიერთობა შეიძლება მძიმე და მკაცრი გახდეს. (ასტროლოგიაში: სატურნი)"},
+ {id:"ret",t:"დაუმთავრებელი საქმე",g:"℞",
+  d:"ჩნდება განცდა, რომ თქვენ შორის რაღაც დაუმთავრებელია, თითქოს წარსულიდან დარჩა. ერთსა და იმავე თემას ხშირად უბრუნდებით. ასეთ კავშირს „მეორე შანსად“ აღიქვამენ. (ასტროლოგიაში: რეტროგრადული პლანეტები)"},
+ {id:"plu",t:"ძლიერი, ცვლილების მომტანი კავშირი",g:"♇",
+  d:"ძალიან ინტენსიური კავშირია, რომელიც ორივეს ღრმად ცვლის. ხშირად ამოტივტივდება დამალული შიშები და კითხვა, ვინ ვის მართავს. (ასტროლოგიაში: პლუტონი)"},
+ {id:"out",t:"უჩვეულო და სულიერი კავშირი",g:"♅♆",
+  d:"ურთიერთობა ჩვეულებრივს არ ჰგავს. ერთი მხრივ, მოულოდნელობა და თავისუფლების სურვილი, მეორე მხრივ, რომანტიკა, ოცნება და ერთმანეთის იდეალიზება. (ასტროლოგიაში: ურანი და ნეპტუნი)"},
+ {id:"axis",t:"„ეს ადამიანი ჩემთვის მნიშვნელოვანია“",g:"AC",
+  d:"პირველივე შეხვედრაზე ჩნდება ძლიერი მიზიდულობა და განცდა, რომ ეს შეხვედრა შემთხვევითი არ არის. ხშირად ერთი მეორეში თავის „იდეალურ პარტნიორს“ ხედავს. (ასტროლოგიაში: ასცენდენტ-დესცენდენტის ღერძი)"},
+ {id:"vx",t:"ბედისწერის შეხვედრა",g:"Vx",
+  d:"ასეთ კავშირს ასტროლოგები „ბედისწერის“ შეხვედრებს უკავშირებენ: თითქოს ეს ადამიანი შენს ცხოვრებაში შემთხვევით არ გამოჩნდა. ძლიერ ბმას ქმნის, მაგრამ ბედნიერ ურთიერთობას გარანტიას არ აძლევს. (ასტროლოგიაში: ვერტექსი)"},
+ {id:"h12",t:"ფარული, ინტუიციური კავშირი",g:"12",
+  d:"ერთი მეორეს ისე გრძნობს, სიტყვები არ სჭირდება. კავშირი იდუმალი და ძნელად ასახსნელია: აუხსნელი მიჯაჭვულობა ან მზადყოფნა, რომ მეორისთვის ყველაფერი გააკეთო. თუ ასეთი კავშირი ბევრია, ნდობას ფრთხილად უნდა მოეპყრათ. (ასტროლოგიაში: მე-⁠12 სახლი)"}
 ];
 function vertexOf(d,lat,lo){
   const R=norm(Astronomy.SiderealTime(d)*15+lo+180)*Math.PI/180,e=obliq(d)*Math.PI/180,f=(90-lat)*Math.PI/180;
@@ -6700,7 +6704,7 @@ function kFind(X,Y,xl,yl){
   [["sn",Y.nodes.sn,SN],["nn",Y.nodes.nn,NN]].forEach(([,lon,q])=>{const o=sep(sat.lon,lon);if(o<=3)hit("sat",sat,q,ASPECTS[0],o,3,1.5,"სატურნი კვანძზე: ტრადიციულად გამყოფ ფაქტორად ითვლება. ურთიერთობას შეიძლება გაუჭირდეს „ფეხის ადგმა“, ან მოითხოვოს დიდი შრომა და დრო.");});
   Y.pers.forEach(q=>{
     const ds=sep(sat.lon,q.lon);
-    for(const A of ASPECTS){const o=Math.abs(ds-A.a),hard=A.a===0||A.a===90||A.a===180,max=hard?4:3;if(o<=max){hit("sat",sat,q,A,o,max,hard?2.5:1.5,(KP.sat[q.k]||"")+(hard?"":" ჰარმონიული ასპექტია, ამიტომ სატურნი აქ უფრო მხარდაჭერასა და სტაბილურობას იძლევა, ვიდრე შეზღუდვას."));break}}
+    for(const A of ASPECTS){const o=Math.abs(ds-A.a),hard=A.a===0||A.a===90||A.a===180,max=hard?4:3;if(o<=max){hit("sat",sat,q,A,o,max,hard?2.5:1.5,(KP.sat[q.k]||"")+(hard?"":" კავშირი ჰარმონიულია, ამიტომ აქ უფრო მხარდაჭერა და სიმყარეა, ვიდრე შეზღუდვა."));break}}
     const dp=sep(plu.lon,q.lon);
     for(const A of ASPECTS){const o=Math.abs(dp-A.a);if(o<=3){hit("plu",plu,q,A,o,3,A.t==="good"?1.4:2,KP.plu[q.k]);break}}
     ["Uranus","Neptune"].forEach(k=>{const u=P(k),d=sep(u.lon,q.lon);for(const A of ASPECTS){if(A.a===60)continue;const o=Math.abs(d-A.a);if(o<=2.5){hit("out",u,q,A,o,2.5,1.2,KP.out[k]);break}}});
@@ -6712,9 +6716,9 @@ function kFind(X,Y,xl,yl){
       const w=PERS.includes(p.k)?2:1;
       let o=sep(p.lon,asc);if(o<=4)hit("axis",p,{k:"ASC",ka:"ასცენდენტი",g:"AC"},ASPECTS[0],o,4,w,GEN(NM[xl])+" "+p.ka+" "+GEN(NM[yl])+" ასცენდენტზე: "+NM[xl]+" ძლიერად მოქმედებს "+GEN(NM[yl])+" თვითაღქმასა და გარეგნულ ქცევაზე.");
       o=sep(p.lon,dsc);if(o<=4)hit("axis",p,{k:"DSC",ka:"დესცენდენტი",g:"DC"},ASPECTS[0],o,4,w,GEN(NM[xl])+" "+p.ka+" "+GEN(NM[yl])+" დესცენდენტზე: "+NM[xl]+" "+GEN(NM[yl])+"თვის „ტიპური პარტნიორის“ თვისებებს ატარებს.");
-      if(houseIdx(p.lon,Y.an.cusps)===12){if(PERS.includes(p.k))pers12++;out.h12.push({p,q:null,orb:0,w:PERS.includes(p.k)?1.5:.5,from:xl,to:yl,txt:GEN(NM[xl])+" "+p.ka+" "+GEN(NM[yl])+" მე-⁠12 სახლშია: "+NM[yl]+" "+GEN(NM[xl])+" "+({Sun:"ხასიათს",Moon:"განწყობას",Mercury:"ფიქრებს",Venus:"სიყვარულს",Mars:"სურვილებს",Jupiter:"იმედებს",Saturn:"შიშებს"}[p.k]||"შინაგან სამყაროს")+" ღრმად, თითქმის უსიტყვოდ გრძნობს. ეს ხშირად „ბედისწერისეული“ კავშირის განცდას ქმნის, მაგრამ ზოგჯერ გაურკვევლობასაც."});}
+      if(houseIdx(p.lon,Y.an.cusps)===12){if(PERS.includes(p.k))pers12++;out.h12.push({p,q:null,orb:0,w:PERS.includes(p.k)?1.5:.5,from:xl,to:yl,txt:NM[yl]+" "+GEN(NM[xl])+" "+({Sun:"ხასიათს",Moon:"განწყობას",Mercury:"ფიქრებს",Venus:"სიყვარულს",Mars:"სურვილებს",Jupiter:"იმედებს",Saturn:"შიშებს"}[p.k]||"შინაგან სამყაროს")+" ღრმად, თითქმის უსიტყვოდ გრძნობს. ეს ხშირად „ბედისწერისეული“ კავშირის განცდას ქმნის, მაგრამ ზოგჯერ გაურკვევლობასაც."});}
     });
-    if(pers12>=2)out.h12.push({p:{k:"X",ka:GEN(NM[xl])+" "+pers12+" პირადი პლანეტა",g:"⚠"},q:null,orb:0,w:0,from:xl,to:yl,txt:"ერთზე მეტი პირადი პლანეტა მე-⁠12 სახლში: ზოგი ასტროლოგის აზრით, ასეთ წყვილში ნდობა ძნელად ყალიბდება და ამაზე ორივემ უნდა იმუშაოს.",warn:true});}
+    if(pers12>=2)out.h12.push({p:{k:"X",ka:GEN(NM[xl])+" "+"რამდენიმე მნიშვნელოვანი პლანეტა",g:"⚠"},q:null,orb:0,w:0,from:xl,to:yl,txt:"ერთზე მეტი მნიშვნელოვანი პლანეტა ამ ფარულ ზონაშია: ზოგი ასტროლოგის აზრით, ასეთ წყვილში ნდობა ძნელად ყალიბდება და ამაზე ორივემ უნდა იმუშაოს.",warn:true});}
   return out;
 }
 function nodeNode(A,B){const d=sep(A.nodes.nn,B.nodes.nn),T={0:"საერთო კვანძური ღერძი: მსგავსი ცხოვრებისეული მიზანი. ერთმანეთს ზრდაში ეხმარებით, თუმცა შეიძლება ერთმანეთის კომფორტის ზონაც გააძლიეროთ.",180:"საპირისპირო კვანძები: თითოეულს აქვს ის, რასაც მეორე სწავლობს. ერთმანეთის მასწავლებლები ხართ, მაგრამ ფრთხილად, რომ ერთის წინსვლა მეორის უკან დახევას არ ნიშნავდეს.",90:"კვადრატი კვანძებს შორის: ერთის ზრდა მეორის ჩვევებს არღვევს. ხახუნი ორივეს მოქნილსა და ძლიერს ხდის.",120:"ტრიგონი კვანძებს შორის: ჰარმონიული, ურთიერთმხარდამჭერი გზა, თუმცა რისკია, რომ კომფორტი ზრდას ჩაანაცვლებს.",60:"სექსტილი კვანძებს შორის: ერთის განვითარება მეორისას ეხმარება. ღია საუბარი ამ კავშირს აძლიერებს."};
@@ -6729,14 +6733,14 @@ function karmaHTML(a,b){
     const needT=["axis","h12","vx"].includes(c.id)&&(!A.an||!B.an);
     return {sum,c,html:'<article class="panel kcat'+(list.length?' on':'')+'"><div class="kh"><span class="kg glyph">'+c.g+'</span><div><h3>'+c.t+'</h3><span class="klvl l'+(list.length?Math.min(3,Math.ceil(sum/1.5)):0)+'">'+lvl+(list.length?' · '+list.filter(x=>!x.warn).length+' კავშირი':'')+'</span></div></div><p>'+c.d+'</p>'+
      (list.length?(()=>{const cnt={};list.forEach(x=>{if(x.txt)cnt[x.txt]=(cnt[x.txt]||0)+1});const rep=Object.keys(cnt).filter(t=>cnt[t]>1);return '<ul class="klist">'+list.map(x=>'<li'+(x.warn?' class="kwarn"':'')+'><div class="kline"><span class="'+(x.from==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.p)+'</span> '+(x.p.k==="X"?x.p.ka:GEN(NM[x.from])+' '+x.p.ka)+'</span>'+
-       (x.q?' <span class="ag"><span class="glyph">'+x.A.g+VS+'</span> '+x.A.n+'</span> <span class="'+(x.to==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.q)+'</span> '+GEN(NM[x.to])+' '+x.q.ka+'</span> <span class="num muted">'+x.orb.toFixed(1)+'°</span>':(x.warn?'':' <span class="ag">'+GEN(NM[x.to])+' მე-⁠12 სახლში</span>'))+'</div>'+(x.txt&&!rep.includes(x.txt)?'<p>'+x.txt+'</p>':'')+'</li>').join("")+'</ul>'+(rep.length?'<div class="ksum"><b>რას ნიშნავს ეს კავშირები ერთად</b>'+rep.map(t=>'<p>'+t+'</p>').join("")+'</div>':'')})():
+       (x.q?' <span class="ktag '+(x.A.a===0?'one':x.A.t||'')+'">'+(x.A.a===0?'ერწყმის':x.A.t==="good"?'ჰარმონია':x.A.t==="hard"?'დაძაბულობა':'კავშირი')+'</span> <span class="'+(x.to==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.q)+'</span> '+GEN(NM[x.to])+' '+x.q.ka+'</span>':(x.warn?'':' <span class="ag">'+GEN(NM[x.to])+' მე-⁠12 სახლში</span>'))+'</div>'+(x.txt&&!rep.includes(x.txt)?'<p>'+x.txt+'</p>':'')+'</li>').join("")+'</ul>'+(rep.length?'<div class="ksum"><b>რას ნიშნავს ეს კავშირები ერთად</b>'+rep.map(t=>'<p>'+t+'</p>').join("")+'</div>':'')})():
        '<p class="muted">'+(needT?"ამ ფაქტორის შესამოწმებლად ორივეს ზუსტი დაბადების დროა საჭირო.":"ამ წყვილში ასეთი კავშირი არ არის.")+'</p>')+'</article>'};});
   const score=Math.min(100,Math.round(total*5));
   const verdict=score>=70?"ძალიან ძლიერი კარმული კავშირი":score>=45?"მკაფიო კარმული კავშირი":score>=20?"ზომიერი კარმული კავშირი":"სუსტი კარმული კავშირი";
   const found=KCAT.filter(c=>r1[c.id].length+r2[c.id].length);
-  return {score,html:'<div class="panel syn-top"><div class="syn-score"><span class="eyebrow">კარმული ინტენსივობა</span><b>'+score+'%</b><span>'+verdict+'</span><span class="note">'+found.length+' / '+KCAT.length+' კარმული ფაქტორი აქტიურია</span></div>'+
+  return {score,html:'<div class="panel syn-top"><div class="syn-score"><span class="eyebrow">კავშირის სიძლიერე</span><b>'+score+'%</b><span>'+verdict+'</span><span class="note">'+KCAT.length+'-დან '+found.length+' სახის კავშირი გაქვთ</span></div>'+
     '<div class="kdesc"><p>კარმული კავშირი თავისთავად არც კარგია და არც ცუდი. ის მხოლოდ აჩვენებს, რამდენი რამის სწავლა შეუძლიათ ამ ორ ადამიანს ერთმანეთისგან. რა გამოვა ამ ურთიერთობიდან, თავად მათზეა დამოკიდებული.</p>'+
-    '<p class="note">კვანძები: '+NM.A+' ☊ '+deg(A.nodes.nn)+' '+S[sIdx(A.nodes.nn)].ka+' · '+NM.B+' ☊ '+deg(B.nodes.nn)+' '+S[sIdx(B.nodes.nn)].ka+' (ჭეშმარიტი კვანძი)'+(A.vx!=null?' · Vertex: '+NM.A+' '+deg(A.vx)+' '+S[sIdx(A.vx)].ka:'')+(B.vx!=null?', '+NM.B+' '+deg(B.vx)+' '+S[sIdx(B.vx)].ka:'')+(a.unknown||b.unknown?' · ერთ-ერთის დრო უცნობია: მთვარე, ასცენდენტი, Vertex და მე-⁠12 სახლი გამოტოვებულია.':'')+'</p></div></div>'+cards.filter(x=>x.sum>=0).sort((a,b)=>b.sum-a.sum).map(x=>x.html).join("")+(cards.some(x=>x.sum<0)?'<details class="panel knone"><summary><b>ამ წყვილში არ გამოვლინდა ('+cards.filter(x=>x.sum<0).length+')</b><span class="chips2">'+cards.filter(x=>x.sum<0).map(x=>'<span class="chip2"><span class="glyph">'+x.c.g+'</span> '+x.c.t.split(":")[0]+(x.needT?' <small>(საჭიროა დრო)</small>':'')+'</span>').join("")+'</span></summary>'+cards.filter(x=>x.sum<0).map(x=>'<div class="knd"><b>'+x.c.t+'</b><p>'+x.c.d+'</p></div>').join("")+'</details>':'')};
+    (a.unknown||b.unknown?'<p class="note">ერთ-ერთის დაბადების დრო უცნობია, ამიტომ ზოგიერთი კავშირი ვერ შემოწმდა.</p>':'')+'</div></div>'+cards.filter(x=>x.sum>=0).sort((a,b)=>b.sum-a.sum).map(x=>x.html).join("")+(cards.some(x=>x.sum<0)?'<details class="panel knone"><summary><b>ამ წყვილში არ გამოვლინდა ('+cards.filter(x=>x.sum<0).length+')</b><span class="chips2">'+cards.filter(x=>x.sum<0).map(x=>'<span class="chip2"><span class="glyph">'+x.c.g+'</span> '+x.c.t.split(":")[0]+(x.needT?' <small>(საჭიროა დრო)</small>':'')+'</span>').join("")+'</span></summary>'+cards.filter(x=>x.sum<0).map(x=>'<div class="knd"><b>'+x.c.t+'</b><p>'+x.c.d+'</p></div>').join("")+'</details>':'')};
 }
 function runKarma(){
   if(!HAS){$("kRes").innerHTML='<p class="err">ასტრონომიული ბიბლიოთეკა ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';return}
@@ -7173,7 +7177,7 @@ function natalMore(ps,an,f,d,XP){const el=$("nMore");if(!el)return;
   main.sort((a,b)=>a.orb-b.orb);
   add("aspects","ასპექტების განმარტება",'<p class="note">ორბისი აჩვენებს, რამდენად ზუსტია ასპექტი: რაც ნაკლებია, მით ძლიერია. „მზარდი“ ასპექტი ჯერ ძლიერდება, „კლებადი“ უკვე სუსტდება.</p><div class="aspl">'+main.map(m=>{const key=m.x.k+"-"+m.y.k,t=NPAIR[key],gen=NGEN.includes(key);
     let txt=t?(m.A.t==="good"||t.length===1?t[0]:m.A.t==="hard"?t[1]:(NMAL.includes(m.y.k)&&t[1]?t[0]+" "+t[1]:t[0])):NTONE(m.A,PN[m.x.k]||m.x.ka,(PN[m.y.k]||m.y.ka).replace(/^შენი /,""));
-    if(gen)txt+=' <span class="muted">თაობის ასპექტია: მთელ შენს თაობას ახასიათებს და პირად ხასიათს ნაკლებად აღწერს.</span>';
+    if(gen)txt+=' <span class="muted">ეს კავშირი მთელ შენს თაობას ახასიათებს და პირად ხასიათს ნაკლებად აღწერს.</span>';
     return '<div class="aspi '+(m.A.t||"")+'"><div class="asph"><span><span class="glyph">'+m.x.g+'</span> '+m.x.ka+'</span><span class="ag"><span class="glyph">'+m.A.g+VS+'</span> '+m.A.n+'</span><span><span class="glyph">'+m.y.g+'</span> '+m.y.ka+'</span><span class="num muted">'+fo(m.orb)+' · '+(m.app?'მზარდი':'კლებადი')+'</span></div><p>'+txt+'</p></div>';}).join("")+'</div>');
   /* 6. technical data */
   const all=ps.map(p=>({ka:p.ka,lon:p.lon,el:S[sIdx(p.lon)].el,mod:S[sIdx(p.lon)].mod})).concat(an?[{ka:"ასცენდენტი",lon:an.asc,el:S[sIdx(an.asc)].el,mod:S[sIdx(an.asc)].mod},{ka:"ცის შუაგული",lon:an.mc,el:S[sIdx(an.mc)].el,mod:S[sIdx(an.mc)].mod}]:[]);

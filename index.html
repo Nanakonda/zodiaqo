@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<meta name="description" content="ციალი, ასტროლოგია ქართულად: ასცენდენტის დადგენა დაბადების დროის გარეშე, კარმული კავშირები, ნატალური რუკა, ნუმეროლოგია.">
+<meta name="description" content="ციალი, ასტროლოგია ქართულად: ასცენდენტის დადგენა დაბადების დროის გარეშე, კარმული კავშირები, ნატალური რუკა და წყვილის ანალიზი.">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body><title>ციალი</title>
@@ -759,6 +759,11 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
 .amk{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;color:var(--muted);cursor:pointer}.amk input{margin-top:4px}
 .ahrow .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.ahrow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}.ahrow h3{margin:0}.ahrow input{max-width:260px}.ausers{max-height:520px;overflow:auto}
 .ain{display:flex;align-items:center;gap:6px}.ain input{width:6em}
+
+@media (min-width:861px){
+  .side{position:-webkit-sticky;position:sticky;top:12px}
+  .side .chart{width:clamp(220px,calc(100vh - 400px),100%);margin-inline:auto}
+}
 </style>
 
 <div class="wrap">
@@ -772,7 +777,7 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
       <a href="#career" data-p="career">პროფესია</a>
       <a href="#trials" data-p="trials">სირთულეები</a>
       <a href="#marriage" data-p="marriage">დაოჯახება</a>
-      <a href="#numerology" data-p="numerology">ნუმეროლოგია</a>
+      <a href="#numerology" data-p="numerology" hidden>ნუმეროლოგია</a>
       <a href="#pricing" data-p="pricing" class="pwnav" hidden>ფასები</a>
     </nav>
     <button type="button" id="acctBtn" class="acctbtn" hidden>შესვლა</button>
@@ -866,7 +871,7 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
       <a class="tool" href="#compat"><span class="ti glyph">♀︎♂︎</span><b>წყვილის ანალიზი</b><span>სინასტრია, კომპოზიტი და თავსებადობა კატეგორიებით</span></a>
       <a class="tool" href="#career"><span class="ti glyph">♑︎</span><b>პროფესია</b><span>რომელი სფეროები გიხდება: ცის შუაგული, მე-⁠10 და მე-⁠6 სახლები</span></a>
       <a class="tool" href="#trials"><span class="ti glyph">♄︎</span><b>ცხოვრების სირთულეები</b><span>რთული პერიოდები ასაკის ხაზზე: სატურნი, ურანი, ნეპტუნი, პლუტონი</span></a>
-      <a class="tool" href="#numerology"><span class="ti glyph">9</span><b>ნუმეროლოგია</b><span>ცხოვრების გზა, დაბადების დღე, პირადი წელი, სახელის რიცხვები და პითაგორას კვადრატი</span></a>
+      <a class="tool" href="#numerology" hidden><span class="ti glyph">9</span><b>ნუმეროლოგია</b><span>ცხოვრების გზა, დაბადების დღე, პირადი წელი, სახელის რიცხვები და პითაგორას კვადრატი</span></a>
       <a class="tool" href="#marriage"><span class="ti glyph">♀︎</span><b>დაოჯახება</b><span>ყველაზე სავარაუდო წლები ტრანზიტებითა და პროგრესიებით</span></a>
     </div>
   </section>
@@ -1241,7 +1246,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     marriage:{t:"დაოჯახება",k:"single",p:9.90,inc:["marriage"],d:"როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."},
     trials:{t:"სირთულეები",k:"single",p:9.90,inc:["trials"],d:"ცხოვრების რთული პერიოდები და რას გასწავლის თითოეული."},
     numerology:{t:"ნუმეროლოგია",k:"single",p:7.90,inc:["numerology"],d:"ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."},
-    full:{t:"სრული ციალი",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials","numerology"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
+    full:{t:"სრული ციალი",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
   F2P:{asc:"asc_natal",natal:"natal",karmic:"karmic",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
   FN:{asc:"ასცენდენტი და დაბადების სავარაუდო დრო",natal:"სრული ნატალური რუკა",karmic:"კარმული კავშირები",compat:"წყვილის ანალიზი",career:"პროფესია",marriage:"დაოჯახება",trials:"სირთულეები",numerology:"ნუმეროლოგია"},
   PG:{asc:"ascendant",natal:"natal",karmic:"karmic",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
@@ -1321,7 +1326,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
         PW.priceHtml(id)+(sum?'<p class="prsave">ცალ-ცალკე '+PW.fmt(sum)+' · ზოგავ '+Math.round((1-PW.price(id)/sum)*100)+'%</p>':'')+
         '<a class="btn '+(cls?'primary':'ghost')+'" href="#'+pg+'">'+(id==="full"?'დაწყება':'შედეგის ნახვა')+'</a></article>';};
     top.innerHTML=card("full","best","საუკეთესო ფასი")+card("asc_natal","pop","ყველაზე პოპულარული")+card("pair_pack","pop","წყვილებისთვის");
-    grid.innerHTML=["natal","karmic","compat","career","marriage","trials","numerology"].map(id=>card(id)).join("");}
+    grid.innerHTML=["natal","karmic","compat","career","marriage","trials"].map(id=>card(id)).join("");}
 };
 PW.buyOpen=function(id,keys){const P=PW.P[id];if(!P)return;PW.ctx={id,keys};const el=$("buyBody");
   const u=window.ACCT_USER&&window.ACCT_USER();
@@ -7403,7 +7408,7 @@ $("nMore").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(
     try{navigator.clipboard.writeText(t.value).then(ok,()=>{t.select();});}catch(_){t.select();}}});
 buildNatal(true);
 /* ---------- pages ---------- */
-const PAGES=["home","ascendant","karmic","natal","compat","career","trials","marriage","numerology","pricing","admin"],ALIAS={report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
+const PAGES=["home","ascendant","karmic","natal","compat","career","trials","marriage","pricing","admin"],ALIAS={numerology:"home",report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
 let precTouched=false;document.querySelectorAll('input[name="prec"]').forEach(r=>r.addEventListener("change",()=>{precTouched=true;}));
 function route(){
   const h=location.hash.slice(1),sign=S.findIndex(x=>x.id===h);

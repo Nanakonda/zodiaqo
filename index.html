@@ -756,6 +756,7 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
 .ast{font-size:.78rem;padding:2px 9px;border-radius:999px;border:1px solid var(--line)}.ast.paid{color:var(--earth);border-color:var(--earth)}.ast.refunded{color:var(--fire);border-color:var(--fire)}
 .aprod input[type=number]{width:7em}.aprod .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
 .aform{display:flex;flex-direction:column;gap:12px;align-items:flex-start}.aform label{display:flex;flex-direction:column;gap:4px;font-size:.9rem}.aform label.pill{flex-direction:row}
+.ahrow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}.ahrow h3{margin:0}.ahrow input{max-width:260px}.ausers{max-height:520px;overflow:auto}
 .ain{display:flex;align-items:center;gap:6px}.ain input{width:6em}
 </style>
 
@@ -7544,11 +7545,11 @@ async function admOpen(){const el=$("admBody");if(!el)return;
   if(!ACCT.user){el.innerHTML='<div class="panel admgate"><h3>ადმინ პანელი</h3><p class="muted">გასაგრძელებლად შედი ადმინისტრატორის ანგარიშით.</p><button type="button" class="btn primary" id="admLogin">შესვლა</button></div>';$("admLogin").addEventListener("click",acctOpen);return}
   if(!(await admCheck())){el.innerHTML='<div class="panel admgate"><h3>წვდომა არ გაქვს</h3><p class="muted">ეს გვერდი მხოლოდ ციალის ადმინისტრატორისთვისაა.</p><a class="btn ghost" href="#home">მთავარ გვერდზე</a></div>';return}
   if(ADM.busy)return;ADM.busy=true;el.innerHTML='<div class="panel"><p class="muted">მონაცემები იტვირთება…</p></div>';
-  const [ov,pu,pr,po]=await Promise.all([ACCT.sb.rpc("admin_overview"),ACCT.sb.from("purchases").select("product_id,amount,status,created_at").order("created_at",{ascending:false}).limit(5000),
-    ACCT.sb.from("products").select("*").order("sort"),ACCT.sb.from("promos").select("*").eq("id","launch")]);
+  const [ov,pu,pr,po,us]=await Promise.all([ACCT.sb.rpc("admin_overview"),ACCT.sb.from("purchases").select("product_id,amount,status,created_at").order("created_at",{ascending:false}).limit(5000),
+    ACCT.sb.from("products").select("*").order("sort"),ACCT.sb.from("promos").select("*").eq("id","launch"),ACCT.sb.rpc("admin_users",{lim:1000,off:0})]);
   ADM.busy=false;
   if(ov.error||pu.error||pr.error){el.innerHTML='<div class="panel"><p class="err">მონაცემები ვერ ჩაიტვირთა. განაახლე გვერდი.</p></div>';return}
-  const O=ov.data,paid=pu.data.filter(x=>x.status==="paid"),now=Date.now(),today=admDay(now);
+  const U=us.error?[]:us.data;const O=ov.data,paid=pu.data.filter(x=>x.status==="paid"),now=Date.now(),today=admDay(now);
   const sum=a=>a.reduce((s,x)=>s+(+x.amount),0),since=d=>paid.filter(x=>now-Date.parse(x.created_at)<d*864e5);
   const kpi=(t,v,sub)=>'<div class="akpi"><small>'+t+'</small><b>'+v+'</b>'+(sub?'<span>'+sub+'</span>':'')+'</div>';
   const todayP=paid.filter(x=>admDay(x.created_at)===today);
@@ -7578,9 +7579,15 @@ async function admOpen(){const el=$("admBody");if(!el)return;
     '<div class="akpis">'+kpi("მომხმარებლები",O.users_total,"+"+O.users_7d+" ბოლო 7 დღეში")+kpi("მყიდველები",O.buyers,O.users_total?Math.round(O.buyers/O.users_total*100)+"% მომხმარებლებიდან":"")+kpi("საშუალო ჩეკი",paid.length?PW.fmt(sum(paid)/paid.length):"—")+kpi("შენახული ადამიანები",O.people_saved,"პარტნიორები და ახლობლები")+'</div>'+
     '<div class="agrid"><section class="panel"><h3 class="ph3">შემოსავალი ბოლო 30 დღეში</h3>'+chart+'</section><section class="panel"><h3 class="ph3">რა იყიდება ყველაზე მეტად</h3>'+topHtml+'</section></div>'+
     '<section class="panel"><h3 class="ph3">ბოლო შესყიდვები</h3>'+recHtml+'</section>'+
+    '<section class="panel"><div class="ahrow"><h3 class="ph3">რეგისტრირებული მომხმარებლები <span class="acount">'+U.length+'</span></h3><input type="search" id="admQ" placeholder="ძებნა ელფოსტით…" aria-label="მომხმარებლის ძებნა ელფოსტით"></div>'+
+      (U.length?'<div class="tbl ausers"><table><thead><tr><th>ელფოსტა</th><th>რეგისტრაცია</th><th>ბოლო შესვლა</th><th>როგორ</th><th>შენახული ადამიანები</th><th>შესყიდვები</th></tr></thead><tbody id="admU"></tbody></table></div>':'<p class="aempty">ჯერ არავინ დარეგისტრირებულა.</p>')+'</section>'+
     '<div class="agrid"><section class="panel"><h3 class="ph3">ფასები</h3>'+prodHtml+'</section><section class="panel"><h3 class="ph3">გახსნის ფასდაკლება</h3>'+promoHtml+'</section></div>'+
     '<p class="note">ახალი რეგისტრაციები ბოლო 30 დღეში: '+Object.values(sgn).reduce((a,b)=>a+b,0)+'. მონაცემები განახლდება გვერდის ხელახლა გახსნისას. <button type="button" class="linkbtn" id="admRe">ახლავე განახლება</button></p>';
   el.querySelectorAll("td.aem").forEach((td,i)=>{td.textContent=rec[i].email||"";});
+  const fd=t=>t?new Date(t).toLocaleString("ka-GE",{timeZone:"Asia/Tbilisi",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}):"—";
+  const drawU=q=>{const tb=$("admU");if(!tb)return;tb.innerHTML="";U.filter(u=>!q||(u.email||"").toLowerCase().includes(q)).forEach(u=>{const tr=document.createElement("tr");
+    [u.email||"—",fd(u.created_at),fd(u.last_sign_in_at),u.provider==="google"?"Google":"ელფოსტა"+(u.confirmed?"":" (დაუდასტურებელი)"),String(u.people),u.buys?u.buys+" · "+PW.fmt(u.spent):"—"].forEach((v,i)=>{const td=document.createElement("td");td.textContent=v;if(i===1||i===2)td.className="num";tr.appendChild(td);});tb.appendChild(tr);});};
+  drawU("");$("admQ").addEventListener("input",e=>drawU(e.target.value.trim().toLowerCase()));
   $("admRe").addEventListener("click",admOpen);
   $("admProd").addEventListener("submit",async e=>{e.preventDefault();const f=e.currentTarget,msg=f.querySelector(".note"),b=f.querySelector("button");b.disabled=true;msg.textContent="ინახება…";
     let bad=0;for(const p of pr.data){const np=Math.round(parseFloat(f["p_"+p.id].value)*100)/100,na=f["a_"+p.id].checked;

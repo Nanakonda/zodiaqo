@@ -6693,7 +6693,7 @@ $("kGo").addEventListener("click",runKarma);
   $("simNow").addEventListener("click",()=>{stop();render(nowMin);});
   render(nowMin);
   /* night sky across the whole site: slowly drifting, twinkling stars and an occasional shooting star */
-  const cv=$("sky"),cx=cv.getContext("2d"),RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cv=$("sky"),cx=cv.getContext("2d");
   let W=0,H=0,stars=[],px=0,py=0,tx=0,ty=0,shoot=null,nextShot=performance.now()+4000+Math.random()*5000,lastT=0;
   const FG="246,231,216",GOLD="232,184,90",ROSE="227,155,143";
   function size(){const dpr=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
@@ -6706,11 +6706,11 @@ $("kGo").addEventListener("click",runKarma);
     if(!document.hidden){
       px+=(tx-px)*.04;py+=(ty-py)*.04;cx.clearRect(0,0,W,H);
       for(const s of stars){
-        if(!RM){s.x+=dt*.004*s.z;s.y+=dt*.0012*s.z;if(s.x>W+4)s.x=-4;if(s.y>H+4)s.y=-4;}
-        const tw=RM?.7:.5+.5*Math.sin(t/1100*(.6+s.z)+s.ph);
-        cx.globalAlpha=tw*(.3+.55*s.z);cx.fillStyle="rgb("+s.c+")";
+        {s.x+=dt*.012*s.z;s.y+=dt*.004*s.z;if(s.x>W+4)s.x=-4;if(s.y>H+4)s.y=-4;}
+        const tw=.5+.5*Math.sin(t/1100*(.6+s.z)+s.ph);
+        cx.globalAlpha=Math.min(1,tw*(.4+.6*s.z));cx.fillStyle="rgb("+s.c+")";
         cx.beginPath();cx.arc(s.x+px*s.z*16,s.y+py*s.z*10,s.r*(s.c===FG?1:1.5),0,6.283);cx.fill();}
-      if(!RM){
+      {
         if(!shoot&&t>nextShot)newShot();
         if(shoot){shoot.life+=dt;shoot.x+=shoot.vx*dt;shoot.y+=shoot.vy*dt;
           const k=shoot.life/shoot.max,a=k<.15?k/.15:1-(k-.15)/.85,n=Math.hypot(shoot.vx,shoot.vy),ux=shoot.vx/n,uy=shoot.vy/n;
@@ -6722,7 +6722,7 @@ $("kGo").addEventListener("click",runKarma);
       }
       cx.globalAlpha=1;
     }
-    if(!RM)requestAnimationFrame(frame);
+    requestAnimationFrame(frame);
   }
   addEventListener("resize",size);
   addEventListener("pointermove",e=>{tx=e.clientX/W-.5;ty=e.clientY/H-.5;},{passive:true});

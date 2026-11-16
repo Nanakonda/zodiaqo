@@ -527,6 +527,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.85rem;color:
 .acctp input[type=email]{width:100%;box-sizing:border-box;font:inherit;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface2);color:var(--fg)}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;font-weight:600}
 .gbtn svg{width:18px;height:18px}
+.atabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)}.atabs button{flex:1;border:0;background:transparent;color:var(--muted);padding:8px;border-radius:9px;font-weight:600}.atabs button[aria-selected="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 0 var(--line)}
 .orline{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.85rem}
 .orline::before,.orline::after{content:"";flex:1;border-top:1px solid var(--line)}
 .plist2{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
@@ -7154,15 +7155,26 @@ function acctClose(){$("acctBox").hidden=true;}
 $("acctBtn").addEventListener("click",acctOpen);$("acctX").addEventListener("click",acctClose);
 $("acctBox").addEventListener("click",e=>{if(e.target.id==="acctBox")acctClose();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("acctBox").hidden)acctClose();});
-function renderAcctBtn(){const b=$("acctBtn");b.textContent=ACCT.user?"ჩემი ანგარიში":"შესვლა";b.classList.toggle("in",!!ACCT.user);}
+function renderAcctBtn(){const b=$("acctBtn");b.textContent=ACCT.user?"ჩემი ანგარიში":"შესვლა / რეგისტრაცია";b.classList.toggle("in",!!ACCT.user);}
 const GSVG='<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>';
 function renderAcctBox(msg){const el=$("acctBody");
   if(!ACCT.sb){el.innerHTML='<h3 id="acctT">შესვლა</h3><p class="note">შესვლა ახლა მიუწვდომელია. სცადე მოგვიანებით.</p>';return}
-  if(!ACCT.user){el.innerHTML='<h3 id="acctT">შესვლა ან რეგისტრაცია</h3><p class="note">ანგარიშით შენი და შენი ახლობლების დაბადების მონაცემები და ასცენდენტის შედეგი ყველა მოწყობილობაზე შეინახება. პირველი შესვლა ავტომატურად გიქმნის ანგარიშს.</p>'+
-    '<button type="button" class="gbtn" id="acctG">'+GSVG+'Google-ით შესვლა</button><div class="orline">ან ელფოსტით</div>'+
-    '<form id="acctF" class="col" style="display:flex;flex-direction:column;gap:10px"><label class="flabel" for="acctE">ელფოსტა</label><input type="email" id="acctE" required autocomplete="email" placeholder="name@example.com"><button type="submit" class="primary">შესვლის ბმულის გაგზავნა</button></form>'+
-    '<p class="note" id="acctMsg" aria-live="polite">'+(msg||'')+'</p><p class="note">შესვლით ეთანხმები <a href="terms.html" target="_blank" rel="noopener">წესებსა და პირობებს</a> და <a href="privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკას</a>.</p>';
-    $("acctG").addEventListener("click",acctGoogle);$("acctF").addEventListener("submit",acctEmail);return}
+  if(ACCT.recovery){el.innerHTML='<h3 id="acctT">ახალი პაროლი</h3><form id="acctNP" style="display:flex;flex-direction:column;gap:10px"><label class="flabel" for="acctP1">ახალი პაროლი</label><input type="password" id="acctP1" required minlength="8" autocomplete="new-password"><label class="flabel" for="acctP2">გაიმეორე პაროლი</label><input type="password" id="acctP2" required minlength="8" autocomplete="new-password"><button type="submit" class="primary">პაროლის შენახვა</button></form><p class="note" id="acctMsg" aria-live="polite">'+(msg||'')+'</p>';
+    $("acctNP").addEventListener("submit",acctNewPass);return}
+  if(!ACCT.user){const reg=ACCT.mode==="reg",fg=ACCT.mode==="forgot";
+    el.innerHTML='<h3 id="acctT">'+(fg?'პაროლის აღდგენა':reg?'რეგისტრაცია':'შესვლა')+'</h3>'+
+    (fg?'':'<div class="atabs" role="tablist"><button type="button" role="tab" aria-selected="'+!reg+'" data-m="in">შესვლა</button><button type="button" role="tab" aria-selected="'+reg+'" data-m="reg">რეგისტრაცია</button></div>'+
+      '<p class="note">'+(reg?'ანგარიშით შენი და შენი ახლობლების დაბადების მონაცემები და ასცენდენტის შედეგი ყველა მოწყობილობაზე შეინახება.':'შედი ანგარიშზე, რომ შენი მონაცემები ყველა მოწყობილობაზე გქონდეს.')+'</p>'+
+      '<button type="button" class="gbtn" id="acctG">'+GSVG+(reg?'Google-ით რეგისტრაცია':'Google-ით შესვლა')+'</button><div class="orline">ან ელფოსტით</div>')+
+    '<form id="acctF" style="display:flex;flex-direction:column;gap:10px"><label class="flabel" for="acctE">ელფოსტა</label><input type="email" id="acctE" required autocomplete="email" placeholder="name@example.com">'+
+    (fg?'<p class="note">მიუთითე ელფოსტა და გამოგიგზავნით ბმულს, რომლითაც ახალ პაროლს დააყენებ.</p><button type="submit" class="primary">ბმულის გაგზავნა</button><button type="button" class="linkbtn" data-m="in">უკან, შესვლაზე</button>':
+     '<label class="flabel" for="acctP">პაროლი</label><input type="password" id="acctP" required minlength="8" autocomplete="'+(reg?'new-password':'current-password')+'"'+(reg?' aria-describedby="acctPh"':'')+'>'+
+     (reg?'<small class="muted" id="acctPh">მინიმუმ 8 სიმბოლო</small><label class="flabel" for="acctP2">გაიმეორე პაროლი</label><input type="password" id="acctP2" required minlength="8" autocomplete="new-password">':'')+
+     '<button type="submit" class="primary">'+(reg?'რეგისტრაცია':'შესვლა')+'</button>'+(reg?'':'<button type="button" class="linkbtn" data-m="forgot">პაროლი დაგავიწყდა?</button>'))+'</form>'+
+    '<p class="note" id="acctMsg" aria-live="polite">'+(msg||'')+'</p>'+(reg?'<p class="note">რეგისტრაციით ეთანხმები <a href="terms.html" target="_blank" rel="noopener">წესებსა და პირობებს</a> და <a href="privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკას</a>.</p>':'');
+    if(!fg)$("acctG").addEventListener("click",acctGoogle);
+    el.querySelectorAll("[data-m]").forEach(b=>b.addEventListener("click",()=>{const em=$("acctE").value;ACCT.mode=b.dataset.m;renderAcctBox();$("acctE").value=em;$("acctE").focus();}));
+    $("acctF").addEventListener("submit",fg?acctForgot:reg?acctSignUp:acctSignIn);return}
   el.innerHTML='<h3 id="acctT">ჩემი ანგარიში</h3><p class="note">შესული ხარ როგორც <b></b></p>'+
     '<div><b>ჩემი მონაცემები</b><p class="note">'+(ACCT.self?PFX(ACCT.self.data.Y?{D:+ACCT.self.data.D,M:+ACCT.self.data.M,Y:+ACCT.self.data.Y,H:ACCT.self.data.h,Mi:ACCT.self.data.mi,unknown:ACCT.self.data.p==="unknown",cn:ACCT.self.data.cn,man:ACCT.self.data.man}:null)+(ACCT.self.asc_result?' · ასცენდენტი '+S[ACCT.self.asc_result.s].ka:''):'ჯერ არ არის შენახული. შეავსე დაბადების მონაცემები ნებისმიერ გვერდზე და ავტომატურად შეინახება.')+'</p></div>'+
     '<div><b>შენახული ადამიანები</b>'+(ACCT.people.length?'<ul class="plist2">'+ACCT.people.map(p=>'<li><span><span class="pn"></span><br><small>'+PFX(p.data)+'</small></span><button type="button" data-del="'+p.id+'">წაშლა</button></li>').join("")+'</ul>':'<p class="note">ჯერ არავინ. წყვილის ანალიზისა და კარმული კავშირების გვერდზე პარტნიორ B-ს შენახვა ერთი დაჭერით შეგიძლია.</p>')+'</div>'+
@@ -7184,10 +7196,25 @@ function renderAcctBox(msg){const el=$("acctBody");
 const acctBack=()=>{try{sessionStorage.setItem("zw_back",location.hash||"");}catch(e){}return location.origin+location.pathname;};
 async function acctGoogle(){const {error}=await ACCT.sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:acctBack()}});
   if(error)renderAcctBox("Google-ით შესვლა ჯერ არ არის ჩართული. სცადე ელფოსტით.");}
-async function acctEmail(e){e.preventDefault();const em=$("acctE").value.trim(),btn=e.target.querySelector("button");btn.disabled=true;
-  const {error}=await ACCT.sb.auth.signInWithOtp({email:em,options:{emailRedirectTo:acctBack(),shouldCreateUser:true}});
-  btn.disabled=false;
-  $("acctMsg").textContent=error?(error.status===429?"ძალიან ბევრი მცდელობაა. სცადე რამდენიმე წუთში.":"ბმული ვერ გაიგზავნა. შეამოწმე მისამართი და სცადე თავიდან."):"ბმული გაიგზავნა "+em+"-ზე. გახსენი წერილი ამავე ბრაუზერში და დააჭირე ბმულს. თუ არ ჩანს, შეამოწმე სპამის საქაღალდე.";}
+const AERR=e=>!e?"":e.status===429?"ძალიან ბევრი მცდელობაა. სცადე რამდენიმე წუთში.":/invalid login|invalid_credentials/i.test(e.message||e.code||"")?"ელფოსტა ან პაროლი არასწორია.":/not confirmed/i.test(e.message||"")?"ელფოსტა ჯერ დადასტურებული არ არის. გახსენი წერილი და დააჭირე ბმულს.":/already registered|already exists/i.test(e.message||"")?"ამ ელფოსტით ანგარიში უკვე არსებობს. შედი ან აღადგინე პაროლი.":/password/i.test(e.message||"")?"პაროლი ძალიან სუსტია. გამოიყენე მინიმუმ 8 სიმბოლო, ასოები და ციფრები.":"ვერ მოხერხდა. სცადე თავიდან.";
+async function acctSignIn(e){e.preventDefault();const btn=e.target.querySelector("button[type=submit]");btn.disabled=true;
+  const {error}=await ACCT.sb.auth.signInWithPassword({email:$("acctE").value.trim(),password:$("acctP").value});btn.disabled=false;
+  if(error){$("acctMsg").textContent=AERR(error);return}ACCT.mode="in";acctClose();}
+async function acctSignUp(e){e.preventDefault();const em=$("acctE").value.trim(),p1=$("acctP").value,p2=$("acctP2").value;
+  if(p1!==p2){$("acctMsg").textContent="პაროლები არ ემთხვევა.";$("acctP2").focus();return}
+  const btn=e.target.querySelector("button[type=submit]");btn.disabled=true;
+  const {data,error}=await ACCT.sb.auth.signUp({email:em,password:p1,options:{emailRedirectTo:acctBack()}});btn.disabled=false;
+  if(error){$("acctMsg").textContent=AERR(error);return}
+  if(data&&data.user&&data.user.identities&&!data.user.identities.length){$("acctMsg").textContent=AERR({message:"already registered"});return}
+  if(data&&data.session){ACCT.mode="in";acctClose();return}
+  ACCT.mode="in";renderAcctBox("თითქმის მზადაა: "+em+"-ზე დადასტურების წერილი გამოგიგზავნეთ. გახსენი და დააჭირე ბმულს. თუ არ ჩანს, შეამოწმე სპამის საქაღალდე.");$("acctE").value=em;}
+async function acctForgot(e){e.preventDefault();const em=$("acctE").value.trim(),btn=e.target.querySelector("button[type=submit]");btn.disabled=true;
+  const {error}=await ACCT.sb.auth.resetPasswordForEmail(em,{redirectTo:acctBack()});btn.disabled=false;
+  $("acctMsg").textContent=error?AERR(error):"ბმული გაიგზავნა "+em+"-ზე. გახსენი წერილი ამავე ბრაუზერში.";}
+async function acctNewPass(e){e.preventDefault();const p1=$("acctP1").value,p2=$("acctP2").value;
+  if(p1!==p2){$("acctMsg").textContent="პაროლები არ ემთხვევა.";return}
+  const btn=e.target.querySelector("button");btn.disabled=true;const {error}=await ACCT.sb.auth.updateUser({password:p1});btn.disabled=false;
+  if(error){$("acctMsg").textContent=AERR(error);return}ACCT.recovery=false;renderAcctBox("პაროლი შეიცვალა.");}
 function selfSaveData(){const m=meGet();return m&&m.Y?m:null}
 let acctT=0;
 async function acctSaveSelf(){if(!ACCT.user)return;const m=selfSaveData();if(!m)return;
@@ -7231,6 +7258,7 @@ function renderPick(){document.querySelectorAll(".savedpick").forEach(box=>{
   s.onload=async()=>{try{
     const sb=window.supabase.createClient(SB.url,SB.key,{auth:{flowType:"pkce",detectSessionInUrl:true,persistSession:true}});ACCT.sb=sb;
     sb.auth.onAuthStateChange((ev,session)=>{const u=session?session.user:null,was=ACCT.user&&ACCT.user.id;ACCT.user=u;renderAcctBtn();
+      if(ev==="PASSWORD_RECOVERY"){ACCT.recovery=true;setTimeout(acctOpen,200);}
       if(u&&was!==u.id)setTimeout(acctLoad,0);if(!u){ACCT.self=null;ACCT.people=[];renderPick();}});
     const qs=new URLSearchParams(location.search);await sb.auth.getSession();
     if(qs.has("code")||qs.has("error")||qs.has("error_description")){let back="";try{back=sessionStorage.getItem("zw_back")||"";sessionStorage.removeItem("zw_back");}catch(e){}

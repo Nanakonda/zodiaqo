@@ -409,6 +409,7 @@ nav{row-gap:6px}
 .klvl{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
 .klvl.l2,.klvl.l3{color:var(--accent)}
 .kcat p{max-width:72ch}
+.ksum{padding:12px 14px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)}.ksum b{display:block;margin-bottom:4px;color:var(--accent);font-size:.9em;font-weight:600}.ksum p{margin:.35em 0 0}
 .klist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
 .klist li{background:var(--surface2);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
 .kline{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-weight:600}
@@ -6576,7 +6577,7 @@ const KCAT=[
  {id:"sat",t:"სატურნი: კარმის მასწავლებელი",g:"♄",
   d:"სატურნი სინასტრიაში „შემაკავშირებელი“ პლანეტაა: მისი კავშირები ყოველთვის სასიამოვნო არ არის, მაგრამ ადამიანებს ერთმანეთზე აბამს. ძლიერი სატურნის ასპექტები ხშირია ხანგრძლივ, სერიოზულ ურთიერთობებში. თუმცა ძალიან ბევრი სატურნი ურთიერთობას მძიმედ აქცევს. სატურნი კვანძზე ტრადიციულად გამყოფ ფაქტორად ითვლება."},
  {id:"ret",t:"რეტროგრადული პლანეტები: დაუსრულებელი საქმე",g:"℞",
-  d:"რეტროგრადული პლანეტის საქმეებს ადამიანი გარეთ ნაკლებად აჩვენებს: თავში ატრიალებს, უბრუნდება და ხელახლა წონის. როცა ასეთი პლანეტა მეორის პირად პლანეტას ეხება, ურთიერთობაში ჩნდება განცდა, რომ რაღაც დაუმთავრებელია, თითქოს წარსულიდან დარჩა. ასეთ კავშირს ხშირად „მეორე შანსად“ აღიქვამენ."},
+  d:"რეტროგრადული პლანეტის საქმეებს ადამიანი გარეთ ნაკლებად აჩვენებს: მათზე ბევრს ფიქრობს, ხშირად უბრუნდება და ხელახლა აფასებს. როცა ასეთი პლანეტა მეორის პირად პლანეტას ეხება, ურთიერთობაში ჩნდება განცდა, რომ რაღაც დაუმთავრებელია, თითქოს წარსულიდან დარჩა. ასეთ კავშირს ხშირად „მეორე შანსად“ აღიქვამენ."},
  {id:"plu",t:"პლუტონი: ღრმა გარდაქმნა",g:"♇",
   d:"პლუტონის ასპექტები პირად პლანეტებთან ინტენსიურ, გარდამქმნელ კავშირს ქმნის. ზედაპირზე ამოდის დამალული შიშები, ძალაუფლებისა და კონტროლის საკითხები. ვისაც პლუტონი ეკუთვნის, ხშირად მეტ გავლენას ახდენს იმაზე, როგორ განვითარდება ურთიერთობა."},
  {id:"out",t:"ურანი და ნეპტუნი: ელექტრული და სულიერი კავშირი",g:"♅♆",
@@ -6599,6 +6600,11 @@ function kChart(b){const C=chartOf(b),{d}=toUTCg(b.Y,b.M,b.D,b.mins,b.pl);
   if(C.an){C.pers.push({k:"ASC",ka:"ასცენდენტი",g:"AC",lon:C.an.asc});C.vx=vertexOf(d,b.pl.lat,b.pl.lo);}
   return C;}
 const pg=p=>["ASC","DSC","NN","SN","VX","NA"].includes(p.k)?p.g:p.g+VS;
+const RTX={Mercury:"რეტროგრადული მერკური: ერთსა და იმავე საუბარს ხშირად უბრუნდებით. რაღაც ბოლომდე ნათქვამი არ არის და ამის გარკვევა გჭირდებათ.",
+ Venus:"რეტროგრადული ვენერა: გრძნობებს ნელა და ფრთხილად ამჟღავნებთ. წარსული ურთიერთობები ხშირად გახსენდებათ და აწმყოზეც მოქმედებს.",
+ Mars:"რეტროგრადული მარსი: წყენა და სურვილები ხშირად ჩუმად გროვდება, ამიტომ ერთი და იგივე კამათი შეიძლება რამდენჯერმე განმეორდეს.",
+ Jupiter:"რეტროგრადული იუპიტერი: საერთო გეგმებსა და იმედებს ხშირად უბრუნდებით. დიდ ნაბიჯამდე ერთმანეთს დიდხანს აკვირდებით.",
+ Saturn:"რეტროგრადული სატურნი: ვინ რაზე აგებს პასუხს, ბოლომდე გარკვეული არ არის. ნდობას დრო სჭირდება."};
 function kFind(X,Y,xl,yl){
   const out={};KCAT.forEach(c=>out[c.id]=[]);
   const hit=(cat,p,q,A,orb,max,w,txt)=>out[cat].push({p,q,A,orb,w:w*(1-orb/max),from:xl,to:yl,txt});
@@ -6621,7 +6627,7 @@ function kFind(X,Y,xl,yl){
     for(const A of ASPECTS){const o=Math.abs(dp-A.a);if(o<=3){hit("plu",plu,q,A,o,3,A.t==="good"?1.4:2,KP.plu[q.k]);break}}
     ["Uranus","Neptune"].forEach(k=>{const u=P(k),d=sep(u.lon,q.lon);for(const A of ASPECTS){if(A.a===60)continue;const o=Math.abs(d-A.a);if(o<=2.5){hit("out",u,q,A,o,2.5,1.2,KP.out[k]);break}}});
     X.ps.filter(p=>p.retro&&["Mercury","Venus","Mars","Jupiter","Saturn"].includes(p.k)).forEach(r=>{
-      const d=sep(r.lon,q.lon);for(const A of ASPECTS){const o=Math.abs(d-A.a);if(o<=3){hit("ret",{...r,ka:r.ka+" ℞"},q,A,o,3,1,"რეტროგრადული "+r.ka+": "+"ამ ურთიერთობაში ხშირად უბრუნდებით ერთსა და იმავე დაუსრულებელ თემას: "+(PN[r.k]||r.ka).replace(/^შენი /,"")+". მას გადაფასება და საბოლოო გადაწყვეტა სჭირდება.");break}}});
+      const d=sep(r.lon,q.lon);for(const A of ASPECTS){const o=Math.abs(d-A.a);if(o<=3){hit("ret",{...r,ka:r.ka+" ℞"},q,A,o,3,1,RTX[r.k]);break}}});
   });
   if(Y.an){const asc=Y.an.asc,dsc=norm(asc+180);let pers12=0;
     X.ps.filter(p=>!(X.b.unknown&&p.k==="Moon")).forEach(p=>{
@@ -6644,8 +6650,8 @@ function karmaHTML(a,b){
     const lvl=sum>=4?"ძლიერი":sum>=1.5?"საშუალო":list.length?"სუსტი":"არ არის";
     const needT=["axis","h12","vx"].includes(c.id)&&(!A.an||!B.an);
     return {sum,c,html:'<article class="panel kcat'+(list.length?' on':'')+'"><div class="kh"><span class="kg glyph">'+c.g+'</span><div><h3>'+c.t+'</h3><span class="klvl l'+(list.length?Math.min(3,Math.ceil(sum/1.5)):0)+'">'+lvl+(list.length?' · '+list.filter(x=>!x.warn).length+' კავშირი':'')+'</span></div></div><p>'+c.d+'</p>'+
-     (list.length?'<ul class="klist">'+list.map(x=>'<li'+(x.warn?' class="kwarn"':'')+'><div class="kline"><span class="'+(x.from==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.p)+'</span> '+x.p.ka+(x.p.k==="X"?'':' '+x.from)+'</span>'+
-       (x.q?' <span class="ag"><span class="glyph">'+x.A.g+VS+'</span> '+x.A.n+'</span> <span class="'+(x.to==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.q)+'</span> '+x.q.ka+' '+x.to+'</span> <span class="num muted">'+x.orb.toFixed(1)+'°</span>':(x.warn?'':' <span class="ag">'+x.to+'-ს მე-⁠12 სახლში</span>'))+'</div>'+(x.txt?'<p>'+x.txt+'</p>':'')+'</li>').join("")+'</ul>':
+     (list.length?(()=>{const cnt={};list.forEach(x=>{if(x.txt)cnt[x.txt]=(cnt[x.txt]||0)+1});const rep=Object.keys(cnt).filter(t=>cnt[t]>1);return '<ul class="klist">'+list.map(x=>'<li'+(x.warn?' class="kwarn"':'')+'><div class="kline"><span class="'+(x.from==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.p)+'</span> '+x.p.ka+(x.p.k==="X"?'':' '+x.from)+'</span>'+
+       (x.q?' <span class="ag"><span class="glyph">'+x.A.g+VS+'</span> '+x.A.n+'</span> <span class="'+(x.to==="A"?"ca":"cb")+'"><span class="glyph">'+pg(x.q)+'</span> '+x.q.ka+' '+x.to+'</span> <span class="num muted">'+x.orb.toFixed(1)+'°</span>':(x.warn?'':' <span class="ag">'+x.to+'-ს მე-⁠12 სახლში</span>'))+'</div>'+(x.txt&&!rep.includes(x.txt)?'<p>'+x.txt+'</p>':'')+'</li>').join("")+'</ul>'+(rep.length?'<div class="ksum"><b>რას ნიშნავს ეს კავშირები ერთად</b>'+rep.map(t=>'<p>'+t+'</p>').join("")+'</div>':'')})():
        '<p class="muted">'+(needT?"ამ ფაქტორის შესამოწმებლად ორივეს ზუსტი დაბადების დროა საჭირო.":"ამ წყვილში ასეთი კავშირი არ არის.")+'</p>')+'</article>'};});
   const score=Math.min(100,Math.round(total*5));
   const verdict=score>=70?"ძალიან ძლიერი კარმული კავშირი":score>=45?"მკაფიო კარმული კავშირი":score>=20?"ზომიერი კარმული კავშირი":"სუსტი კარმული კავშირი";

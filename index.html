@@ -650,6 +650,35 @@ html{scroll-behavior:smooth}
   .toc::-webkit-scrollbar{display:none}
   .toc .chip{flex:none}
 }
+/* account panel */
+.acctp{gap:16px;padding:24px}
+.ahead{display:flex;align-items:center;gap:14px;padding-right:28px}
+.aava{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:1.2rem;color:var(--accent-ink);background:linear-gradient(135deg,var(--mk1),var(--mk2))}
+.ahead h3{font-size:1.15rem;line-height:1.2}
+.amail{color:var(--muted);font-size:.88rem;margin-top:2px!important;word-break:break-all}
+.acard{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:14px;background:var(--surface2);border:1px solid var(--line)}
+.acctp .ah{margin:0;font-family:inherit;text-transform:none;letter-spacing:0;font-size:.8rem;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:6px}
+.acount{font-size:.72rem;padding:1px 7px;border-radius:99px;background:var(--line);color:var(--fg)}
+.aval{color:var(--fg);font-size:.95rem}
+.aempty{color:var(--muted);font-size:.9rem;line-height:1.5}
+.apill{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:.85rem;padding:4px 10px;border-radius:99px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+.btn.asm{align-self:flex-start;padding:7px 14px;font-size:.88rem}
+.plist2 li{padding:8px 10px;background:var(--surface);gap:10px;justify-content:flex-start}
+.pinit{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:.85rem;font-weight:600;background:var(--line);color:var(--fg)}
+.pmeta{display:flex;flex-direction:column;min-width:0;flex:1}
+.pmeta .pn{font-weight:600}
+.pdel{margin-left:auto;background:none;border:0;color:var(--muted);font-size:.82rem}
+.pdel:hover{color:var(--rose)}
+.afoot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:4px;border-top:1px solid var(--line)}
+.afoot .btn{margin-top:12px}
+.alinks{display:flex;gap:14px;align-items:center;font-size:.84rem;margin-top:12px}
+.alinks a{color:var(--muted)}
+.adanger{color:var(--rose)!important;font-size:.84rem}
+#acctMsg:empty{display:none}
+#acctBody{display:flex;flex-direction:column;gap:14px}
+.afoot .btn{padding:8px 18px;font-size:.9rem;min-height:0}
+.alinks a,.alinks .linkbtn{text-decoration:none}
+.alinks a:hover,.alinks .linkbtn:hover{text-decoration:underline}
 </style>
 
 <div class="wrap">
@@ -7199,11 +7228,19 @@ function renderAcctBox(msg){const el=$("acctBody");
     if(!fg)$("acctG").addEventListener("click",acctGoogle);
     el.querySelectorAll("[data-m]").forEach(b=>b.addEventListener("click",()=>{const em=$("acctE").value;ACCT.mode=b.dataset.m;renderAcctBox();$("acctE").value=em;$("acctE").focus();}));
     $("acctF").addEventListener("submit",fg?acctForgot:reg?acctSignUp:acctSignIn);return}
-  el.innerHTML='<h3 id="acctT">ჩემი ანგარიში</h3><p class="note">შესული ხარ როგორც <b></b></p>'+
-    '<div><b>ჩემი მონაცემები</b><p class="note">'+(ACCT.self?PFX(ACCT.self.data.Y?{D:+ACCT.self.data.D,M:+ACCT.self.data.M,Y:+ACCT.self.data.Y,H:ACCT.self.data.h,Mi:ACCT.self.data.mi,unknown:ACCT.self.data.p==="unknown",cn:ACCT.self.data.cn,man:ACCT.self.data.man}:null)+(ACCT.self.asc_result?' · ასცენდენტი '+S[ACCT.self.asc_result.s].ka:''):'ჯერ არ არის შენახული. შეავსე დაბადების მონაცემები ნებისმიერ გვერდზე და ავტომატურად შეინახება.')+'</p></div>'+
-    '<div><b>შენახული ადამიანები</b>'+(ACCT.people.length?'<ul class="plist2">'+ACCT.people.map(p=>'<li><span><span class="pn"></span><br><small>'+PFX(p.data)+'</small></span><button type="button" data-del="'+p.id+'">წაშლა</button></li>').join("")+'</ul>':'<p class="note">ჯერ არავინ. წყვილის ანალიზისა და კარმული კავშირების გვერდზე პარტნიორ B-ს შენახვა ერთი დაჭერით შეგიძლია.</p>')+'</div>'+
-    '<p class="note" id="acctMsg" aria-live="polite">'+(msg||'')+'</p><div class="row" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between"><button type="button" id="acctOut">გასვლა</button><button type="button" id="acctDel" class="linkbtn">ანგარიშის წაშლა</button></div><p class="note"><a href="privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკა</a></p>';
-  el.querySelector("p.note b").textContent=ACCT.user.email||"";
+  const em=ACCT.user.email||"",sd=ACCT.self&&ACCT.self.data&&ACCT.self.data.Y?ACCT.self.data:null;
+  const selfHtml=sd?'<p class="aval">'+PFX({D:+sd.D,M:+sd.M,Y:+sd.Y,H:sd.h,Mi:sd.mi,unknown:sd.p==="unknown",cn:sd.cn,man:sd.man})+'</p>'+(ACCT.self.asc_result?'<span class="apill"><span class="glyph">'+gl(S[ACCT.self.asc_result.s])+'</span> ასცენდენტი: '+S[ACCT.self.asc_result.s].ka+'</span>':'')
+    :'<p class="aempty">ჯერ არ არის შენახული.</p><a class="btn ghost asm" href="#natal" data-close>შეავსე მონაცემები</a>';
+  const ppl=ACCT.people.length?'<ul class="plist2">'+ACCT.people.map(p=>'<li><span class="pinit" aria-hidden="true"></span><span class="pmeta"><span class="pn"></span><small>'+PFX(p.data)+'</small></span><button type="button" class="pdel" data-del="'+p.id+'" aria-label="წაშლა">წაშლა</button></li>').join("")+'</ul>'
+    :'<p class="aempty">ჯერ არავინ. პარტნიორის შენახვა წყვილის ანალიზის ან კარმული კავშირების გვერდზე შეგიძლია.</p>';
+  el.innerHTML='<div class="ahead"><span class="aava" aria-hidden="true"></span><div><h3 id="acctT">ჩემი ანგარიში</h3><p class="amail"></p></div></div>'+
+    '<section class="acard"><h4 class="ah">ჩემი მონაცემები</h4>'+selfHtml+'</section>'+
+    '<section class="acard"><h4 class="ah">შენახული ადამიანები'+(ACCT.people.length?' <span class="acount">'+ACCT.people.length+'</span>':'')+'</h4>'+ppl+'</section>'+
+    '<p class="note" id="acctMsg" aria-live="polite">'+(msg||'')+'</p>'+
+    '<div class="afoot"><button type="button" class="btn ghost" id="acctOut">გასვლა</button><span class="alinks"><a href="privacy.html" target="_blank" rel="noopener">კონფიდენციალურობა</a><button type="button" id="acctDel" class="linkbtn adanger">ანგარიშის წაშლა</button></span></div>';
+  el.querySelector(".amail").textContent=em;el.querySelector(".aava").textContent=(em[0]||"?").toUpperCase();
+  el.querySelectorAll("[data-close]").forEach(a=>a.addEventListener("click",acctClose));
+  el.querySelectorAll(".plist2 .pinit").forEach((n,i)=>{n.textContent=(ACCT.people[i].name||"?")[0];});
   el.querySelectorAll(".plist2 .pn").forEach((n,i)=>{n.textContent=ACCT.people[i].name;});
   $("acctOut").addEventListener("click",async()=>{await ACCT.sb.auth.signOut();acctClose();});
   $("acctDel").addEventListener("click",async e=>{const b=e.currentTarget;

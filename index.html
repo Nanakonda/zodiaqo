@@ -617,6 +617,39 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.85rem;color:
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.livedot,.spin,.sweep,.glow,.seg.cand path,.ctip{animation:none}.drawin{animation:none;stroke-dashoffset:0}}
 html{scroll-behavior:smooth}
+
+@media (min-width:861px){
+  .hero{grid-template-areas:"text wheel" "ctl wheel";grid-template-rows:auto 1fr;row-gap:28px}
+  .hero>.hero-text{grid-area:text}
+  .hero .sim{display:contents}
+  .hero .wheel{grid-area:wheel;align-self:start}
+  .hero .simctl{grid-area:ctl;align-self:start;max-width:520px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--surface) 70%,transparent)}
+}
+/* UI polish pass */
+.natal{display:block}
+.hsmore summary{cursor:pointer;color:var(--muted);font-size:.86rem;width:max-content;list-style:none}
+.hsmore summary::-webkit-details-marker{display:none}
+.hsmore summary::before{content:"ⓘ ";color:var(--accent)}
+.hsmore[open] summary{margin-bottom:8px}
+.b3grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.sec-head .muted{max-width:62ch}
+@media (min-width:980px){
+  .syn-forms{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:36px;row-gap:16px;align-items:start}
+  .syn-forms>.partner.pa{grid-column:1;grid-row:1 / span 2;border-bottom:0;padding-bottom:0}
+  .syn-forms>.savedpick{grid-column:2;grid-row:1}
+  .syn-forms>.partner.pb{grid-column:2;grid-row:2;border-left:1px solid var(--line);padding-left:36px;margin-left:-18px}
+  .syn-forms>.row,.syn-forms>.note{grid-column:1 / -1}
+}
+.syn-forms>.savedpick[hidden]+.partner.pb{grid-row:1}
+.toc{gap:6px}
+.toc .chip{font-size:.84rem;padding:6px 12px;min-height:0}
+.fctl:has(>select[aria-label="დღე"]+select[aria-label="თვე"]){display:grid;grid-template-columns:4.6em minmax(7em,9.5em) 5.8em;gap:8px;justify-content:start}
+.fctl:has(>select[aria-label="დღე"]+select[aria-label="თვე"])>select{width:100%;min-width:0}
+@media (max-width:560px){
+  .toc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px;padding:2px 4px 6px}
+  .toc::-webkit-scrollbar{display:none}
+  .toc .chip{flex:none}
+}
 </style>
 
 <div class="wrap">
@@ -699,11 +732,11 @@ html{scroll-behavior:smooth}
           </svg>
         </div>
         <h2>კარმული კავშირები</h2>
-        <p>ორი ადამიანის რუკას ათი კარმული ფაქტორით ვადარებთ, ორივე მიმართულებით: ვინ რა გაკვეთილს მოუტანს მეორეს და საიდან მოდის „ნაცნობობის“ განცდა.</p>
+        <p>ნახე, რა გაკვეთილი მოაქვს თქვენს ურთიერთობას და საიდან მოდის „ნაცნობობის“ განცდა, რომელიც პირველივე შეხვედრაზე ჩნდება.</p>
         <ul class="facts-mini">
           <li>☋︎ სამხრეთი და ☊︎ ჩრდილოეთი კვანძი</li>
           <li>♄︎ სატურნი და ♇︎ პლუტონი</li>
-          <li>Vx Vertex და ასც-დესც ღერძი</li>
+          <li>Vx ბედისწერის წერტილი</li>
           <li>12 მე-⁠12 სახლი და რეტროგრადები</li>
         </ul>
         <a class="btn primary" href="#karmic">შემოწმება</a>
@@ -716,7 +749,7 @@ html{scroll-behavior:smooth}
       <div><b>4300+ ადგილი</b><span>საქართველოს ყველა ქალაქი და სოფელი დაბადების ადგილის ასარჩევად</span></div>
     </div>
 
-    <div class="sec-head"><span class="eyebrow">სხვა ხელსაწყოები</span><h2>ყველაფერი შენი რუკისთვის</h2></div>
+    <div class="sec-head"><h2>ყველაფერი შენი რუკისთვის</h2></div>
     <div class="tools">
       <a class="tool" href="#natal"><span class="ti glyph">☉︎</span><b>ნატალური რუკა</b><span>შენი რუკა და მისი სრული ახსნა: დიდი სამეული, სტიქიები, სახლები, ასპექტები</span></a>
       <a class="tool" href="#compat"><span class="ti glyph">♀︎♂︎</span><b>წყვილის ანალიზი</b><span>სინასტრია, კომპოზიტი და თავსებადობა კატეგორიებით</span></a>
@@ -729,7 +762,6 @@ html{scroll-behavior:smooth}
 
   <section class="sec page" id="natal" data-page="natal">
     <div class="sec-head">
-      <span class="eyebrow">ნატალური რუკა</span>
       <h2>შენი დაბადების რუკა</h2>
       <p class="muted">შეიყვანე დაბადების თარიღი, დრო და ქალაქი. თუ ზუსტი დრო არ იცი, ჯერ <a href="#ascendant">დაადგინე ასცენდენტი</a>.</p>
     </div>
@@ -784,7 +816,7 @@ html{scroll-behavior:smooth}
           <div class="frow">
             <label class="flabel" for="nHs">სახლების სისტემა</label>
             <div class="fctl"><select id="nHs" aria-describedby="hsInfo"><option value="P" selected>პლაციდუსი (რეკომენდებული)</option><option value="E">თანაბარი სახლები</option><option value="W">მთელი ნიშნები</option></select></div>
-            <div class="hsbox"><p class="note">სახლები ცას 12 ცხოვრებისეულ სფეროდ ყოფს: პიროვნება, ფინანსები, ოჯახი, ურთიერთობები და ა.შ. სისტემა ცვლის მხოლოდ სახლების საზღვრებს. პლანეტების ნიშნები და ასცენდენტი იგივე რჩება. თუ არ იცი, რომელი აირჩიო, დატოვე პლაციდუსი.</p><p class="note" id="hsInfo"></p></div>
+            <details class="hsmore"><summary>რა არის სახლების სისტემა?</summary><div class="hsbox"><p class="note">სახლები ცას 12 ცხოვრებისეულ სფეროდ ყოფს: პიროვნება, ფინანსები, ოჯახი, ურთიერთობები და ა.შ. სისტემა ცვლის მხოლოდ სახლების საზღვრებს. პლანეტების ნიშნები და ასცენდენტი იგივე რჩება. თუ არ იცი, რომელი აირჩიო, დატოვე პლაციდუსი.</p><p class="note" id="hsInfo"></p></div></details>
           </div>
           <div class="frow">
             <label class="flabel" for="nTz">დროის სარტყელი</label>
@@ -828,7 +860,7 @@ html{scroll-behavior:smooth}
   <section class="sec page" id="ascendant" data-page="ascendant">
     <div class="phead">
       <h2>ასცენდენტის დადგენა</h2>
-      <p class="lead">არ იცი დაბადების ზუსტი დრო? შეიყვანე თარიღი და ქალაქი, უპასუხე კითხვებს და ნახე, რომელი ასცენდენტი და რომელი დრო შეგესაბამება ყველაზე მეტად. ყველაზე დიდ სიზუსტეს 1-⁠ლი ნაბიჯი (შუალედი) და მე-⁠4 ნაბიჯი (ცხოვრების მოვლენები) იძლევა. კითხვარი ასტროლოგიურ ტრადიციას ეყრდნობა, ამიტომ მას დამხმარე როლი აქვს.</p>
+      <p class="lead">არ იცი დაბადების ზუსტი დრო? შეიყვანე თარიღი და ქალაქი, უპასუხე კითხვებს და ნახე, რომელი ასცენდენტი და რომელი დრო შეგესაბამება. ყველაზე ზუსტ შედეგს 1-⁠ლი და მე-⁠4 ნაბიჯი იძლევა.</p>
     </div>
     <div class="withside">
       <div class="main">
@@ -982,25 +1014,25 @@ html{scroll-behavior:smooth}
   </section>
 
   <section class="sec page" id="career" data-page="career">
-    <div class="sec-head"><span class="eyebrow">პროფესია</span><h2>რა პროფესია გიხდება</h2>
-      <p class="muted">შეიყვანე დაბადების მონაცემები. პროფესიაზე რუკაში ყველაზე მეტს ცის შუაგული (MC) ამბობს: ეს ზოდიაქოს ის წერტილია, რომელიც დაბადების მომენტში ცაზე ყველაზე მაღლა იდგა, ჩვენს თავზე, სამხრეთით. ის კარიერას, მიზნებსა და საზოგადოებაში შენს ადგილს აღწერს და მე-⁠10 სახლის დასაწყისიც არის. ცის შუაგული დაახლოებით ყოველ 2 საათში ნიშანს იცვლის, ამიტომ ზუსტი შედეგისთვის დაბადების დრო მნიშვნელოვანია.</p></div>
+    <div class="sec-head"><h2>რა პროფესია გიხდება</h2>
+      <p class="muted">შეიყვანე დაბადების მონაცემები. პროფესიაზე ყველაზე მეტს ცის შუაგული (MC) ამბობს: ზოდიაქოს ის წერტილი, რომელიც დაბადებისას ცაზე ყველაზე მაღლა იდგა. ის ყოველ 2 საათში იცვლება, ამიტომ დაბადების დრო აქ მნიშვნელოვანია.</p></div>
     <div class="lifegrid"><div class="panel lifeform"><h3 class="ph3">დაბადების მონაცემები</h3><div class="bslot"></div></div><div class="liferes" id="carRes" aria-live="polite"></div></div>
   </section>
 
   <section class="sec page" id="trials" data-page="trials">
-    <div class="sec-head"><span class="eyebrow">ცხოვრების ციკლები</span><h2>როდის გელის სირთულეები</h2>
+    <div class="sec-head"><h2>როდის გელის სირთულეები</h2>
       <p class="muted">ნელი პლანეტები ყველა ადამიანის ცხოვრებაში ერთსა და იმავე ასაკში ქმნის „გამოცდებს“, ხოლო მათი ზუსტი დრო შენს რუკაზეა დამოკიდებული. აქ ჩანს, რა ასაკში და რა თემით მოდის თითოეული.</p></div>
     <div class="lifegrid"><div class="panel lifeform"><h3 class="ph3">დაბადების მონაცემები</h3><div class="bslot"></div></div><div class="liferes" id="trRes" aria-live="polite"></div></div>
   </section>
 
   <section class="sec page" id="marriage" data-page="marriage">
-    <div class="sec-head"><span class="eyebrow">ქორწინება</span><h2>როდის გელის დაოჯახება</h2>
+    <div class="sec-head"><h2>როდის გელის დაოჯახება</h2>
       <p class="muted">ტრადიციული ტექნიკებით ვეძებთ წლებს, როცა ერთდროულად რამდენიმე „ქორწინების ნიშანი“ აქტიურდება: იუპიტერისა და სატურნის ტრანზიტები, მეორადი პროგრესიები, დესცენდენტი და ვენერა.</p></div>
     <div class="lifegrid"><div class="panel lifeform"><h3 class="ph3">დაბადების მონაცემები</h3><div class="bslot"></div></div><div class="liferes" id="mrRes" aria-live="polite"></div></div>
   </section>
 
   <section class="sec page" id="numerology" data-page="numerology">
-    <div class="sec-head"><span class="eyebrow">ნუმეროლოგია</span><h2>შენი რიცხვები</h2>
+    <div class="sec-head"><h2>შენი რიცხვები</h2>
       <p class="muted">დაბადების თარიღიდან ვითვლით ცხოვრების გზის, დაბადების დღისა და პირადი წლის რიცხვებს, ისრებს და პითაგორას კვადრატს. სახელის ჩაწერის შემდეგ სახელის, სულისა და პიროვნების რიცხვებიც გამოჩნდება.</p></div>
     <div class="lifegrid"><div class="panel lifeform"><h3 class="ph3">მონაცემები</h3>
       <div class="frow"><label class="flabel" for="nuName">სრული სახელი და გვარი (არასავალდებულო)</label><input id="nuName" type="text" autocomplete="off" placeholder="მაგ. ნინო ბერიძე" maxlength="80"></div>
@@ -1010,9 +1042,8 @@ html{scroll-behavior:smooth}
 
   <section class="sec page" id="compat" data-page="compat">
     <div class="sec-head">
-      <span class="eyebrow">სინასტრია</span>
       <h2>წყვილის სრული ანალიზი</h2>
-      <p class="muted">შეიყვანე შენი და შენი პარტნიორის მონაცემები და ერთ გვერდზე მიიღებ ყველაფერს: თავსებადობის ქულას და კატეგორიებს, ორივეს პლანეტებს, ასპექტებს, მთვარის ფაზებს, ორივეს მოკლე პორტრეტს, ნიშნების თავსებადობას, კომპოზიტურ რუკას და კარმულ კავშირებს.</p>
+      <p class="muted">შეიყვანე შენი და პარტნიორის მონაცემები და ერთ გვერდზე ნახავ თავსებადობას, ორივეს რუკას, ასპექტებს და კომპოზიტურ რუკას.</p>
       <p><a href="#karmic">კარმული კავშირების ცალკე კალკულატორი →</a></p>
     </div>
     <div class="panel syn-forms">
@@ -1043,7 +1074,7 @@ html{scroll-behavior:smooth}
   </section>
 
   <footer>
-    <span>ციალი · ასტროლოგია ქართულად · ტროპიკული ზოდიაქო</span>
+    <span>© 2026 ციალი</span>
     <span>ინტერპრეტაციები ასტროლოგიურ ტრადიციას ეყრდნობა და მეცნიერულად დადასტურებული არ არის.</span>
     <span class="flinks"><a href="https://tsiali.com/terms.html" target="_blank" rel="noopener">წესები და პირობები</a> · <a href="https://tsiali.com/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკა</a></span>
   </footer>

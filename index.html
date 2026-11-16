@@ -7537,6 +7537,7 @@ function renderPick(){document.querySelectorAll(".savedpick").forEach(box=>{
     document.querySelector('.savedpick[data-for="'+box.dataset.for+'"] .sp-note').textContent=nm+" შენახულია.";});});}
 /* ---------- admin panel (#admin, only for accounts listed in public.admins) ---------- */
 const ADM={ok:null,busy:false};
+const admDT=(t,y)=>{if(!t)return"—";const p={};new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Tbilisi",year:"numeric",month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date(t)).forEach(x=>p[x.type]=x.value);return (+p.day)+" "+MONTHS[+p.month-1].slice(0,3)+(y?" "+p.year:"")+", "+p.hour+":"+p.minute;};
 const admDay=t=>{const d=new Date(t);return d.toLocaleDateString("en-CA",{timeZone:"Asia/Tbilisi"});};
 async function admCheck(){if(!ACCT.sb||!ACCT.user){ADM.ok=false;return false}
   const {data,error}=await ACCT.sb.rpc("is_admin");ADM.ok=!error&&data===true;return ADM.ok;}
@@ -7568,7 +7569,7 @@ async function admOpen(){const el=$("admBody");if(!el)return;
   const topHtml=tops.length?'<ul class="atop">'+tops.map(([id,v])=>'<li><span>'+((PW.P[id]||{}).t||id)+'</span><i style="width:'+Math.max(4,v.s/tmx*100)+'%"></i><b>'+v.n+' · '+PW.fmt(v.s)+'</b></li>').join("")+'</ul>':'<p class="aempty">ჯერ არცერთი ანალიზი არ გაყიდულა.</p>';
   const ST={paid:"გადახდილი",pending:"მოლოდინში",refunded:"დაბრუნებული"};
   const rec=(O.recent||[]);
-  const recHtml=rec.length?'<div class="tbl"><table><thead><tr><th>თარიღი</th><th>მომხმარებელი</th><th>ანალიზი</th><th>თანხა</th><th>სტატუსი</th></tr></thead><tbody>'+rec.map(x=>'<tr><td class="num">'+new Date(x.created_at).toLocaleString("ka-GE",{timeZone:"Asia/Tbilisi",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+'</td><td class="aem"></td><td>'+((PW.P[x.product_id]||{}).t||x.product_id)+'</td><td class="num">'+PW.fmt(x.amount)+'</td><td><span class="ast '+x.status+'">'+(ST[x.status]||x.status)+'</span></td></tr>').join("")+'</tbody></table></div>':'<p class="aempty">შესყიდვები ჯერ არ არის.</p>';
+  const recHtml=rec.length?'<div class="tbl"><table><thead><tr><th>თარიღი</th><th>მომხმარებელი</th><th>ანალიზი</th><th>თანხა</th><th>სტატუსი</th></tr></thead><tbody>'+rec.map(x=>'<tr><td class="num">'+admDT(x.created_at)+'</td><td class="aem"></td><td>'+((PW.P[x.product_id]||{}).t||x.product_id)+'</td><td class="num">'+PW.fmt(x.amount)+'</td><td><span class="ast '+x.status+'">'+(ST[x.status]||x.status)+'</span></td></tr>').join("")+'</tbody></table></div>':'<p class="aempty">შესყიდვები ჯერ არ არის.</p>';
   const P=po.data&&po.data[0];
   const promoHtml=P?'<form id="admPromo" class="aform"><label class="pill"><input type="checkbox" name="active"'+(P.active?' checked':'')+'> ფასდაკლება ჩართულია</label>'+
     '<label>ფასდაკლება<span class="ain"><input type="number" name="pct" min="1" max="90" value="'+P.pct+'"> %</span></label>'+
@@ -7584,7 +7585,7 @@ async function admOpen(){const el=$("admBody");if(!el)return;
     '<div class="agrid"><section class="panel"><h3 class="ph3">ფასები</h3>'+prodHtml+'</section><section class="panel"><h3 class="ph3">გახსნის ფასდაკლება</h3>'+promoHtml+'</section></div>'+
     '<p class="note">ახალი რეგისტრაციები ბოლო 30 დღეში: '+Object.values(sgn).reduce((a,b)=>a+b,0)+'. მონაცემები განახლდება გვერდის ხელახლა გახსნისას. <button type="button" class="linkbtn" id="admRe">ახლავე განახლება</button></p>';
   el.querySelectorAll("td.aem").forEach((td,i)=>{td.textContent=rec[i].email||"";});
-  const fd=t=>t?new Date(t).toLocaleString("ka-GE",{timeZone:"Asia/Tbilisi",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}):"—";
+  const fd=t=>admDT(t,true);
   const drawU=q=>{const tb=$("admU");if(!tb)return;tb.innerHTML="";U.filter(u=>!q||(u.email||"").toLowerCase().includes(q)).forEach(u=>{const tr=document.createElement("tr");
     [u.email||"—",fd(u.created_at),fd(u.last_sign_in_at),u.provider==="google"?"Google":"ელფოსტა"+(u.confirmed?"":" (დაუდასტურებელი)"),String(u.people),u.buys?u.buys+" · "+PW.fmt(u.spent):"—"].forEach((v,i)=>{const td=document.createElement("td");td.textContent=v;if(i===1||i===2)td.className="num";tr.appendChild(td);});tb.appendChild(tr);});};
   drawU("");$("admQ").addEventListener("input",e=>drawU(e.target.value.trim().toLowerCase()));

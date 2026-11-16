@@ -696,6 +696,50 @@ html{scroll-behavior:smooth}
 .ktag.hard{color:var(--rose);background:color-mix(in srgb,var(--rose) 14%,transparent)}
 .ktag.one{color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent)}
 footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
+
+/* ---------- paywall + pricing ---------- */
+.pwall{display:flex;flex-direction:column;gap:0;margin-top:4px}
+.pwpeek{position:relative;padding:22px 28px 0;max-height:150px;overflow:hidden;border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;background:var(--surface);-webkit-mask-image:linear-gradient(#000 35%,transparent);mask-image:linear-gradient(#000 35%,transparent);pointer-events:none;user-select:none}
+.pwpeek h3{margin-bottom:8px}.pwpeek p{color:var(--muted);filter:blur(1.2px)}
+.pwcard{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:30px 28px 26px;border-radius:18px;border:1px solid color-mix(in srgb,var(--accent) 60%,var(--line));
+  background:radial-gradient(600px 220px at 50% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%),var(--surface);box-shadow:0 18px 50px -20px color-mix(in srgb,var(--accent) 40%,transparent)}
+.pwpeek+.pwcard{margin-top:-28px}
+.pwico{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent)}
+.pwico svg{width:22px;height:22px}
+.pwcard h3{font-size:1.35rem;text-wrap:balance}
+.pwsub{color:var(--muted);max-width:52ch;margin:0}
+.pwlist{list-style:none;padding:0;margin:4px 0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:640px}
+.pwlist li{font-size:.84rem;padding:5px 12px 5px 28px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);position:relative}
+.pwlist li::before{content:"";position:absolute;left:11px;top:50%;width:9px;height:9px;margin-top:-5px;border:1.5px solid var(--accent);border-radius:2px}
+.pwprice{display:flex;align-items:baseline;justify-content:center;gap:10px;flex-wrap:wrap}
+.pwprice b{font-size:2rem;font-weight:700;color:var(--accent);line-height:1.1}
+.pwprice s{color:var(--muted);font-size:1.05rem}
+.pwtag{font-size:.78rem;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--rose);color:var(--accent-ink);align-self:center}
+.pwup{font-size:.9rem;color:var(--fg);align-self:center;text-align:center}.pwup b{color:var(--accent)}
+.pwtrust{font-size:.8rem;color:var(--muted);margin:0}
+.pwmini{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 20px;border:1px dashed color-mix(in srgb,var(--accent) 50%,var(--line));border-radius:14px;color:var(--muted);font-size:.9rem}
+.pwmini .pwico{width:34px;height:34px}.pwmini .btn{margin-left:auto}
+.pwblur{filter:blur(7px);user-select:none}
+#buyBody{display:flex;flex-direction:column;gap:12px}#buyBody .pwprice{justify-content:flex-start}
+.princ{margin:0;padding-left:1.1em;color:var(--muted);font-size:.92rem}.princ li{margin:2px 0}
+.prpromo{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;align-items:baseline;padding:12px 18px;border-radius:14px;background:color-mix(in srgb,var(--rose) 18%,transparent);border:1px solid color-mix(in srgb,var(--rose) 50%,transparent);margin-bottom:18px}
+.prpromo span{color:var(--muted);font-size:.9rem}
+.prfree{display:flex;gap:10px 18px;flex-wrap:wrap;align-items:center;padding:16px 22px;margin-bottom:22px}
+.prfree b{color:var(--accent)}
+.prtop{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-bottom:34px}
+.prgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:14px 0 34px}
+.prc{position:relative;display:flex;flex-direction:column;gap:10px;padding:24px 22px;border-radius:18px;border:1px solid var(--line);background:var(--surface)}
+.prc p{margin:0;color:var(--muted);font-size:.92rem}
+.prc .pwprice{justify-content:flex-start;margin-top:auto}
+.prc .btn{align-self:stretch}
+.prc.pop{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.prc.best{border-color:var(--accent);background:radial-gradient(500px 200px at 50% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%),var(--surface)}
+.prbadge{position:absolute;top:-11px;left:20px;font-size:.75rem;font-weight:700;padding:3px 11px;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
+.prc.pop .prbadge{background:var(--surface2);color:var(--accent);border:1px solid var(--accent)}
+.prsave{font-size:.85rem!important;color:var(--earth)!important}
+.prfaq details{border-top:1px solid var(--line);padding:12px 0}.prfaq details:first-of-type{border-top:0}
+.prfaq summary{cursor:pointer;font-weight:600}.prfaq details p{margin:8px 0 0;color:var(--muted);max-width:70ch}
+@media (max-width:600px){.pwcard{padding:24px 18px}.pwpeek{padding:18px 18px 0}.pwmini .btn{margin-left:0}}
 </style>
 
 <div class="wrap">
@@ -710,9 +754,11 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
       <a href="#trials" data-p="trials">სირთულეები</a>
       <a href="#marriage" data-p="marriage">დაოჯახება</a>
       <a href="#numerology" data-p="numerology">ნუმეროლოგია</a>
+      <a href="#pricing" data-p="pricing" class="pwnav" hidden>ფასები</a>
     </nav>
     <button type="button" id="acctBtn" class="acctbtn" hidden>შესვლა</button>
   </header>
+  <div id="buyBox" class="acctov" hidden><div class="panel acctp" role="dialog" aria-modal="true" aria-labelledby="buyT"><button type="button" class="acctx" id="buyX" aria-label="დახურვა">×</button><div id="buyBody"></div></div></div>
   <div id="acctBox" class="acctov" hidden><div class="panel acctp" role="dialog" aria-modal="true" aria-labelledby="acctT"><button type="button" class="acctx" id="acctX" aria-label="დახურვა">×</button><div id="acctBody"></div></div></div>
 
   <canvas id="sky" aria-hidden="true"></canvas>
@@ -1122,6 +1168,25 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
     <p class="note">მეთოდი კარმული სინასტრიის ტრადიციულ ფაქტორებს ეყრდნობა. შედეგი ასტროლოგიურ ტრადიციას ეყრდნობა და გასართობი მიზნით იქმნება.</p>
   </section>
 
+  
+  <section class="sec page" id="pricing" data-page="pricing" hidden>
+    <div class="phead">
+      <h2>ფასები</h2>
+      <p class="lead">ასცენდენტის ნიშანი და რუკის მთავარი ნაწილი უფასოა. სრულ ანალიზს ერთხელ ყიდულობ და ის სამუდამოდ შენს ანგარიშზე რჩება.</p>
+    </div>
+    <div id="prPromo"></div>
+    <div class="panel prfree"><b>უფასოდ</b><span>ასცენდენტის ნიშანი</span><span>მზე, მთვარე და ასცენდენტი</span><span>წყვილის საერთო თავსებადობა</span><span>კარმული კავშირის სიძლიერე</span><span>მოკლე შეჯამება ყველა გვერდზე</span></div>
+    <div class="prtop" id="prTop"></div>
+    <h3>ცალკეული ანალიზები</h3>
+    <div class="prgrid" id="prGrid"></div>
+    <div class="panel prfaq">
+      <h3 style="margin-bottom:8px">ხშირი კითხვები</h3>
+      <details><summary>ეს ერთჯერადი გადახდაა?</summary><p>კი. ანალიზს ერთხელ ყიდულობ და ის სამუდამოდ შენს ანგარიშზე რჩება. გამოწერა და ყოველთვიური ჩამოჭრა არ არის.</p></details>
+      <details><summary>რატომ მჭირდება ანგარიში?</summary><p>შენაძენი ანგარიშზე ინახება, ამიტომ მას ნებისმიერი მოწყობილობიდან გახსნი: ტელეფონიდანაც და კომპიუტერიდანაც.</p></details>
+      <details><summary>როგორ გადავიხადო?</summary><p>ბარათით, ბანკის დაცულ გვერდზე. ბარათის მონაცემები ციალს არ ხვდება.</p></details>
+      <details><summary>სხვისი ანალიზის ყიდვაც შემიძლია?</summary><p>კი. თითოეული ანალიზი კონკრეტული ადამიანის ან წყვილის მონაცემებზე იხსნება. ახალი ადამიანისთვის ან ახალი წყვილისთვის ცალკე შეძენაა საჭირო. სრული ციალი ერთ ადამიანს და მის ერთ წყვილს მოიცავს.</p></details>
+    </div>
+  </section>
   <footer>
     <span>© 2026 ციალი</span>
     <span>ინტერპრეტაციები ასტროლოგიურ ტრადიციას ეყრდნობა და მეცნიერულად დადასტურებული არ არის.</span>
@@ -1138,6 +1203,119 @@ const EL_GEN={fire:"ცეცხლის",earth:"მიწის",air:"ჰა�
 const MONTHS_GEN=["იანვრის","თებერვლის","მარტის","აპრილის","მაისის","ივნისის","ივლისის","აგვისტოს","სექტემბრის","ოქტომბრის","ნოემბრის","დეკემბრის"];
 const EL={fire:"ცეცხლი",earth:"მიწა",air:"ჰაერი",water:"წყალი"};
 const VS="︎";
+/* ---------- paid features (paywall) ---------- */
+/* mode: "off" = everything open (until card payments are connected), "preview" = locks shown (?pw=1), "live" = payments on */
+const PW_LIVE=false;
+const PW={mode:"off",owned:[],promo:null,ctx:null,
+  P:{
+    asc_natal:{t:"ასცენდენტი + სრული რუკა",k:"single",p:19.90,inc:["asc","natal"],pop:true,d:"დაბადების დრო არ იცი? ციალი გამოთვლის, დაახლოებით რომელ საათზე დაიბადე, და ამ დროით სრულ რუკას აგებს."},
+    natal:{t:"სრული ნატალური რუკა",k:"single",p:14.90,inc:["natal"],d:"შენი რუკის ყველა ნაწილი: ხასიათი, სიყვარული, ფული, კარიერა და ცხოვრების გზა."},
+    karmic:{t:"კარმული კავშირები",k:"pair",p:14.90,inc:["karmic"],d:"ყველა კარმული კავშირი შენსა და შენს ადამიანს შორის და რას ნიშნავს ისინი ერთად."},
+    compat:{t:"წყვილის ანალიზი",k:"pair",p:14.90,inc:["compat"],d:"როგორ მოქმედებთ ერთმანეთზე: სად ეხმარებით ერთმანეთს და სად ეჯახებით."},
+    pair_pack:{t:"წყვილის პაკეტი",k:"pair",p:22.90,inc:["karmic","compat"],d:"კარმული კავშირები და წყვილის ანალიზი ერთად, ერთ წყვილზე."},
+    career:{t:"პროფესია",k:"single",p:9.90,inc:["career"],d:"რომელი სფეროები გიხდება, როგორ მუშაობ საუკეთესოდ და საიდან მოდის შენი ფული."},
+    marriage:{t:"დაოჯახება",k:"single",p:9.90,inc:["marriage"],d:"როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."},
+    trials:{t:"სირთულეები",k:"single",p:9.90,inc:["trials"],d:"ცხოვრების რთული პერიოდები და რას გასწავლის თითოეული."},
+    numerology:{t:"ნუმეროლოგია",k:"single",p:7.90,inc:["numerology"],d:"ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."},
+    full:{t:"სრული ციალი",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials","numerology"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
+  F2P:{asc:"asc_natal",natal:"natal",karmic:"karmic",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
+  FN:{asc:"ასცენდენტი და დაბადების სავარაუდო დრო",natal:"სრული ნატალური რუკა",karmic:"კარმული კავშირები",compat:"წყვილის ანალიზი",career:"პროფესია",marriage:"დაოჯახება",trials:"სირთულეები",numerology:"ნუმეროლოგია"},
+  PG:{asc:"ascendant",natal:"natal",karmic:"karmic",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
+  FT:{natal:["შენი რუკის სრული ანალიზი","ხასიათი, სიყვარული, ფული და ცხოვრების გზა: ყველაფერი შენი დაბადების მონაცემებით დაწერილი."],
+    asc:["გაიგე, რომელ საათზე დაიბადე","ციალი გამოთვლის შენი დაბადების სავარაუდო დროს და ამ დროით სრულ ნატალურ რუკას აგებს."],
+    karmic:["ყველა კარმული კავშირი","რა გაკავშირებთ, რისი სწავლა შეგიძლიათ ერთმანეთისგან და რას ნიშნავს ეს კავშირები ერთად."],
+    compat:["როგორ მოქმედებთ ერთმანეთზე","დეტალური ანალიზი: სად ეხმარებით ერთმანეთს, სად ეჯახებით და რა გაძლიერებთ წყვილად."],
+    career:["შენი კარიერული პორტრეტი","სფეროები, რომლებიც გიხდება, შენი სამუშაო სტილი და ფულის წყარო."],
+    marriage:["სიყვარული და დაოჯახება","როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."],
+    trials:["სირთულეები და გამოსავალი","ცხოვრების რთული პერიოდები და რას გასწავლის თითოეული."],
+    numerology:["შენი რიცხვების სრული განმარტება","ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."]},
+  fmt:n=>(+n).toFixed(2)+" ₾",
+  price(id){const p=PW.P[id].p;if(!PW.promo)return p;return Math.max(.9,Math.round(p*(1-PW.promo.pct/100))-.1);},
+  sumOf(id){return PW.P[id].inc.reduce((s,f)=>s+(f==="asc"?0:PW.P[f==="natal"&&PW.P[id].inc.includes("asc")?"asc_natal":PW.F2P[f]].p),0);},
+  key(o){if(!o||o.err||!o.pl)return"";return [o.Y,o.M,o.D,(+o.pl.lat).toFixed(2),(+o.pl.lo).toFixed(2)].join("|");},
+  pkey(ks){return [...ks].sort().join("~");},
+  has(feat,keys){if(PW.mode==="off")return true;if(!keys||!keys.length||keys.some(k=>!k))return false;
+    return PW.owned.some(o=>{const pr=PW.P[o.product_id];if(!pr||!pr.inc.includes(feat))return false;
+      if(pr.k==="bundle")return keys.includes(o.chart_key);
+      if(pr.k==="pair")return keys.length===2&&o.chart_key===PW.pkey(keys);
+      return keys.length===1&&o.chart_key===keys[0];});},
+  priceHtml(id){const p=PW.P[id].p,np=PW.price(id);return '<div class="pwprice">'+(PW.promo?'<s>'+PW.fmt(p)+'</s> ':'')+'<b>'+PW.fmt(np)+'</b>'+(PW.promo?'<span class="pwtag">−'+PW.promo.pct+'% · გახსნის ფასი</span>':'')+'</div>';},
+  upHtml(feat){const up=["karmic","compat"].includes(feat)?"pair_pack":"full",sum=up==="pair_pack"?PW.P.karmic.p+PW.P.compat.p:PW.sumOf("full");
+    return '<button type="button" class="linkbtn pwup" data-buy="'+up+'">'+(up==="pair_pack"?'ან ორივე ერთად, წყვილის პაკეტით':'ან ყველაფერი ერთად, სრული ციალით')+': <b>'+PW.fmt(PW.price(up))+'</b> <span class="muted">('+PW.fmt(sum)+'-ის ნაცვლად)</span></button>';},
+  LOCK:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
+  card(feat,keys,titles,peek,pid){pid=pid||PW.F2P[feat];const [t,sub]=PW.FT[feat];
+    return '<div class="pwall" data-keys="'+keys.join(",")+'">'+(peek?'<div class="pwpeek" aria-hidden="true">'+peek+'</div>':'')+
+      '<div class="pwcard"><span class="pwico">'+PW.LOCK+'</span><h3>'+t+'</h3><p class="pwsub">'+sub+'</p>'+
+      (titles&&titles.length?'<ul class="pwlist">'+titles.map(x=>'<li>'+escH(x)+'</li>').join("")+'</ul>':'')+
+      PW.priceHtml(pid)+'<button type="button" class="btn primary big" data-buy="'+pid+'">'+(feat==="asc"?'გაიგე დაბადების დრო':'გააგრძელე კითხვა')+'</button>'+PW.upHtml(feat)+
+      '<p class="pwtrust">ერთჯერადი გადახდა · სამუდამოდ შენს ანგარიშზე რჩება</p></div></div>';},
+  gate(el,feat,keys,o){if(!el||PW.has(feat,keys))return;o=o||{};PW.ctx=PW.ctx||{};
+    el.querySelectorAll(":scope>.toc").forEach(n=>n.remove());
+    const kids=[...el.children],keep=o.keep==null?1:o.keep,rest=kids.slice(keep);
+    kids.slice(0,keep).forEach(k=>k.querySelectorAll("details.lpast").forEach(d=>d.remove()));
+    if(!rest.length)return;
+    const titles=rest.map(n=>{const h=n.querySelector("h3,h4");return h?h.textContent.split(":")[0].trim():""}).filter((x,i,a)=>x&&a.indexOf(x)===i).slice(0,8);
+    let peek="";if(!o.mini){const h=rest[0].querySelector("h3,h4"),p=rest[0].querySelector("p");const tx=p?p.textContent.trim():"";
+      peek=(h?'<h3>'+escH(h.textContent)+'</h3>':'')+(tx?'<p>'+escH(tx.slice(0,230))+'…</p>':'');}
+    rest.forEach(n=>n.remove());
+    el.insertAdjacentHTML("beforeend",o.mini?'<div class="pwmini"><span class="pwico">'+PW.LOCK+'</span><span>'+(titles.length?titles.join(", ")+': ':'')+'სრულ ანალიზშია.</span><button type="button" class="btn ghost" data-buy="'+(o.pid||PW.F2P[feat])+'">გახსნა</button></div>':PW.card(feat,keys,titles,peek,o.pid));},
+  asc(el,f){const k=[PW.key(f)];if(!el||PW.has("asc",k))return;
+    const born=el.querySelector(".bornres");
+    if(born){const t=born.querySelector(".borntime");if(t){t.textContent="••:••";t.classList.add("pwblur");}
+      const sm=born.querySelector("small.num");if(sm)sm.textContent="დაბადების სავარაუდო დრო და შუალედი სრულ ანალიზშია";
+      const bt=born.querySelector("button[data-m]");if(bt)bt.remove();
+      born.querySelectorAll(".bornrow > div > div").forEach((d,i)=>{if(i===1)d.innerHTML=d.innerHTML.replace("შენი სავარაუდო დაბადების დრო · ","");});}
+    const cmp=el.querySelector(".cmp"),ch=cmp?cmp.previousElementSibling:null;
+    const best=cmp?cmp.querySelector(".cmpc.best p"):null,bt=best?best.textContent:"";
+    [...el.children].forEach(n=>{const h=n.querySelector&&n.querySelector("h3");if(h&&h.textContent.indexOf("ქულა დროის მიხედვით")===0)n.remove();});
+    if(ch&&ch.tagName==="H3")ch.remove();
+    if(cmp){cmp.insertAdjacentHTML("beforebegin",(bt?'<div class="panel interp"><h3 class="ph3">რას ნიშნავს შენი ასცენდენტი</h3><p>'+escH(bt)+'</p></div>':'')+PW.card("asc",k,["დაბადების სავარაუდო დრო","ყველა შესაძლო ასცენდენტი პროცენტებით","ქულა დროის მიხედვით","სრული ნატალური რუკა ამ დროით"],"","asc_natal"));cmp.remove();}},
+  refresh(){const pg=document.querySelector(".page:not([hidden])"),id=pg&&pg.dataset.page;
+    try{if(id==="natal")buildNatal(false);else if(id==="karmic"&&$("kRes").innerHTML)runKarma();else if(id==="compat")runSyn();else if(id==="ascendant"&&$("qRes").innerHTML)runRect();else if(["career","trials","marriage","numerology"].includes(id))buildLife();showMyAsc();}catch(e){console.error(e);}},
+  async init(){PW.wire();
+    try{const qs=new URLSearchParams(location.search);if(qs.has("pw")){if(qs.get("pw")==="1")localStorage.setItem("tsiali_pw","1");else localStorage.removeItem("tsiali_pw");qs.delete("pw");history.replaceState(null,"",location.pathname+(qs.toString()?"?"+qs:"")+location.hash);}}catch(e){}
+    let pv=false;try{pv=localStorage.getItem("tsiali_pw")==="1";}catch(e){}
+    PW.mode=PW_LIVE?"live":pv?"preview":"off";
+    document.querySelectorAll(".pwnav").forEach(a=>a.hidden=PW.mode==="off");
+    if(PW.mode!=="off")document.documentElement.classList.add("pw-on");
+    if(window.claude){PW.renderPricing();return}
+    try{const h={headers:{apikey:SB.key}};
+      const [pr,po]=await Promise.all([fetch(SB.url+"/rest/v1/products?select=id,price&active=eq.true",h).then(r=>r.ok?r.json():[]),fetch(SB.url+"/rest/v1/promos?select=pct,starts_at,ends_at,active&id=eq.launch",h).then(r=>r.ok?r.json():[])]);
+      pr.forEach(x=>{if(PW.P[x.id])PW.P[x.id].p=+x.price;});
+      const p=po[0],now=Date.now();if(p&&p.active&&Date.parse(p.starts_at)<=now&&Date.parse(p.ends_at)>now)PW.promo={pct:p.pct,ends:Date.parse(p.ends_at)};
+    }catch(e){}
+    PW.renderPricing();if(PW.mode!=="off")PW.refresh();},
+  async loadOwned(){if(!ACCT.sb||!ACCT.user){PW.owned=[];return}
+    const {data,error}=await ACCT.sb.from("purchases").select("product_id,chart_key,status,created_at").eq("status","paid");
+    PW.owned=error?[]:data;if(PW.mode!=="off")PW.refresh();},
+  renderPricing(){const top=$("prTop"),grid=$("prGrid"),pro=$("prPromo");if(!top)return;
+    const days=PW.promo?Math.max(1,Math.ceil((PW.promo.ends-Date.now())/864e5)):0;
+    pro.innerHTML=PW.promo?'<div class="prpromo"><b>გახსნის ფასები: ყველაფერი −'+PW.promo.pct+'%</b><span>შეთავაზება '+days+' დღეში მთავრდება</span></div>':"";
+    const card=(id,cls,badge)=>{const P=PW.P[id],pg=PW.PG[P.inc[0]],sum=P.k==="bundle"?PW.sumOf(id):id==="pair_pack"?PW.P.karmic.p+PW.P.compat.p:0;
+      return '<article class="prc '+(cls||"")+'">'+(badge?'<span class="prbadge">'+badge+'</span>':'')+'<h3>'+P.t+'</h3><p>'+P.d+'</p>'+
+        (P.inc.length>1?'<ul class="princ">'+P.inc.map(f=>'<li>'+PW.FN[f]+'</li>').join("")+'</ul>':'')+
+        PW.priceHtml(id)+(sum?'<p class="prsave">ცალ-ცალკე '+PW.fmt(sum)+' · ზოგავ '+Math.round((1-PW.price(id)/sum)*100)+'%</p>':'')+
+        '<a class="btn '+(cls?'primary':'ghost')+'" href="#'+pg+'">'+(id==="full"?'დაწყება':'შედეგის ნახვა')+'</a></article>';};
+    top.innerHTML=card("full","best","საუკეთესო ფასი")+card("asc_natal","pop","ყველაზე პოპულარული")+card("pair_pack","pop","წყვილებისთვის");
+    grid.innerHTML=["natal","karmic","compat","career","marriage","trials","numerology"].map(id=>card(id)).join("");}
+};
+PW.buyOpen=function(id,keys){const P=PW.P[id];if(!P)return;PW.ctx={id,keys};const el=$("buyBody");
+  const u=window.ACCT_USER&&window.ACCT_USER();
+  el.innerHTML='<h3 id="buyT">'+P.t+'</h3><p class="note">'+P.d+'</p>'+
+    (P.inc.length>1?'<ul class="princ">'+P.inc.map(f=>'<li>'+PW.FN[f]+'</li>').join("")+'</ul>':'')+PW.priceHtml(id)+
+    (!keys?'<p class="note">ანალიზი იმ ადამიანის მონაცემებზე გაიხსნება, რომლებსაც შესაბამის გვერდზე შეიყვან.</p><a class="btn primary" href="#'+PW.PG[P.inc[0]]+'" data-bclose>მონაცემების შეყვანა</a>':
+     !u?'<p class="note">შენაძენი შენს ანგარიშზე შეინახება, ამიტომ მას ნებისმიერი მოწყობილობიდან გახსნი. ჯერ შედი ან დარეგისტრირდი.</p><button type="button" class="btn primary" data-bacct>შესვლა / რეგისტრაცია</button>':
+     PW.mode!=="live"?'<button type="button" class="btn primary" disabled>გადახდა მალე ჩაირთვება</button><p class="note">ბარათით გადახდის ჩართვაზე ახლა ვმუშაობთ.</p>':
+     '<button type="button" class="btn primary" id="buyGo">გადახდა · '+PW.fmt(PW.price(id))+'</button><p class="note" id="buyMsg" aria-live="polite"></p>')+
+    '<p class="pwtrust">ერთჯერადი გადახდა ბარათით, ბანკის დაცულ გვერდზე. ბარათის მონაცემები ციალს არ ხვდება.</p>';
+  $("buyBox").hidden=false;const f=el.querySelector("button:not([disabled]),a");if(f)f.focus();};
+PW.wire=function(){document.addEventListener("click",e=>{const b=e.target.closest("[data-buy]");if(!b)return;e.preventDefault();
+  const w=b.closest(".pwall"),ks=b.dataset.keys||(w&&w.dataset.keys);PW.buyOpen(b.dataset.buy,ks?ks.split(","):null);});
+$("buyX").addEventListener("click",()=>{$("buyBox").hidden=true;});
+$("buyBox").addEventListener("click",e=>{if(e.target.id==="buyBox"||e.target.closest("[data-bclose]")){$("buyBox").hidden=true;return}
+  if(e.target.closest("[data-bacct]")){$("buyBox").hidden=true;window.ACCT_OPEN&&window.ACCT_OPEN();return}
+  if(e.target.id==="buyGo"){$("buyMsg").textContent="გადახდის სისტემა ჯერ არ არის მიერთებული.";}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("buyBox").hidden)$("buyBox").hidden=true;});};
 const S=[
  {id:"aries",ka:"ვერძი",g:"♈",f:[3,21],t:[4,19],el:"fire",mod:"კარდინალური",pl:"მარსი",stone:"ალმასი",
   d:"ზოდიაქოს პირველი ნიშანი. ვერძი ინიციატივის, სიმამაცისა და პირდაპირობის განსახიერებაა. მას უყვარს დაწყება, გამოწვევა და პირველობა.",
@@ -5790,8 +5968,8 @@ function buildNatal(sample){
   const line=(name,k,l)=>{let t="";try{t=RT[k][sIdx(l)]}catch(e){}return '<p><b>'+name+' '+LOC[sIdx(l)]+'.</b> '+t+'</p>';};
   $("nInterp").innerHTML=line("მზე","Sun",sun.lon)+(moonAlt?"":line("მთვარე","Moon",moon.lon))+(an?line("ასცენდენტი","ASC",an.asc):"");
   liveChart($("nChart"),ps.concat([{k:"Lilith",ka:"ლილიტი",g:"⚸",lon:XP.lil,pt:true}],XP.fort?[{k:"Fortune",ka:"ბედის წერტილი",g:"⊗",lon:XP.fort.lon,pt:true}]:[]),an?{asc:an.asc,mc:an.mc,cusps:an.cusps,label:"ნატალური რუკა"}:{label:"ნატალური რუკა, დროის გარეშე",center:["დრო","უცნობია"]});
-  if(typeof buildReport==="function"&&window.__rpReady)buildReport(ps,an,f,moonAlt);
-  if(window.__rpReady){buildLife();try{natalMore(ps,an,f,d,XP);}catch(e){}}
+  if(typeof buildReport==="function"&&window.__rpReady){buildReport(ps,an,f,moonAlt);PW.gate($("rpBody"),"natal",[PW.key(f)],{keep:1,pid:f.p==="exact"?"natal":"asc_natal"});$("rpToc").hidden=!PW.has("natal",[PW.key(f)]);}
+  if(window.__rpReady){buildLife();try{natalMore(ps,an,f,d,XP);PW.gate($("nMore"),"natal",[PW.key(f)],{keep:1,mini:true,pid:f.p==="exact"?"natal":"asc_natal"});}catch(e){}}
   const sCell=l=>'<td><span class="glyph el-'+S[sIdx(l)].el+'">'+gl(S[sIdx(l)])+'</span> '+S[sIdx(l)].ka+'</td>';
   $("nTable").innerHTML='<thead><tr><th></th><th>პლანეტა</th><th>ნიშანი</th><th>გრადუსი</th>'+(an?'<th>სახლი</th>':'')+'</tr></thead><tbody>'+
     ps.map(p=>'<tr><td class="pg glyph">'+p.g+VS+'</td><td>'+p.ka+(p.retro?'<span class="badge">R</span>':'')+'</td>'+(p.k==="Moon"&&moonAlt?'<td>'+S[moonAlt[0]].ka+' / '+S[moonAlt[1]].ka+'</td><td class="num">—</td>':sCell(p.lon)+'<td class="num">'+(f.p==="exact"||p.k!=="Moon"?"":"≈ ")+deg(p.lon)+'</td>')+(an?'<td class="num">'+house(p.lon)+'</td>':'')+'</tr>').join("")+
@@ -6047,15 +6225,15 @@ function updWin(){
 }
 function showMyAsc(){const box=$("myAsc");if(!box)return;let a=null;try{a=JSON.parse(localStorage.getItem("zw_asc")||"null");}catch(e){}
   const f=readForm();if(!a||f.err||a.k!==[f.Y,f.M,f.D,f.pl.lat.toFixed(3),f.pl.lo.toFixed(3)].join("|")){box.innerHTML="";return}
-  box.innerHTML='<div class="myasc"><span class="glyph el-'+S[a.s].el+'">'+gl(S[a.s])+'</span><div><small class="muted">შენი ბოლო შედეგი ამ მონაცემებით</small><br><b>ასცენდენტი '+S[a.s].ka+', დაახლოებით '+hm(a.m)+'</b> <span class="muted num">('+hm(a.from)+'–'+hm(a.to)+')</span></div><button type="button" data-m="'+a.m+'" data-r="'+Math.max(15,Math.round((a.to-a.from)/2))+'">ნატალურ რუკაზე გამოყენება</button></div>';}
+  box.innerHTML='<div class="myasc"><span class="glyph el-'+S[a.s].el+'">'+gl(S[a.s])+'</span><div><small class="muted">შენი ბოლო შედეგი ამ მონაცემებით</small><br>'+(PW.has("asc",[PW.key(f)])?'<b>ასცენდენტი '+S[a.s].ka+', დაახლოებით '+hm(a.m)+'</b> <span class="muted num">('+hm(a.from)+'–'+hm(a.to)+')</span></div><button type="button" data-m="'+a.m+'" data-r="'+Math.max(15,Math.round((a.to-a.from)/2))+'">ნატალურ რუკაზე გამოყენება</button></div>':'<b>ასცენდენტი '+S[a.s].ka+'</b></div><button type="button" data-buy="asc_natal">დაბადების დროს გაგება</button></div>');}
 $("myAsc")&&$("myAsc").addEventListener("click",e=>{const b=e.target.closest("button[data-m]");if(!b)return;const m=+b.dataset.m,r=+b.dataset.r;
   $("bHour").value=Math.floor(m/60);$("bMin").value=m%60;$("pApprox").checked=true;const opts=[...$("bRange").options].map(o=>+o.value);$("bRange").value=opts.reduce((a,v)=>Math.abs(v-r)<Math.abs(a-r)?v:a,opts[0]);
   updPrec();updTz();buildNatal(false);meSave();location.hash="#natal";});
 function drawAscPreview(best){
   if(!RW||!$("ascChart"))return;const f=RW.f;
   if(best){const d=toUTC(f.Y,f.M,f.D,best.m,f.pl).d,an=angles(d,f.pl.lat,f.pl.lo);
-    liveChart($("ascChart"),positions(d),{asc:an.asc,mc:an.mc,cusps:an.cusps,hi:sIdx(an.asc),center:[hm(best.m),"ყველაზე სავარაუდო"],label:"ყველაზე სავარაუდო ასცენდენტი"});
-    $("ascCap").textContent="ყველაზე სავარაუდო: ასცენდენტი "+S[sIdx(an.asc)].ka+", "+hm(best.m)+". რუკა ამ დროისთვისაა აგებული.";return}
+    liveChart($("ascChart"),positions(d),{asc:an.asc,mc:an.mc,cusps:an.cusps,hi:sIdx(an.asc),center:[PW.has("asc",[PW.key(f)])?hm(best.m):"••:••","ყველაზე სავარაუდო"],label:"ყველაზე სავარაუდო ასცენდენტი"});
+    $("ascCap").textContent=PW.has("asc",[PW.key(f)])?"ყველაზე სავარაუდო: ასცენდენტი "+S[sIdx(an.asc)].ka+", "+hm(best.m)+". რუკა ამ დროისთვისაა აგებული.":"ყველაზე სავარაუდო: ასცენდენტი "+S[sIdx(an.asc)].ka+". დაბადების სავარაუდო დრო სრულ ანალიზშია.";return}
   const mid=RW.pts[Math.floor(RW.pts.length/2)].m,d=toUTC(f.Y,f.M,f.D,mid,f.pl).d;
   liveChart($("ascChart"),positions(d),{cand:RW.signs,center:[String(RW.signs.length),RW.signs.length===1?"ასცენდენტი ცნობილია":"შესაძლო ასცენდენტი"],label:"შესაძლო ასცენდენტები"});
   $("ascCap").textContent=RW.signs.length===1?"შენს შუალედში ასცენდენტი ერთადერთია: "+S[RW.signs[0]].ka+".":"ფერადი სექტორები შესაძლო ასცენდენტებია ("+RW.signs.length+"). ყოველი პასუხი მათ ავიწროებს.";
@@ -6201,7 +6379,7 @@ function runRect(){
   const b0=runs[0];const born='<div class="panel bornres"><small class="muted">ასცენდენტის დადგენის შედეგი</small><div class="bornrow"><span class="glyph el-'+S[b0.s].el+'">'+gl(S[b0.s])+'</span><div><div class="borntime num">'+hm(b0.best.m)+'</div><div>შენი სავარაუდო დაბადების დრო · ასცენდენტი <b>'+S[b0.s].ka+'</b></div><small class="muted num">შესაძლო შუალედი: '+hm(b0.from)+'–'+hm(b0.to)+'</small></div><button type="button" class="primary" data-m="'+b0.best.m+'" data-r="'+Math.max(15,Math.round((b0.to-b0.from)/2))+'">ამ დროით ნატალური რუკა</button></div></div>';
   $("qRes").innerHTML=born+test+tbHtml()+vqHtml()+'<div class="panel"><div class="row" style="justify-content:space-between"><h3>ქულა დროის მიხედვით</h3><span class="conf '+conf[1]+'">სანდოობა: '+conf[0]+'</span></div>'+svg+'<p class="note">ზოლები ასცენდენტის ნიშნებია, ხაზი კი ყველა მონაცემის ჯამური ქულა. მკაფიო, მაღალი პიკი სანდო შედეგს ნიშნავს. თუ რამდენიმე პიკი თითქმის თანაბარია, დაამატე მოვლენები ან უპასუხე მეტ კითხვას.</p></div>'+
    '<h3 style="margin-top:6px">შეადარე კანდიდატები და აირჩიე, რომელი უფრო გგავს</h3><div class="cmp">'+runs.slice(0,3).map((c,k)=>'<div class="cmpc'+(k===0?' best':'')+'"><div class="b3h"><span class="glyph el-'+S[c.s].el+'">'+gl(S[c.s])+'</span><div><small>'+(k===0?"ყველაზე სავარაუდო":"მე-⁠"+(k+1)+" ვარიანტი")+' · '+Math.round(c.best.tot/sum*100)+'%</small><b>ასცენდენტი '+S[c.s].ka+'</b><small class="num">'+hm(c.from)+'–'+hm(c.to)+' · საუკეთესო '+hm(c.best.m)+'</small></div></div><p>'+RT.ASC[c.s]+'</p><p class="note">'+comp(c.best)+'</p><button type="button" data-m="'+c.best.m+'" data-r="'+Math.max(15,Math.round((c.to-c.from)/2))+'">ეს უფრო მგავს: გამოყენება</button></div>').join("")+'</div>'+
-   (E&&E.bad?'<p class="note">'+E.bad+' მოვლენა დაბადებამდე თარიღით გამოტოვდა.</p>':'')+(E&&E.valid.length&&E.valid.length<3?'<p class="note">2 მოვლენით შედეგი ჯერ კიდევ არამდგრადია. დაამატე მეტი, სასურველია ზუსტი დღით.</p>':'');
+   (E&&E.bad?'<p class="note">'+E.bad+' მოვლენა დაბადებამდე თარიღით გამოტოვდა.</p>':'')+(E&&E.valid.length&&E.valid.length<3?'<p class="note">2 მოვლენით შედეგი ჯერ კიდევ არამდგრადია. დაამატე მეტი, სასურველია ზუსტი დღით.</p>':'');PW.asc($("qRes"),f);
 }
 $("qGo").addEventListener("click",runRect);
 $("qRes").addEventListener("change",e=>{const t=e.target;if(t.name==="tbSide"||t.name==="tbLook"){TB[t.name==="tbSide"?"side":"look"]=t.value;
@@ -6402,7 +6580,7 @@ function runSyn(){
   const X=coupleExtras(a,b,A,B);
   $("sRes").insertAdjacentHTML("beforeend",X.html);X.draw();
   const first=$("sRes").firstElementChild;if(first)first.id="s-sum";
-  $("sRes").insertAdjacentHTML("afterbegin",'<nav class="toc" aria-label="შედეგის ნაწილები">'+[["s-sum","საერთო ქულა"],["s-pos","პოზიციები"],["s-asp","ასპექტები"]].concat(X.toc.slice(1)).map(([id,t])=>'<button type="button" class="chip" data-t="'+id+'">'+t+'</button>').join("")+'</nav>');
+  $("sRes").insertAdjacentHTML("afterbegin",'<nav class="toc" aria-label="შედეგის ნაწილები">'+[["s-sum","საერთო ქულა"],["s-pos","პოზიციები"],["s-asp","ასპექტები"]].concat(X.toc.slice(1)).map(([id,t])=>'<button type="button" class="chip" data-t="'+id+'">'+t+'</button>').join("")+'</nav>');PW.gate($("sRes"),"compat",[PW.key(a),PW.key(b)],{keep:1});
 }
 $("sGo").addEventListener("click",runSyn);
 $("sRes").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(b&&$(b.dataset.t))$(b.dataset.t).scrollIntoView({behavior:"smooth",block:"start"});});
@@ -6745,7 +6923,7 @@ function karmaHTML(a,b){
 function runKarma(){
   if(!HAS){$("kRes").innerHTML='<p class="err">ასტრონომიული ბიბლიოთეკა ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';return}
   const a=FKA.read(),b=FKB.read();if(a.err||b.err){$("kNote").textContent=a.err||b.err;return}setNames(FKA,FKB);
-  $("kNote").textContent="";$("kRes").innerHTML=karmaHTML(a,b).html;
+  $("kNote").textContent="";$("kRes").innerHTML=karmaHTML(a,b).html;PW.gate($("kRes"),"karmic",[PW.key(a),PW.key(b)],{keep:2});
 }
 $("kGo").addEventListener("click",runKarma);
 /* ---------- home: ascendant simulator + starfield ---------- */
@@ -6981,7 +7159,8 @@ function buildMarriage(){const el=$("mrRes");if(!el)return;const b=lifeBase();if
    (late.length||early.length?'<p><b>ადრე თუ გვიან?</b> '+(late.length?'გვიანი ან გააზრებული ქორწინებისკენ მიუთითებს: '+late.join(", ")+'. ':'')+(early.length?'ადრეული ან ადვილი დაოჯახებისკენ მიუთითებს: '+early.join(", ")+'.':'')+'</p>':'')+
    '<p class="note">დროის განსაზღვრა ტრადიციულ ასტროლოგიურ ტექნიკებს ეყრდნობა. ის აჩვენებს ხელსაყრელ პერიოდებს და არა გარანტირებულ მოვლენას.</p></div>';}
 function buildLife(){const pg=document.querySelector(".page:not([hidden])");const id=pg&&pg.dataset.page;
-  try{if(id==="career")buildCareer();else if(id==="trials")buildTrials();else if(id==="marriage")buildMarriage();else if(id==="numerology")buildNumer();}catch(e){console.error(e);}}
+  try{if(id==="career")buildCareer();else if(id==="trials")buildTrials();else if(id==="marriage")buildMarriage();else if(id==="numerology")buildNumer();
+    const el=$({career:"carRes",trials:"trRes",marriage:"mrRes",numerology:"nuRes"}[id]);if(el)PW.gate(el,id,[PW.key(readForm())],{keep:1});}catch(e){console.error(e);}}
 const NBD={"1": ["ლიდერობა", "დამოუკიდებელი, ამბიციური და ინიციატივიანი ხარ. გიყვარს პირველობა და საკუთარი გზით სიარული.", "სიჯიუტე, ეგოიზმი და სხვების რჩევის უგულებელყოფა."], "2": ["თანამშრომლობა", "მგრძნობიარე, ტაქტიანი და მშვიდობისმოყვარე ხარ. საუკეთესოდ წყვილში ან გუნდში მუშაობ.", "ზედმეტი მგრძნობელობა, გაუბედაობა და გადაწყვეტილების მიღების სიძნელე."], "3": ["გამოხატვა", "კომუნიკაბელური, შემოქმედებითი და მხიარული ხარ. სიტყვა და ხელოვნება შენი ძალაა.", "ბევრ საქმეზე გაფანტვა, ზედაპირულობა და ფულის უყაირათო ხარჯვა."], "4": ["წესრიგი", "საიმედო, შრომისმოყვარე და პრაქტიკული ხარ. ყველაფერს მყარ საფუძველზე აშენებ.", "სიჯიუტე, რუტინაში ჩაკეტვა და ცვლილებების შიში."], "5": ["თავისუფლება", "ცნობისმოყვარე, მოქნილი და თავგადასავლების მოყვარული ხარ. ცვლილებებს ადვილად ეგუები.", "მოუსვენრობა, იმპულსურობა და ვალდებულებების თავიდან არიდება."], "6": ["პასუხისმგებლობა", "მზრუნველი, ერთგული და ოჯახზე ორიენტირებული ხარ. სილამაზე და ჰარმონია გჭირდება.", "ზედმეტი კონტროლი, სხვების საქმეში ჩარევა და საკუთარი თავის დავიწყება."], "7": ["სიბრძნე", "ანალიტიკური, ღრმა და ინტუიციური ხარ. მარტოობა და ჭეშმარიტების ძიება გჭირდება.", "ჩაკეტილობა, ეჭვიანობა და ემოციების დამალვა."], "8": ["ძალაუფლება", "ამბიციური, ორგანიზებული და ძლიერი ხარ. ბიზნესი და მართვა გეხერხება.", "მატერიალიზმი, ზედმეტი შრომა და კონტროლის სურვილი."], "9": ["ჰუმანიზმი", "გულუხვი, თანამგრძნობი და იდეალისტი ხარ. ფართო ხედვა და შემოქმედებითი ნიჭი გაქვს.", "წარსულზე მიჯაჭვულობა, ემოციური ცვალებადობა და თავგანწირვა."], "10": ["დამოუკიდებლობა", "ენერგიული, თავდაჯერებული და მიზანდასახული ხარ. ახალ საქმეს ადვილად იწყებ.", "ამპარტავნება, მოუთმენლობა და მარტოობისკენ მიდრეკილება."], "11": ["ინტუიცია", "შთამაგონებელი, მგრძნობიარე და იდეალისტი ხარ. ძლიერი ინტუიცია და სულიერი ნიჭი გაქვს.", "ნერვული დაძაბულობა, ზედმეტი მოლოდინები და უპრაქტიკობა."], "12": ["შემოქმედება", "კომუნიკაბელური, ხელოვნებისადმი მიდრეკილი და მხიარული ხარ. სხვებს ადვილად აინტერესებ.", "გაფანტულობა, ზედმეტი თვითკრიტიკა და მსხვერპლის როლი."], "13": ["შრომა", "შრომისმოყვარე, ორგანიზებული და გამძლე ხარ. დიდ საქმეს ნაბიჯ-ნაბიჯ აშენებ.", "სიჯიუტე, დაუთმობლობა და სიზარმაცე, როცა საქმე არ გიყვარს."], "14": ["ცვლილება", "მოქნილი, ენერგიული და ცნობისმოყვარე ხარ. გიყვარს მოგზაურობა და ახალი გამოცდილება.", "იმპულსურობა, ზომიერების ნაკლებობა და არასტაბილურობა."], "15": ["სიმამაცე", "მგრძნობიარე, დამოუკიდებელი და ენერგიული ხარ. გამბედაობა გაქვს, ოჯახი კი შენთვის ყველაფერია. გიყვარს თავისუფლება, სილამაზე და კომფორტი.", "აჯანყებულობა, ფლანგვა, ემოციური აფეთქებები და სიჯიუტე მიზნის მიღწევისას."], "16": ["ჩაღრმავება", "ინტუიციური, ანალიტიკური და დამოუკიდებელი ხარ. ცხოვრების სიღრმეები გაინტერესებს.", "ამპარტავნება, ჩაკეტილობა და მოულოდნელი კრიზისები."], "17": ["ავტორიტეტი", "ამბიციური, საქმიანი და ძლიერი ნებისყოფის ხარ. ბიზნესი და ფინანსები გეხერხება.", "სიმკაცრე, კონტროლის სურვილი და ემოციების დამალვა."], "18": ["მსახურება", "თანამგრძნობი, ფართო ხედვისა და ლიდერის უნარის მქონე ხარ. სხვების დახმარება გაძლიერებს.", "ემოციური დაძაბულობა, კონფლიქტები და სიჯიუტე."], "19": ["დამოუკიდებლობის გაკვეთილი", "ამბიციური, ენერგიული და შემოქმედებითი ხარ. ყველაფერს საკუთარი ძალით აღწევ.", "დახმარების მიღების სიძნელე, ეგოიზმი და მარტოობა."], "20": ["პარტნიორობა", "რბილი, დიპლომატიური და მზრუნველი ხარ. ურთიერთობები შენთვის ცხოვრების ცენტრია.", "სხვებზე ზედმეტი დამოკიდებულება და ადვილად წყენა."], "21": ["ხიბლი", "კომუნიკაბელური, შემოქმედებითი და სოციალური ხარ. ადამიანებს ადვილად იზიდავ.", "ზედაპირულობა, ყურადღების ნაკლებობის შიში და ეჭვი საკუთარ თავში."], "22": ["ოსტატი-მშენებელი", "დიდი ხედვისა და პრაქტიკული ნიჭის ადამიანი ხარ. შეგიძლია დიდი საქმის აშენება.", "ნერვული დაძაბულობა, ზედმეტი სიფრთხილე და მაღალი მოთხოვნები."], "23": ["თავგადასავალი", "მოქნილი, ცნობისმოყვარე და ადამიანებთან ურთიერთობის ოსტატი ხარ.", "მოუსვენრობა, მოუთმენლობა და ვალდებულებების შიში."], "24": ["ოჯახი", "ერთგული, მზრუნველი და პრაქტიკული ხარ. სახლი და ოჯახი შენი საყრდენია.", "ზედმეტი საკუთრების გრძნობა, ეჭვიანობა და სიჯიუტე."], "25": ["შინაგანი ხედვა", "ანალიტიკური, ინტუიციური და ღრმა მოაზროვნე ხარ. გამოცდილებიდან სწავლობ.", "ეჭვიანობა, ჩაკეტილობა და ემოციების დამალვა."], "26": ["მენეჯმენტი", "ორგანიზებული, ამბიციური და პასუხისმგებლიანი ხარ. ოჯახსა და კარიერას ერთნაირად აფასებ.", "ზედმეტი კონტროლი, ამპარტავნება და მატერიალიზმი."], "27": ["თანაგრძნობა", "ბრძენი, შემოქმედებითი და გულისხმიერი ხარ. სხვებს ადვილად შთააგონებ.", "ემოციური ცვალებადობა, მოუთმენლობა და ჩაკეტილობა."], "28": ["თანამშრომელი ლიდერი", "დამოუკიდებელი და ამბიციური ხარ, მაგრამ თანამშრომლობაც შეგიძლია. ახალ იდეებს ხორცს ასხამ.", "სიჯიუტე, ავტორიტარულობა და მოუთმენლობა."], "29": ["შთაგონება", "მგრძნობიარე, ინტუიციური და შემოქმედებითი ხარ. ადამიანების გაგების იშვიათი ნიჭი გაქვს.", "განწყობის ცვალებადობა, ნერვიულობა და ურთიერთობებში უკიდურესობები."], "30": ["გამომსახველობა", "კომუნიკაბელური, მხიარული და შემოქმედებითი ხარ. სიტყვითა და ხელოვნებით ადამიანებს იზიდავ.", "ზედაპირულობა, ფლანგვა და სიჯიუტე."], "31": ["მიზანდასახულობა", "პრაქტიკული, შრომისმოყვარე და ერთგული ხარ. წესრიგსა და სტაბილურობას აფასებ.", "სიჯიუტე, მარტოობის შიში და რუტინაში ჩაკეტვა."]};
 const NAR=[["1-5-9", "განსაზღვრულობის ისარი", "მიზანდასახული და მტკიცე ხარ: რასაც გადაწყვეტ, აუცილებლად აკეთებ, და დაბრკოლებები ვერ გაჩერებს. ზოგჯერ ეს სიჯიუტეში გადადის.", "გაჭიანურების ისარი", "გადაწყვეტილებების გადადებისკენ მიდრეკილება გაქვს. მიზნების ჩაწერა და ვადების დაწესება გეხმარება."], ["3-5-7", "სულიერების ისარი", "ღრმა თანაგრძნობა, შინაგანი რწმენა და სულიერი საკითხებისადმი ინტერესი გაქვს.", "ეჭვის ისარი", "რწმენა და ნდობა შეიძლება გიჭირდეს. შინაგანი მუშაობა და ახლობლებთან გულახდილობა სიმშვიდეს მოგცემს."], ["1-2-3", "დაგეგმვის ისარი", "ორგანიზებული ხარ და კარგად გეგმავ: იცი, რა გინდა და როგორ მიაღწიო.", "დაუგეგმაობის ისარი", "გეგმების შედგენა და დაცვა გიჭირს. სიები და გრაფიკები დიდად გეხმარება."], ["4-5-6", "ნებისყოფის ისარი", "ძლიერი ნება და მოქმედების უნარი გაქვს: რთულ სიტუაციაში არ იბნევი.", "იმედგაცრუების ისარი", "რთულ მომენტებში სწრაფად კარგავ მოტივაციას. მცირე, მიღწევადი მიზნები გეხმარება."], ["7-8-9", "აქტიურობის ისარი", "ენერგიული და მოქმედებაზე ორიენტირებული ხარ: სიტყვას საქმე მოსდევს.", "პასიურობის ისარი", "მოქმედების დაწყება გიჭირს. რეგულარული ფიზიკური აქტივობა ენერგიას გმატებს."], ["1-4-7", "პრაქტიკულობის ისარი", "ხელით მუშაობა და მატერიალური საქმე გეხერხება: მიწიერი და რეალისტი ხარ.", "უპრაქტიკობის ისარი", "ყოველდღიური პრაქტიკული საქმე გიჭირს. კონკრეტული ჩვევების გამომუშავება გეხმარება."], ["2-5-8", "ემოციური ბალანსის ისარი", "ემოციურად მდგრადი და თანამგრძნობი ხარ, სხვებს მშვიდად უსმენ.", "მგრძნობელობის ისარი", "ემოციურად დაუცველი ხარ და ადვილად გწყინს. საკუთარი გრძნობების გამოხატვა გეხმარება."], ["3-6-9", "ინტელექტის ისარი", "კარგი მეხსიერება და გონებრივი უნარები გაქვს, სწავლა ადვილად გეძლევა.", "მეხსიერების ისარი", "ყურადღება და მეხსიერება ვარჯიშს საჭიროებს: კითხვა და სწავლა გონებას აძლიერებს."]];
 const NPYL=["პირადი წელი 1 ახალი 9-წლიანი ციკლის დასაწყისია. ის, რასაც ახლა დათესავ, მომდევნო წლებში გაიზრდება: დრო ახალი საქმის, სამსახურის, პროექტის ან ცხოვრების ეტაპის დასაწყებად. მნიშვნელოვანია ინიციატივა, საკუთარ ძალებზე დაყრდნობა, ძველი ჩვევების გაშვება და მკაფიო მიზნების დასახვა. სხვების ლოდინი ამ წელს არ ამართლებს.", "პირადი წელი 2 მოთმინებისა და ურთიერთობების დროა. წინა წელს დაწყებული საქმე ნელა იზრდება და ზრუნვას საჭიროებს. წინა პლანზე პარტნიორობა, თანამშრომლობა, დიპლომატია და დეტალებია, შესაძლოა ახალი მნიშვნელოვანი ურთიერთობაც დაიწყოს. ემოციები მგრძნობიარეა, ამიტომ დასვენება და მშვიდი გარემო გჭირდება.", "პირადი წელი 3 თვითგამოხატვისა და სოციალური აქტივობის წელია. ბევრი ახალი ნაცნობი, შეხვედრა, მოგზაურობა და შემოქმედებითი შესაძლებლობა მოდის. კარგი დროა ხელოვნებისთვის, წერისთვის, საჯარო გამოსვლისთვის და ცხოვრებით ტკბობისთვის. ძალასა და ფულს ნუ გაფანტავ: ყველაფერს ერთად ნუ მოჰკიდებ ხელს.", "პირადი წელი 4 შრომისა და საძირკვლის წელია. დრო ორგანიზებისთვის, ფინანსების მოწესრიგებისთვის და სახლზე, ჯანმრთელობასა და კარიერის მყარ საფუძველზე ზრუნვისთვის. შეიძლება დატვირთული და ზოგჯერ მძიმე იყოს, მაგრამ ახლა ჩადებული შრომა წლობით გამოგადგება. მთავარია მოთმინება და დისციპლინა.", "პირადი წელი 5 ცვლილებებისა და თავისუფლების წელია. წინა წლების შეზღუდვები სუსტდება და ცხოვრება მოძრაობაში მოდის: გადასვლა, მოგზაურობა, ახალი სამსახური ან მოულოდნელი შესაძლებლობები. ცვლილება შიშის საგანი კი არა, წინსვლის შანსია. მთავარი გამოწვევაა, ერთ მიზანზე დარჩე და იმპულსურ გადაწყვეტილებებს ერიდო.", "პირადი წელი 6 ოჯახისა და პასუხისმგებლობის წელია. წინა პლანზე სახლი, ქორწინება, შვილები, ახლობლებზე ზრუნვა და საზოგადოებრივი მოვალეობებია. კარგი დროა ურთიერთობების გასამყარებლად და სახლის მოსაწყობად. ერიდე სხვების ტვირთის მთლიანად საკუთარ თავზე აღებას.", "პირადი წელი 7 შინაგანი მუშაობისა და გააზრების წელია. დრო სწავლის, კვლევის, დასვენების, სულიერი ზრდისა და საკუთარი თავის უკეთ გაცნობისთვის. გარეგანი მიღწევები შეიძლება ნელა მოდიოდეს, მაგრამ ინტუიცია და სიბრძნე იზრდება. მარტო ყოფნის დრო აუცილებელია.", "პირადი წელი 8 შედეგებისა და ძალის წელია. წინა წლების შრომა ახლა ფინანსებში, კარიერულ წინსვლასა და აღიარებაში აისახება. დრო დიდი გადაწყვეტილებების, ინვესტიციებისა და ხელმძღვანელობისთვის. ძალაუფლება და ფული პატიოსნად და ბალანსით გამოიყენე.", "პირადი წელი 9 ციკლის დასრულების წელია. დრო შეჯამებისთვის და იმის გაშვებისთვის, რაც აღარ გემსახურება: ურთიერთობები, სამსახური ან ჩვევები. კარგი დროა სხვების დახმარებისა და ქველმოქმედებისთვის. ახალ დიდ საქმეს მომავალი წლისთვის მოემზადე."];
@@ -7200,7 +7379,7 @@ $("nMore").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(
     try{navigator.clipboard.writeText(t.value).then(ok,()=>{t.select();});}catch(_){t.select();}}});
 buildNatal(true);
 /* ---------- pages ---------- */
-const PAGES=["home","ascendant","karmic","natal","compat","career","trials","marriage","numerology"],ALIAS={report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
+const PAGES=["home","ascendant","karmic","natal","compat","career","trials","marriage","numerology","pricing"],ALIAS={report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
 let precTouched=false;document.querySelectorAll('input[name="prec"]').forEach(r=>r.addEventListener("change",()=>{precTouched=true;}));
 function route(){
   const h=location.hash.slice(1),sign=S.findIndex(x=>x.id===h);
@@ -7215,16 +7394,16 @@ function route(){
   window.scrollTo(0,0);
 }
 window.addEventListener("hashchange",route);
-updWin();runSyn();runRetro();route();
+PW.init();updWin();runSyn();runRetro();route();
 
 /* ---------- accounts: Supabase auth + saved people (public site only) ---------- */
-const ACCT={sb:null,user:null,self:null,people:[]};
+const ACCT={sb:null,user:null,self:null,people:[]};window.ACCT_USER=()=>ACCT.user;
 const PFX=d=>{if(!d)return"";const pl=d.cn||(d.man?(+d.man[0]).toFixed(2)+"°, "+(+d.man[1]).toFixed(2)+"°":"");return d.D+" "+MONTHS[d.M-1]+" "+d.Y+(d.unknown?"":", "+pad(+d.H)+":"+pad(+d.Mi))+(pl?", "+pl:"");};
 function personFromForm(F){const r=F.read();if(r.err)return null;const man=r.pl.off!==undefined;
   return {D:r.D,M:r.M,Y:r.Y,H:Math.floor(r.mins/60),Mi:r.mins%60,unknown:!!r.unknown,cn:man?"":r.pl.name,man:man?[r.pl.lat,r.pl.lo]:null};}
 function personToSet(d){return {D:d.D,M:d.M,Y:d.Y,H:d.H,Mi:d.Mi,unknown:!!d.unknown,city:d.cn?CITIES.findIndex(c=>c[0]===d.cn):-1,man:d.man};}
 function acctOpen(){renderAcctBox();$("acctBox").hidden=false;const f=$("acctBody").querySelector("input,button");if(f)f.focus();}
-function acctClose(){$("acctBox").hidden=true;}
+function acctClose(){$("acctBox").hidden=true;}window.ACCT_OPEN=acctOpen;
 $("acctBtn").addEventListener("click",acctOpen);$("acctX").addEventListener("click",acctClose);
 $("acctBox").addEventListener("click",e=>{if(e.target.id==="acctBox")acctClose();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("acctBox").hidden)acctClose();});
@@ -7314,7 +7493,7 @@ async function acctLoad(){const {data,error}=await ACCT.sb.from("people").select
     else if(la&&(!ca||(la.at||0)>(ca.at||0)))window.__acctAsc();
     meApply(ACCT.self.data);try{updPrec();updTz();buildNatal(false);updWin();showMyAsc();window.__syncA&&window.__syncA(false);}catch(e){}}
   else await acctSaveSelf();
-  renderPick();if(!$("acctBox").hidden)renderAcctBox();}
+  renderPick();if(!$("acctBox").hidden)renderAcctBox();PW.loadOwned();}
 function renderPick(){document.querySelectorAll(".savedpick").forEach(box=>{
   if(!ACCT.user){box.hidden=true;box.innerHTML="";return}
   const F=box.dataset.for==="pB"?FB:FKB;box.hidden=false;
@@ -7340,7 +7519,7 @@ function renderPick(){document.querySelectorAll(".savedpick").forEach(box=>{
     const sb=window.supabase.createClient(SB.url,SB.key,{auth:{flowType:"pkce",detectSessionInUrl:true,persistSession:true}});ACCT.sb=sb;
     sb.auth.onAuthStateChange((ev,session)=>{const u=session?session.user:null,was=ACCT.user&&ACCT.user.id;ACCT.user=u;renderAcctBtn();
       if(ev==="PASSWORD_RECOVERY"){ACCT.recovery=true;setTimeout(acctOpen,200);}
-      if(u&&was!==u.id)setTimeout(acctLoad,0);if(!u){ACCT.self=null;ACCT.people=[];renderPick();}});
+      if(u&&was!==u.id)setTimeout(acctLoad,0);if(!u){ACCT.self=null;ACCT.people=[];PW.owned=[];renderPick();if(was&&PW.mode!=="off")PW.refresh();}});
     const qs=new URLSearchParams(location.search);await sb.auth.getSession();
     if(qs.has("code")||qs.has("error")||qs.has("error_description")){let back="";try{back=sessionStorage.getItem("zw_back")||"";sessionStorage.removeItem("zw_back");}catch(e){}
       history.replaceState(null,"",location.pathname+(back||location.hash));if(back)route();

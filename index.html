@@ -1273,6 +1273,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
       <details><summary data-tx="pricing.11">ეს ერთჯერადი გადახდაა?</summary><p data-tx="pricing.12">კი. ანალიზს ერთხელ ყიდულობ და ის სამუდამოდ შენს ანგარიშზე რჩება. გამოწერა და ყოველთვიური ჩამოჭრა არ არის.</p></details>
       <details><summary data-tx="pricing.13">რატომ მჭირდება ანგარიში?</summary><p data-tx="pricing.14">შენაძენი ანგარიშზე ინახება, ამიტომ მას ნებისმიერი მოწყობილობიდან გახსნი: ტელეფონიდანაც და კომპიუტერიდანაც.</p></details>
       <details><summary data-tx="pricing.15">როგორ გადავიხადო?</summary><p data-tx="pricing.16">ბარათით, ბანკის დაცულ გვერდზე. ბარათის მონაცემები ციალს არ ხვდება.</p></details>
+      <details><summary>შეიძლება თანხის დაბრუნება?</summary><p>თუ ტექნიკური ხარვეზის გამო ანალიზი არ გაიხსნა ან თანხა შეცდომით ორჯერ ჩამოგეჭრა, თანხას სრულად დაგიბრუნებთ. დეტალები: <a href="refund.html" target="_blank" rel="noopener">თანხის დაბრუნების პოლიტიკა</a>.</p></details>
       <details><summary data-tx="pricing.17">სხვისი ანალიზის ყიდვაც შემიძლია?</summary><p data-tx="pricing.18">კი. თითოეული ანალიზი კონკრეტული ადამიანის ან წყვილის მონაცემებზე იხსნება. ახალი ადამიანისთვის ან ახალი წყვილისთვის ცალკე შეძენაა საჭირო. სრული ციალი ერთ ადამიანს და მის ერთ წყვილს მოიცავს.</p></details>
     </div>
   </section>
@@ -1284,7 +1285,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
   <footer>
     <span data-tx="ftr.1">© 2026 ციალი</span>
     <span data-tx="ftr.2">ინტერპრეტაციები ასტროლოგიურ ტრადიციას ეყრდნობა და მეცნიერულად დადასტურებული არ არის.</span>
-    <span class="flinks"><a data-tx="ftr.3" href="https://tsiali.com/terms.html" target="_blank" rel="noopener">წესები და პირობები</a> · <a data-tx="ftr.4" href="https://tsiali.com/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკა</a></span>
+    <span class="flinks"><a data-tx="ftr.3" href="https://tsiali.com/terms.html" target="_blank" rel="noopener">წესები და პირობები</a> · <a data-tx="ftr.4" href="https://tsiali.com/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკა</a> · <a data-tx="ftr.5" href="https://tsiali.com/refund.html" target="_blank" rel="noopener">თანხის დაბრუნება</a></span>
   </footer>
 </div>
 
@@ -1419,7 +1420,7 @@ PW.buyOpen=function(id,keys){const P=PW.P[id];if(!P)return;PW.ctx={id,keys};cons
     (!keys?'<p class="note">ანალიზი იმ ადამიანის მონაცემებზე გაიხსნება, რომლებსაც შესაბამის გვერდზე შეიყვან.</p><a class="btn primary" href="#'+PW.PG[P.inc[0]]+'" data-bclose>მონაცემების შეყვანა</a>':
      !u?'<p class="note">შენაძენი შენს ანგარიშზე შეინახება, ამიტომ მას ნებისმიერი მოწყობილობიდან გახსნი. ჯერ შედი ან დარეგისტრირდი.</p><button type="button" class="btn primary" data-bacct>შესვლა / რეგისტრაცია</button>':
      PW.mode!=="live"?'<button type="button" class="btn primary" disabled>გადახდა მალე ჩაირთვება</button><p class="note">ბარათით გადახდის ჩართვაზე ახლა ვმუშაობთ.</p>':
-     '<button type="button" class="btn primary" id="buyGo">გადახდა · '+PW.fmt(PW.price(id))+'</button><p class="note" id="buyMsg" aria-live="polite"></p>')+
+     '<label class="amk"><input type="checkbox" id="buyOk"> ვეთანხმები, რომ ანალიზი გადახდისთანავე გაიხსნება და გახსნის შემდეგ შენაძენზე უარის თქმის უფლება აღარ მექნება. ასევე ვეთანხმები <a href="terms.html" target="_blank" rel="noopener">წესებს</a> და <a href="refund.html" target="_blank" rel="noopener">თანხის დაბრუნების პოლიტიკას</a>.</label><button type="button" class="btn primary" id="buyGo" disabled>გადახდა · '+PW.fmt(PW.price(id))+'</button><p class="note" id="buyMsg" aria-live="polite"></p>')+
     '<p class="pwtrust">ერთჯერადი გადახდა ბარათით, ბანკის დაცულ გვერდზე. ბარათის მონაცემები ციალს არ ხვდება.</p>';
   $("buyBox").hidden=false;const f=el.querySelector("button:not([disabled]),a");if(f)f.focus();};
 PW.wire=function(){document.addEventListener("click",e=>{const b=e.target.closest("[data-buy]");if(!b)return;e.preventDefault();
@@ -1428,6 +1429,7 @@ $("buyX").addEventListener("click",()=>{$("buyBox").hidden=true;});
 $("buyBox").addEventListener("click",e=>{if(e.target.id==="buyBox"||e.target.closest("[data-bclose]")){$("buyBox").hidden=true;return}
   if(e.target.closest("[data-bacct]")){$("buyBox").hidden=true;window.ACCT_OPEN&&window.ACCT_OPEN();return}
   if(e.target.id==="buyGo"){$("buyMsg").textContent="გადახდის სისტემა ჯერ არ არის მიერთებული.";}});
+$("buyBox").addEventListener("change",e=>{if(e.target.id==="buyOk")$("buyGo").disabled=!e.target.checked;});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("buyBox").hidden)$("buyBox").hidden=true;});};
 const S=[
  {id:"aries",ka:"ვერძი",g:"♈",f:[3,21],t:[4,19],el:"fire",mod:"კარდინალური",pl:"მარსი",stone:"ალმასი",

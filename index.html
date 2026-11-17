@@ -809,7 +809,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
 .smbars{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;height:110px;align-items:end;margin-top:6px}
 .smb{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
 .smb i{display:block;width:100%;max-width:28px;border-radius:5px 5px 2px 2px;background:var(--water);opacity:.55}
-.smb.hot i{background:var(--accent);opacity:1}.smb span{font-size:.72rem;color:var(--muted)}
+.smb.hot i{background:var(--accent);opacity:1}.smb span{font-size:.68rem;color:var(--muted)}.smb.hot span{color:var(--accent);font-weight:600}
 </style>
 
 <div class="wrap">
@@ -6683,7 +6683,7 @@ function coupleYears(fa,fb){
   const hot=new Set(top.map(t=>t.y));
   return '<div class="smy"><h4>ყველაზე სავარაუდო წლები</h4><p class="muted">წლები, როცა ორივეს რუკაზე ერთდროულად აქტიურდება ქორწინების ტრადიციული ნიშნები.</p>'+
     '<div class="smyears">'+top.sort((p,q)=>p.y-q.y).map(t=>'<span class="smyr"><b>'+t.y+'</b></span>').join("")+'</div>'+
-    '<div class="smbars" role="img" aria-label="ქორწინების ნიშნები წლების მიხედვით">'+rows.map(r=>'<div class="smb'+(hot.has(r.y)?' hot':'')+'" title="'+r.y+'"><i style="height:'+Math.max(4,Math.round(r.v/mx*100))+'%"></i><span>'+String(r.y).slice(2)+'</span></div>').join("")+'</div></div>';
+    '<div class="smbars" role="img" aria-label="ქორწინების ნიშნები წლების მიხედვით">'+rows.map(r=>'<div class="smb'+(hot.has(r.y)?' hot':'')+'" title="'+r.y+'"><i style="height:'+Math.max(4,Math.round(r.v/mx*100))+'%"></i><span>'+r.y+'</span></div>').join("")+'</div></div>';
 }
 function runSyn(){
   if(!HAS){$("sRes").innerHTML='<p class="err">ასტრონომიული ბიბლიოთეკა ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';return}

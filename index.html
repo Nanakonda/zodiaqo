@@ -756,7 +756,7 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
 .prc .pwprice{justify-content:flex-start;margin-top:auto}
 .prc .btn{align-self:stretch}
 .prc.pop{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
-.prc.best{border-color:var(--accent);background:radial-gradient(500px 200px at 50% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%),var(--surface)}
+.prc.best{border-color:var(--accent);background:radial-gradient(600px 300px at 50% 0%,color-mix(in srgb,var(--accent) 34%,transparent),transparent 75%),linear-gradient(180deg,color-mix(in srgb,var(--accent) 12%,var(--surface)),var(--surface));box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 50%,transparent),0 14px 40px color-mix(in srgb,var(--accent) 22%,transparent)}
 .prbadge{position:absolute;top:-11px;left:20px;font-size:.75rem;font-weight:700;padding:3px 11px;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
 .prc.pop .prbadge{background:var(--surface2);color:var(--accent);border:1px solid var(--accent)}
 .prsave{font-size:.85rem!important;color:var(--earth)!important}
@@ -1299,7 +1299,7 @@ button.qreset:hover{color:var(--fg);background:none}
       <details><summary data-tx="pricing.15">როგორ გადავიხადო?</summary><p data-tx="pricing.16">ნებისმიერი ქართული თუ უცხოური საბანკო ბარათით (Visa / Mastercard), ბანკის დაცულ გვერდზე. გადახდისთანავე ანალიზი ავტომატურად იხსნება. ბარათის მონაცემები „ციალს“ არ ხვდება.</p></details>
       <details><summary>შეიძლება თანხის დაბრუნება?</summary><p>თუ ტექნიკური ხარვეზის გამო ანალიზი არ გაიხსნა ან თანხა შეცდომით ორჯერ ჩამოგეჭრა, თანხას სრულად დაგიბრუნებთ. დეტალები: <a href="refund.html" target="_blank" rel="noopener">თანხის დაბრუნების პოლიტიკა</a>.</p></details>
       <details><summary data-tx="pricing.19">რა განსხვავებაა უფასო და ფასიან ვერსიას შორის?</summary><p data-tx="pricing.20">უფასო ვერსიაში ხედავ შენს ასტროლოგიურ პოზიციებსა და მოკლე შეჯამებას. სრული ანალიზის შეძენისას კი იხსნება დეტალური, ინდივიდუალური განმარტებები ყველა პლანეტაზე, ასპექტზე, კონკრეტულ წლებსა და რეკომენდაციებზე.</p></details>
-      <details><summary data-tx="pricing.17">სხვისი ანალიზის ყიდვაც შემიძლია?</summary><p data-tx="pricing.18">კი. თითოეული ანალიზი კონკრეტული ადამიანის ან წყვილის მონაცემებზე იხსნება. ახალი ადამიანისთვის ან ახალი წყვილისთვის ცალკე შეძენაა საჭირო. პაკეტი „ციალი პრემიუმი“ მოიცავს ყველა სერვისს ერთი ადამიანისა და მისი ერთი წყვილისთვის.</p></details>
+      <details><summary data-tx="pricing.17">სხვისი ანალიზის ყიდვაც შემიძლია?</summary><p data-tx="pricing.18">კი. თითოეული ანალიზი კონკრეტული ადამიანის ან წყვილის მონაცემებზე იხსნება. ახალი ადამიანისთვის ან ახალი წყვილისთვის ცალკე შეძენაა საჭირო. პაკეტი „სრული ციალი“ მოიცავს ყველა სერვისს ერთი ადამიანისა და მისი ერთი წყვილისთვის.</p></details>
     </div>
   </section>
 
@@ -1354,7 +1354,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     marriage:{t:"დაოჯახება",k:"single",p:9.90,inc:["marriage"],d:"რომელ წლებშია ქორწინებისა და სერიოზული ურთიერთობის ყველაზე ხელსაყრელი დრო და როგორი პარტნიორი გჭირდება."},
     trials:{t:"შესაძლებლობები და გამოწვევები",k:"single",p:9.90,inc:["trials"],d:"როდის ჯობს ახალი საქმის წამოწყება და როდის გმართებს მეტი სიფრთხილე."},
     numerology:{t:"ნუმეროლოგია",k:"single",p:7.90,inc:["numerology"],d:"ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."},
-    full:{t:"ციალი პრემიუმი",sub:"სრული წვდომა ყველა ანალიზზე",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
+    full:{t:"სრული ციალი",sub:"სრული წვდომა ყველა ანალიზზე",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
   F2P:{asc:"asc_natal",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
   FN:{asc:"ასცენდენტი და დაბადების სავარაუდო დრო",natal:"სრული ნატალური რუკა",karmic:"კარმული კავშირები",compat:"წყვილის ანალიზი",career:"პროფესია",marriage:"დაოჯახება",trials:"შესაძლებლობები და გამოწვევები",numerology:"ნუმეროლოგია"},
   PG:{asc:"ascendant",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
@@ -1380,7 +1380,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
   giftHtml(id){const g=PW.P[id]&&PW.P[id].gift;if(!g)return"";return '<p class="pwgift">'+PW.GIFT+'<span>საჩუქრად: <b>'+PW.P[g].t+'</b> <span class="muted">('+PW.fmt(PW.P[g].p)+'-ის ღირებულების)</span></span></p>';},
   priceHtml(id){const p=PW.P[id].p,np=PW.price(id);return '<div class="pwprice">'+(PW.promo?'<s>'+PW.fmt(p)+'</s> ':'')+'<b>'+PW.fmt(np)+'</b>'+(PW.promo?'<span class="pwtag">−'+PW.promo.pct+'% · გახსნის ფასი</span>':'')+'</div>';},
   upHtml(feat){const up="full",sum=PW.sumOf("full");
-    return '<button type="button" class="linkbtn pwup" data-buy="'+up+'">'+(up==="pair_pack"?'ან ორივე ერთად, წყვილის პაკეტით':'ან ყველაფერი ერთად, ციალი პრემიუმით')+': <b>'+PW.fmt(PW.price(up))+'</b> <span class="muted">('+PW.fmt(sum)+'-ის ნაცვლად)</span></button>';},
+    return '<button type="button" class="linkbtn pwup" data-buy="'+up+'">'+(up==="pair_pack"?'ან ორივე ერთად, წყვილის პაკეტით':'ან ყველაფერი ერთად, სრული ციალით')+': <b>'+PW.fmt(PW.price(up))+'</b> <span class="muted">('+PW.fmt(sum)+'-ის ნაცვლად)</span></button>';},
   LOCK:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
   card(feat,keys,titles,peek,pid){pid=pid||PW.F2P[feat];const [t,sub]=PW.FT[feat];
     return '<div class="pwall" data-keys="'+keys.join(",")+'">'+(peek?'<div class="pwpeek" aria-hidden="true">'+peek+'</div>':'')+
@@ -1441,7 +1441,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
         (P.gift?PW.giftHtml(id):P.inc.length>1?'<ul class="princ">'+P.inc.map(f=>'<li>'+PW.FN[f]+'</li>').join("")+'</ul>':'')+
         PW.priceHtml(id)+(sum?'<p class="prsave">ცალ-ცალკე '+PW.fmt(sum)+' · დაზოგავ '+PW.fmt(sum-PW.price(id))+' ('+Math.round((1-PW.price(id)/sum)*100)+'%)</p>':'')+
         '<a class="btn '+(cls?'primary':'ghost')+'" href="#'+pg+'">'+(id==="full"?'დაწყება':'შედეგის ნახვა')+'</a></article>';};
-    top.innerHTML=card("full","best",TX("prod.badge.best","საუკეთესო ფასი"))+card("asc_natal","pop",TX("prod.badge.pop","ყველაზე პოპულარული"))+card("compat","pop",TX("prod.badge.pair","წყვილებისთვის"));
+    top.innerHTML=card("full","best",TX("prod.badge.best","პრემიუმი"))+card("asc_natal","pop",TX("prod.badge.pop","ყველაზე პოპულარული"))+card("compat","pop",TX("prod.badge.pair","წყვილებისთვის"));
     grid.innerHTML=["natal","career","marriage","trials"].map(id=>card(id)).join("");}
 };
 PW.buyOpen=function(id,keys){const P=PW.P[id];if(!P)return;PW.ctx={id,keys};const el=$("buyBody");

@@ -823,6 +823,9 @@ svg .hn.on{fill:var(--accent);font-weight:700}
 .gcols .levh{flex-wrap:nowrap;align-items:flex-start}.gcols .levh .ldot{flex:0 0 auto;margin-top:8px}.gcols .levh b{min-width:0}
 .hpanel .lev{border-left:3px solid color-mix(in srgb,var(--fire) 70%,transparent)}
 .gyears.hy span{background:color-mix(in srgb,var(--fire) 75%,var(--surface));color:var(--fg)}
+
+.pwgift{display:flex;align-items:center;gap:8px;margin:0;padding:8px 12px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--accent) 60%,transparent);background:color-mix(in srgb,var(--accent) 10%,transparent);font-size:.9rem;text-align:left}
+.pwgift svg{flex:0 0 20px;width:20px;height:20px;color:var(--accent)}
 </style>
 
 <div class="wrap">
@@ -1316,18 +1319,18 @@ function txInit(){
 const PW_LIVE=false;
 const PW={mode:"off",owned:[],promo:null,ctx:null,
   P:{
-    asc_natal:{t:"ასცენდენტი + სრული რუკა",k:"single",p:19.90,inc:["asc","natal"],pop:true,d:"დაბადების დრო არ იცი? ციალი გამოთვლის, დაახლოებით რომელ საათზე დაიბადე, და ამ დროით სრულ რუკას აგებს."},
+    asc_natal:{t:"ასცენდენტის დადგენა",k:"single",p:19.90,inc:["asc","natal"],gift:"natal",pop:true,d:"დაბადების დრო არ იცი? ციალი გამოთვლის, დაახლოებით რომელ საათზე დაიბადე და რომელია შენი ასცენდენტი."},
     natal:{t:"სრული ნატალური რუკა",k:"single",p:14.90,inc:["natal"],d:"შენი რუკის ყველა ნაწილი: ხასიათი, სიყვარული, ფული, კარიერა და ცხოვრების გზა."},
     karmic:{t:"კარმული კავშირები",k:"pair",p:14.90,inc:["karmic"],d:"ყველა კარმული კავშირი შენსა და შენს ადამიანს შორის და რას ნიშნავს ისინი ერთად."},
-    compat:{t:"წყვილის ანალიზი",k:"pair",p:22.90,inc:["compat","karmic"],d:"თავსებადობა, დაოჯახების ალბათობა და კარმული კავშირები ერთ წყვილზე."},
+    compat:{t:"წყვილის ანალიზი",k:"pair",p:22.90,inc:["compat","karmic"],gift:"karmic",d:"რამდენად ერგებით ერთმანეთს, დაოჯახების ალბათობა და ყველაზე სავარაუდო წლები."},
     pair_pack:{t:"წყვილის პაკეტი",k:"pair",p:22.90,inc:["karmic","compat"],d:"კარმული კავშირები და წყვილის ანალიზი ერთად, ერთ წყვილზე."},
-    career:{t:"პროფესია",k:"single",p:9.90,inc:["career"],d:"რომელი სფეროები შეგეფერება, როგორ მუშაობ საუკეთესოდ და რით გამოიმუშავებ ფულს ყველაზე კარგად."},
+    career:{t:"პროფესია",k:"single",p:6.90,inc:["career"],d:"რომელი სფეროები შეგეფერება, როგორ მუშაობ საუკეთესოდ და რით გამოიმუშავებ ფულს ყველაზე კარგად."},
     marriage:{t:"დაოჯახება",k:"single",p:9.90,inc:["marriage"],d:"როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."},
     trials:{t:"სირთულეები და შესაძლებლობები",k:"single",p:9.90,inc:["trials"],d:"ხელსაყრელი და რთული პერიოდები: როდის დაიწყო ახალი საქმე და როდის გაუფრთხილდე თავს."},
     numerology:{t:"ნუმეროლოგია",k:"single",p:7.90,inc:["numerology"],d:"ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."},
     full:{t:"სრული ციალი",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
   F2P:{asc:"asc_natal",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
-  FN:{asc:"ასცენდენტი და დაბადების სავარაუდო დრო",natal:"სრული ნატალური რუკა",karmic:"კარმული კავშირები",compat:"წყვილის ანალიზი",career:"პროფესია",marriage:"დაოჯახება",trials:"სირთულეები",numerology:"ნუმეროლოგია"},
+  FN:{asc:"ასცენდენტი და დაბადების სავარაუდო დრო",natal:"სრული ნატალური რუკა",karmic:"კარმული კავშირები",compat:"წყვილის ანალიზი",career:"პროფესია",marriage:"დაოჯახება",trials:"სირთულეები და შესაძლებლობები",numerology:"ნუმეროლოგია"},
   PG:{asc:"ascendant",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
   FT:{natal:["შენი რუკის სრული ანალიზი","ხასიათი, სიყვარული, ფული და ცხოვრების გზა: ყველაფერი შენი დაბადების მონაცემებით დაწერილი."],
     asc:["გაიგე, რომელ საათზე დაიბადე","ციალი გამოთვლის შენი დაბადების სავარაუდო დროს და ამ დროით სრულ ნატალურ რუკას აგებს."],
@@ -1347,6 +1350,8 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
       if(pr.k==="bundle")return keys.includes(o.chart_key);
       if(pr.k==="pair")return keys.length===2&&o.chart_key===PW.pkey(keys);
       return keys.length===1&&o.chart_key===keys[0];});},
+  GIFT:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="17" height="11.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 9h19v3.5h-19zM12 9v11.5M12 9c-1.6-3.4-5.6-4.2-5.6-1.6C6.4 9 12 9 12 9zm0 0c1.6-3.4 5.6-4.2 5.6-1.6C17.6 9 12 9 12 9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>',
+  giftHtml(id){const g=PW.P[id]&&PW.P[id].gift;if(!g)return"";return '<p class="pwgift">'+PW.GIFT+'<span>საჩუქრად: <b>'+PW.P[g].t+'</b> <span class="muted">('+PW.fmt(PW.P[g].p)+'-ის ღირებულების)</span></span></p>';},
   priceHtml(id){const p=PW.P[id].p,np=PW.price(id);return '<div class="pwprice">'+(PW.promo?'<s>'+PW.fmt(p)+'</s> ':'')+'<b>'+PW.fmt(np)+'</b>'+(PW.promo?'<span class="pwtag">−'+PW.promo.pct+'% · გახსნის ფასი</span>':'')+'</div>';},
   upHtml(feat){const up="full",sum=PW.sumOf("full");
     return '<button type="button" class="linkbtn pwup" data-buy="'+up+'">'+(up==="pair_pack"?'ან ორივე ერთად, წყვილის პაკეტით':'ან ყველაფერი ერთად, სრული ციალით')+': <b>'+PW.fmt(PW.price(up))+'</b> <span class="muted">('+PW.fmt(sum)+'-ის ნაცვლად)</span></button>';},
@@ -1355,7 +1360,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     return '<div class="pwall" data-keys="'+keys.join(",")+'">'+(peek?'<div class="pwpeek" aria-hidden="true">'+peek+'</div>':'')+
       '<div class="pwcard"><span class="pwico">'+PW.LOCK+'</span><h3 data-tx="pw.'+feat+'.t">'+TX("pw."+feat+".t",t)+'</h3><p class="pwsub" data-tx="pw.'+feat+'.s">'+TX("pw."+feat+".s",sub)+'</p>'+
       (titles&&titles.length?'<ul class="pwlist">'+titles.map(x=>'<li>'+escH(x)+'</li>').join("")+'</ul>':'')+
-      PW.priceHtml(pid)+'<button type="button" class="btn primary big" data-buy="'+pid+'">'+(feat==="asc"?'<span data-tx="pw.cta.asc">'+TX("pw.cta.asc","გაიგე დაბადების დრო")+'</span>':'<span data-tx="pw.cta">'+TX("pw.cta","გააგრძელე კითხვა")+'</span>')+'</button>'+PW.upHtml(feat)+
+      PW.priceHtml(pid)+PW.giftHtml(pid)+'<button type="button" class="btn primary big" data-buy="'+pid+'">'+(feat==="asc"?'<span data-tx="pw.cta.asc">'+TX("pw.cta.asc","გაიგე დაბადების დრო")+'</span>':'<span data-tx="pw.cta">'+TX("pw.cta","გააგრძელე კითხვა")+'</span>')+'</button>'+PW.upHtml(feat)+
       '<p class="pwtrust" data-tx="pw.trust">'+TX("pw.trust","ერთჯერადი გადახდა · სამუდამოდ შენს ანგარიშზე რჩება")+'</p></div></div>';},
   gate(el,feat,keys,o){if(!el||PW.has(feat,keys))return;o=o||{};PW.ctx=PW.ctx||{};
     el.querySelectorAll(":scope>.toc").forEach(n=>n.remove());
@@ -1401,7 +1406,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     pro.innerHTML=PW.promo?'<div class="prpromo"><b>გახსნის ფასები: ყველაფერი −'+PW.promo.pct+'%</b><span>შეთავაზება '+days+' დღეში მთავრდება</span></div>':"";
     const card=(id,cls,badge)=>{const P=PW.P[id],pg=PW.PG[P.inc[0]],sum=P.k==="bundle"?PW.sumOf(id):0;
       return '<article class="prc '+(cls||"")+'">'+(badge?'<span class="prbadge">'+badge+'</span>':'')+'<h3 data-tx="prod.'+id+'.t">'+TX("prod."+id+".t",P.t)+'</h3><p data-tx="prod.'+id+'.d">'+TX("prod."+id+".d",P.d)+'</p>'+
-        (P.inc.length>1?'<ul class="princ">'+P.inc.map(f=>'<li>'+PW.FN[f]+'</li>').join("")+'</ul>':'')+
+        (P.gift?PW.giftHtml(id):P.inc.length>1?'<ul class="princ">'+P.inc.map(f=>'<li>'+PW.FN[f]+'</li>').join("")+'</ul>':'')+
         PW.priceHtml(id)+(sum?'<p class="prsave">ცალ-ცალკე '+PW.fmt(sum)+' · ზოგავ '+Math.round((1-PW.price(id)/sum)*100)+'%</p>':'')+
         '<a class="btn '+(cls?'primary':'ghost')+'" href="#'+pg+'">'+(id==="full"?'დაწყება':'შედეგის ნახვა')+'</a></article>';};
     top.innerHTML=card("full","best",TX("prod.badge.best","საუკეთესო ფასი"))+card("asc_natal","pop",TX("prod.badge.pop","ყველაზე პოპულარული"))+card("compat","pop",TX("prod.badge.pair","წყვილებისთვის"));
@@ -1410,7 +1415,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
 PW.buyOpen=function(id,keys){const P=PW.P[id];if(!P)return;PW.ctx={id,keys};const el=$("buyBody");
   const u=window.ACCT_USER&&window.ACCT_USER();
   el.innerHTML='<h3 id="buyT">'+TX("prod."+id+".t",P.t)+'</h3><p class="note">'+TX("prod."+id+".d",P.d)+'</p>'+
-    (P.inc.length>1?'<ul class="princ">'+P.inc.map(f=>'<li>'+PW.FN[f]+'</li>').join("")+'</ul>':'')+PW.priceHtml(id)+
+    (P.gift?PW.giftHtml(id):P.inc.length>1?'<ul class="princ">'+P.inc.map(f=>'<li>'+PW.FN[f]+'</li>').join("")+'</ul>':'')+PW.priceHtml(id)+
     (!keys?'<p class="note">ანალიზი იმ ადამიანის მონაცემებზე გაიხსნება, რომლებსაც შესაბამის გვერდზე შეიყვან.</p><a class="btn primary" href="#'+PW.PG[P.inc[0]]+'" data-bclose>მონაცემების შეყვანა</a>':
      !u?'<p class="note">შენაძენი შენს ანგარიშზე შეინახება, ამიტომ მას ნებისმიერი მოწყობილობიდან გახსნი. ჯერ შედი ან დარეგისტრირდი.</p><button type="button" class="btn primary" data-bacct>შესვლა / რეგისტრაცია</button>':
      PW.mode!=="live"?'<button type="button" class="btn primary" disabled>გადახდა მალე ჩაირთვება</button><p class="note">ბარათით გადახდის ჩართვაზე ახლა ვმუშაობთ.</p>':

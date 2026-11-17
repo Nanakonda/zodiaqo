@@ -119,6 +119,9 @@ header.top .acctbtn{white-space:nowrap}
 .tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .tool{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:14px;row-gap:2px;align-items:center;padding:18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--fg);transition:border-color .15s, transform .15s}
 .tool:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tool{position:relative;padding-right:40px}
+.tool::after{content:"→";position:absolute;right:16px;bottom:14px;color:var(--accent);font-size:1.05rem;transition:transform .15s}
+.tool:hover::after{transform:translateX(3px)}
 .tool .ti{grid-row:1/3;width:46px;height:46px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--surface2);color:var(--accent);font-size:1.25rem}
 .tool b{font-family:var(--display);font-size:1rem}
 .tool span:last-child{font-size:.85rem;color:var(--muted)}
@@ -954,14 +957,15 @@ svg .hn.on{fill:var(--accent);font-weight:700}
       <div><b data-tx="home.27">4300+ ადგილი</b><span data-tx="home.28">საქართველოს ყველა ქალაქი და სოფელი დაბადების ადგილის ასარჩევად</span></div>
     </div>
 
-    <div class="sec-head"><h2 data-tx="home.29">ყველაფერი შენი რუკისთვის</h2></div>
+    <div class="sec-head"><h2 data-tx="home.29">რას გაიგებ შენი რუკით</h2></div>
     <div class="tools">
-      <a class="tool" href="#natal"><span class="ti glyph">☉︎</span><b data-tx="home.30">ნატალური რუკა</b><span data-tx="home.31">შენი რუკა და მისი სრული ახსნა: ხასიათი, სიყვარული, ფული, ცხოვრების გზა</span></a>
-      <a class="tool" href="#compat"><span class="ti glyph">♀︎♂︎</span><b data-tx="home.32">წყვილის ანალიზი</b><span data-tx="home.33">თავსებადობა, კარმული კავშირები და დაოჯახების ალბათობა</span></a>
-      <a class="tool" href="#career"><span class="ti glyph">♑︎</span><b data-tx="home.34">პროფესია</b><span data-tx="home.35">რომელი სფეროები შეგეფერება და რით გამოიმუშავებ ფულს ყველაზე კარგად</span></a>
-      <a class="tool" href="#trials"><span class="ti glyph">♄︎</span><b data-tx="home.36">სირთულეები და შესაძლებლობები</b><span data-tx="home.37">როდის ჯობს ახლის დაწყება და როდის გელის რთული პერიოდები</span></a>
+      <a class="tool" href="#ascendant"><span class="ti glyph">↑</span><b data-tx="home.42">ასცენდენტის დადგენა</b><span data-tx="home.43">დაბადების დრო, რომელიც არ იცი, და ნიშანი, რომლითაც სხვები გხედავენ.</span></a>
+      <a class="tool" href="#natal"><span class="ti glyph">☉︎</span><b data-tx="home.30">ნატალური რუკა</b><span data-tx="home.31">შენი პიროვნული პორტრეტი: ძლიერი მხარეები, სიყვარული, ფინანსები და ცხოვრების მთავარი მისია.</span></a>
+      <a class="tool" href="#compat"><span class="ti glyph">♀︎♂︎</span><b data-tx="home.32">წყვილის ანალიზი</b><span data-tx="home.33">ემოციური თავსებადობა, კარმული კავშირები და ქორწინების პერსპექტივა.</span></a>
+      <a class="tool" href="#career"><span class="ti glyph">♑︎</span><b data-tx="home.34">პროფესია</b><span data-tx="home.35">რომელი სფეროები შეგეფერება და სად გაქვს ფინანსური წარმატების ყველაზე დიდი შანსი.</span></a>
+      <a class="tool" href="#trials"><span class="ti glyph">♄︎</span><b data-tx="home.36">სირთულეები და შესაძლებლობები</b><span data-tx="home.37">როდის ჯობს ახალი საქმის წამოწყება და როდის გმართებს მეტი სიფრთხილე.</span></a>
       <a class="tool" href="#numerology" hidden><span class="ti glyph">9</span><b data-tx="home.38">ნუმეროლოგია</b><span data-tx="home.39">ცხოვრების გზა, დაბადების დღე, პირადი წელი, სახელის რიცხვები და პითაგორას კვადრატი</span></a>
-      <a class="tool" href="#marriage"><span class="ti glyph">♀︎</span><b data-tx="home.40">დაოჯახება</b><span data-tx="home.41">რომელ წლებშია ქორწინება ყველაზე სავარაუდო</span></a>
+      <a class="tool" href="#marriage"><span class="ti"><svg viewBox="0 0 28 20" width="26" height="19" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="11" r="7"/><circle cx="18" cy="11" r="7"/></g><path d="M8 3.2l2-2.2 2 2.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><b data-tx="home.40">დაოჯახება</b><span data-tx="home.41">რომელ წლებშია ქორწინებისა და სერიოზული ურთიერთობის ყველაზე ხელსაყრელი დრო.</span></a>
     </div>
   </section>
 

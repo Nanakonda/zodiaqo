@@ -976,8 +976,8 @@ button.qreset:hover{color:var(--fg);background:none}
 
   <section class="sec page" id="natal" data-page="natal">
     <div class="sec-head">
-      <h2 data-tx="natal.1">შენი დაბადების რუკა</h2>
-      <p class="muted">შეიყვანე დაბადების თარიღი, დრო და ქალაქი. თუ ზუსტი დრო არ იცი, ჯერ <a data-tx="natal.2" href="#ascendant">დაადგინე ასცენდენტი</a>.</p>
+      <h2 data-tx="natal.1">ააგე შენი ნატალური რუკა</h2>
+      <p class="muted"><span data-tx="natal.2a">შეიყვანე დაბადების თარიღი, დრო და ქალაქი. მონაცემების შეყვანისთანავე უფასოდ ნახავ შენს მზეს, მთვარეს, ასცენდენტსა და პლანეტების განლაგებას.</span> (თუ ზუსტი დრო არ იცი, ჯერ <a data-tx="natal.2" href="#ascendant">დაადგინე ასცენდენტი</a>.)</p>
     </div>
     <div class="withside">
       <div class="main">
@@ -1037,7 +1037,7 @@ button.qreset:hover{color:var(--fg);background:none}
             <div class="fctl"><select id="nTz"></select><span class="note" id="tzInfo"></span></div>
           </div>
         </div>
-          <div class="merow"><span class="note" id="meNote">ეს ბრაუზერი შენს მონაცემებს დაიმახსოვრებს, ამიტომ შემდეგ ჯერზე თავიდან შეყვანა აღარ მოგიწევს.</span><button type="button" id="meClear" class="mebtn">დავიწყება</button></div>
+          <div class="merow"><span class="note" id="meNote">შენი მონაცემები ამ ბრაუზერში შეინახება, რომ შემდეგ ჯერზე თავიდან აღარ შეიყვანო.</span><button type="button" id="meClear" class="mebtn">წაშლა</button></div>
         </div></div>
         <div class="livebar"><span class="livedot" aria-hidden="true"></span><span data-tx="natal.6"><b>რუკა მაშინვე იცვლება,</b> როცა მონაცემებს ცვლი.</span><button type="button" id="nGo" hidden>რუკის აგება</button></div><p class="note" id="nNote"></p>
         <div class="warn" id="nWarn" hidden></div>
@@ -1047,7 +1047,7 @@ button.qreset:hover{color:var(--fg);background:none}
     </div>
 
     <div class="rpwrap">
-      <div class="sec-head" style="margin:8px 0 4px"><h2 id="rpTitle">რას ნიშნავს შენი რუკა</h2><p class="muted" id="rpSub"></p></div>
+      <div class="sec-head" style="margin:8px 0 4px"><h2 id="rpTitle">შენი რუკის გაშიფვრა</h2><p class="muted" id="rpSub"></p></div>
       <nav class="toc" id="rpToc" aria-label="ანგარიშის ნაწილები"></nav>
       <div class="report" id="rpBody"></div>
     </div>
@@ -1068,7 +1068,7 @@ button.qreset:hover{color:var(--fg);background:none}
       <aside class="side" aria-label="რუკა">
         <div class="sidecard">
           <div class="chart" id="nChart"></div>
-          <div class="livebar"><span class="livedot" aria-hidden="true"></span><span data-tx="natal.10">მიიტანე მაუსი პლანეტასთან, ნიშანთან ან სახლის ნომერთან.</span></div>
+          <div class="livebar"><span class="livedot" aria-hidden="true"></span><span data-tx="natal.10">დააჭირე ან მიიტანე კურსორი პლანეტასთან, ნიშანთან ან სახლის ნომერთან დეტალების სანახავად.</span></div>
           <button data-tx="natal.11" type="button" class="sidebig" aria-pressed="false">რუკის გადიდება</button>
         </div>
       </aside>
@@ -6922,7 +6922,7 @@ function buildReport(ps,an,f,moonAlt){
   const house=l=>an?houseIdx(l,an.cusps):null;
   const pts=ps.filter(p=>!(moonAlt&&p.k==="Moon")).map(p=>({...p}));
   if(an)pts.push({k:"ASC",ka:"ასცენდენტი",g:"AC",lon:an.asc});
-  $("rpTitle").textContent="რას ნიშნავს შენი რუკა";
+  $("rpTitle").textContent="შენი რუკის გაშიფვრა";
   $("rpSub").textContent=unk?"დაბადების დრო არ ვიცით, ამიტომ აქ არ არის ასცენდენტი, სახლები და რუკის „კაპიტანი“. თუ დროს ასცენდენტის გვერდზე დაადგენ, ანალიზი სრული გახდება.":(f.p==="approx"?"დაბადების დრო მიახლოებითია, ამიტომ ასცენდენტი და სახლების საზღვრები შეიძლება ოდნავ სხვაგან იყოს.":"ანალიზი დაბადების ზუსტი დროით არის აგებული.")+" "+f.pl.name+".";
   /* 1. big three */
   const card=(t,k,l,txt)=>{const s=sg(l);return '<div class="b3"><div class="b3h"><span class="glyph el-'+s.el+'">'+gl(s)+'</span><div><small>'+t+'</small><b>'+s.ka+'</b></div></div><p>'+txt+'</p>'+

@@ -1545,7 +1545,7 @@ function drawChart(el,ps,opt){
     const a0=i*30,[tx,ty]=pt((R+r)/2,a0+15),on=opt.hi===i,c=cand&&cand.has(i);
     const op=on?.95:c?.5:cand?.08:.2;
     h+='<g class="seg'+(c?' cand':'')+'" data-s="'+i+'" aria-label="'+s.ka+'"><path d="'+arc(R,r,a0,a0+30)+'" fill="var(--'+s.el+')" fill-opacity="'+op+'" stroke="var(--bg)" stroke-width="1.2"/>'+
-      '<text class="glyph" x="'+tx+'" y="'+ty+'" text-anchor="middle" dominant-baseline="central" font-size="'+(on?21:18)+'" fill="'+(on?'var(--bg)':'var(--'+s.el+')')+'"'+(cand&&!c&&!on?' opacity=".45"':'')+'>'+gl(s)+'</text></g>';
+      '<text class="glyph" x="'+tx+'" y="'+ty+'" text-anchor="middle" dominant-baseline="central" font-size="'+(on?16:14)+'" fill="'+(on?'var(--bg)':'var(--'+s.el+')')+'"'+(cand&&!c&&!on?' opacity=".45"':'')+'>'+gl(s)+'</text></g>';
   });
   /* degree ticks on the inner edge of the band */
   let t='';for(let d=0;d<360;d++){const L=d%10===0?7:d%5===0?4.5:2.2,[a,b]=pt(r,d),[c,e]=pt(r-L,d);t+='M'+a+' '+b+'L'+c+' '+e;}
@@ -1566,7 +1566,7 @@ function drawChart(el,ps,opt){
   /* aspects */
   if(ps.length>1&&!opt.ps2&&!opt.cand&&!opt.tw){let n=0;aspects(ps.filter(p=>!p.pt)).forEach(x=>{if(!x.A.t)return;const [a,b]=pt(rc-3,x.p.lon),[c,e]=pt(rc-3,x.q.lon),o=Math.max(.25,1-x.orb/x.A.o);
     h+='<line class="asp'+(opt.static?'':' drawin')+'" data-a="'+x.p.k+'" data-b="'+x.q.k+'" pathLength="1"'+(opt.static?'':' style="animation-delay:'+(n++*45)+'ms"')+' x1="'+a+'" y1="'+b+'" x2="'+c+'" y2="'+e+'" stroke="var(--'+(x.A.t==="good"?"water":"fire")+')" stroke-width="'+(.6+o*.8).toFixed(2)+'" stroke-opacity="'+(o*.85).toFixed(2)+'" stroke-linecap="round"/>';});}
-  if(opt.cand&&opt.asc==null&&!opt.static){const [w1,w2]=pt(r,0),[w3,w4]=pt(r,14);h+='<g class="sweep"><path d="M200 200 L'+w1+' '+w2+' A'+r+' '+r+' 0 0 0 '+w3+' '+w4+' Z" fill="url(#'+id+'w)"/><line x1="200" y1="200" x2="'+w1+'" y2="'+w2+'" stroke="var(--accent)" stroke-width="1.4" opacity=".8"/></g>';}
+  if(opt.sweep||(opt.cand&&opt.asc==null&&!opt.static)){const [w1,w2]=pt(r,0),[w3,w4]=pt(r,14);h+='<g class="sweep"><path d="M200 200 L'+w1+' '+w2+' A'+r+' '+r+' 0 0 0 '+w3+' '+w4+' Z" fill="url(#'+id+'w)"/><line x1="200" y1="200" x2="'+w1+'" y2="'+w2+'" stroke="var(--accent)" stroke-width="1.4" opacity=".8"/></g>';}
   if(opt.ps2){const r2=82;h+='<circle cx="200" cy="200" r="'+(r2-12)+'" fill="none" stroke="var(--line)"/>';
     (opt.lines||[]).forEach(L=>{const [a,b]=pt(r2-13,L.a),[c,e]=pt(r2-13,L.b);h+='<line x1="'+a+'" y1="'+b+'" x2="'+c+'" y2="'+e+'" stroke="var(--'+(L.t==="good"?"water":"fire")+')" stroke-width=".9" opacity=".8"/>';});
     const s2=opt.ps2.map(p=>({p,d:p.lon})).sort((a,b)=>a.d-b.d);
@@ -7048,22 +7048,9 @@ $("kGo").addEventListener("click",runKarma);
   const Y=today.getFullYear(),M=today.getMonth()+1,D=today.getDate();
   const nowMin=(()=>{const u=today.getTime(),o=zoneOffset(PL.tz,u);const d=new Date(u+o*60000);return d.getUTCHours()*60+d.getUTCMinutes();})();
   const wheelEl=$("wheel");
-  /* the sky over Tbilisi keeps turning slowly and smoothly: redrawn every frame with fractional minutes
-     (planet positions cached per minute, house angles recomputed per frame); pauses on hover, off-screen or in a hidden tab */
-  let raf=0,m=nowMin,hover=false,vis=true,tp=0,pm=-1,pps=null;
-  function render(mm){const mi=Math.floor(mm);
-    if(mi!==pm){pm=mi;pps=positions(toUTCg(Y,M,D,mi,PL).d);}
-    const d=toUTCg(Y,M,D,0,PL).d;d.setTime(d.getTime()+mm*60000);
-    const an=angles(d,PL.lat,PL.lo);
-    drawChart(wheelEl,pps,{static:true,asc:an.asc,mc:an.mc,cusps:an.cusps,hi:sIdx(an.asc),label:"ცა თბილისის თავზე"});}
-  const run=()=>!hover&&vis&&!document.hidden;
-  function step(t){const dt=Math.min(64,t-(tp||t));tp=t;m=(m+dt*.004)%1440;render(m);raf=run()?requestAnimationFrame(step):0;}
-  const go=()=>{if(!raf&&run()){tp=0;raf=requestAnimationFrame(step);}};
-  wheelEl.addEventListener("pointerenter",()=>{hover=true;});
-  wheelEl.addEventListener("pointerleave",()=>{hover=false;go();});
-  document.addEventListener("visibilitychange",go);
-  if("IntersectionObserver" in window)new IntersectionObserver(es=>{vis=es[0].isIntersecting;go();}).observe(wheelEl);
-  render(m);go();
+  /* the sky over Tbilisi right now, with a slow radar sweep (CSS animation, same as on the ascendant page) */
+  const d0=new Date(),an0=angles(d0,PL.lat,PL.lo);
+  drawChart(wheelEl,positions(d0),{static:true,sweep:true,asc:an0.asc,mc:an0.mc,cusps:an0.cusps,hi:sIdx(an0.asc),label:"ცა თბილისის თავზე ახლა"});
   /* night sky across the whole site: slowly drifting, twinkling stars and an occasional shooting star */
   const cv=$("sky"),cx=cv.getContext("2d");
   let W=0,H=0,stars=[],px=0,py=0,tx=0,ty=0,shoot=null,nextShot=performance.now()+4000+Math.random()*5000,lastT=0;

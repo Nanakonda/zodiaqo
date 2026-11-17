@@ -1020,7 +1020,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
       <aside class="side" aria-label="რუკა">
         <div class="sidecard">
           <div class="chart" id="nChart"></div>
-          <div class="livebar"><span class="livedot" aria-hidden="true"></span><span data-tx="natal.10">მიიტანე მაუსი პლანეტას, ნიშანს ან სახლის ნომერს.</span></div>
+          <div class="livebar"><span class="livedot" aria-hidden="true"></span><span data-tx="natal.10">მიიტანე მაუსი პლანეტასთან, ნიშანთან ან სახლის ნომერთან.</span></div>
           <button data-tx="natal.11" type="button" class="sidebig" aria-pressed="false">რუკის გადიდება</button>
         </div>
       </aside>
@@ -7202,7 +7202,7 @@ function buildTrials(){const el=$("trRes");if(!el)return;const b=lifeBase();if(b
     return '<div class="lev '+st+'"><div class="levh"><span class="ldot" style="background:'+TCOL[e.k]+'"></span><b>'+evTitle(e)+'</b>'+(st==="now"?'<span class="badge">ახლა</span>':'')+'</div><div class="muted num">'+lmR(e.s,e.e)+' · '+(a1===a2?a1:a1+'–'+a2)+' წლის ასაკში</div><p>'+(tp?tp[0]:e.txt)+'</p>'+(tp?'<p class="lq"><b>შეამოწმე:</b> '+tp[1]+'</p>':'')+'</div>';};
   const ycard=([a])=>{const list=ev.filter(e=>Math.floor(ageAt(b,e.s))<=a&&Math.floor(ageAt(b,e.e))>=a);return '<div class="b3'+(a<nowA?' dim':'')+'"><div class="b3h"><span class="glyph">'+a+'</span><div><small>'+(a<nowA?'გავლილი · ':'')+'ასაკი</small><b>'+(Y0+a)+'–'+(Y0+a+1)+'</b></div></div><ul class="mfl">'+list.map(e=>'<li>'+evTitle(e)+'</li>').join("")+'</ul></div>';};
   const fut=ev.filter(e=>e.e>=now),past=ev.filter(e=>e.e<now).reverse();
-  el.innerHTML='<div class="panel"><h3 class="ph3">სირთულეები ასაკის ხაზზე</h3><p class="note">თითოეული ზოლი ერთ რთულ პერიოდს აჩვენებს: როცა ნელი პლანეტა (სატურნი, ურანი, ნეპტუნი, პლუტონი ან ქირონი) შენი რუკის მნიშვნელოვან წერტილს ეხება. მკრთალი ზოლები უკვე გავლილია. მიიტანე მაუსი ზოლს დეტალებისთვის.</p><div class="tlwrap">'+svg+'</div>'+
+  el.innerHTML='<div class="panel"><h3 class="ph3">სირთულეები ასაკის ხაზზე</h3><p class="note">თითოეული ზოლი ერთ რთულ პერიოდს აჩვენებს: როცა ნელი პლანეტა (სატურნი, ურანი, ნეპტუნი, პლუტონი ან ქირონი) შენი რუკის მნიშვნელოვან წერტილს ეხება. მკრთალი ზოლები უკვე გავლილია. დეტალების სანახავად მიიტანე მაუსი ზოლთან.</p><div class="tlwrap">'+svg+'</div>'+
    '<div class="tlleg">'+PL.map(k=>'<span><i style="background:'+TCOL[k]+'"></i>'+BODIES.find(z=>z.k===k).ka+'</span>').join("")+'</div></div>'+
    '<div class="panel"><h3 class="ph3">ყველაზე დატვირთული წლები</h3>'+(topF.length?'<h4 class="lh4">წინ</h4><div class="b3grid">'+topF.map(ycard).join("")+'</div>':'')+(topP.length?'<h4 class="lh4">გავლილი</h4><div class="b3grid">'+topP.map(ycard).join("")+'</div>':'')+
    '<p class="note">როცა ერთ წელს რამდენიმე ასეთი პერიოდი ემთხვევა, ის ცხოვრების გარდამტეხ წლად ითვლება. ეს უბედურებას არ ნიშნავს: უბრალოდ, დიდი ცვლილებებისა და დატვირთვის წელია.</p></div>'+'<div class="panel"><h3 class="ph3">მიმდინარე და მომავალი პერიოდები</h3>'+(fut.length?'<div class="levl">'+fut.map(card).join("")+'</div>':'<p class="muted">მომავალი პერიოდები ვერ მოიძებნა.</p>')+

@@ -851,6 +851,11 @@ svg .hn.on{fill:var(--accent);font-weight:700}
 
 .pwgift{display:flex;align-items:center;gap:8px;margin:0;padding:8px 12px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--accent) 60%,transparent);background:color-mix(in srgb,var(--accent) 10%,transparent);font-size:.9rem;text-align:left}
 .pwgift svg{flex:0 0 20px;width:20px;height:20px;color:var(--accent)}
+
+.tipnote{display:flex;gap:8px;align-items:flex-start;background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:10px;padding:10px 12px;color:var(--fg)}
+.tipnote::before{content:"💡";flex:0 0 auto}
+button.qreset{background:none;border:0;box-shadow:none;padding:4px 6px;font-size:.8rem;color:var(--muted);text-decoration:underline;text-underline-offset:3px;margin-left:auto}
+button.qreset:hover{color:var(--fg);background:none}
 </style>
 
 <div class="wrap">
@@ -1071,8 +1076,8 @@ svg .hn.on{fill:var(--accent);font-weight:700}
   </section>
   <section class="sec page" id="ascendant" data-page="ascendant">
     <div class="phead">
-      <h2 data-tx="ascendant.1">ასცენდენტის დადგენა</h2>
-      <p data-tx="ascendant.2" class="lead">არ იცი დაბადების ზუსტი დრო? შეიყვანე თარიღი და ქალაქი, უპასუხე კითხვებს და ნახე, რომელი ასცენდენტი და დაბადების რომელი დრო გერგება. რაც უფრო სწორად შეავსებ კითხვარს და ცხოვრების მოვლენებს, მით უფრო ზუსტი იქნება შედეგი.</p>
+      <h2 data-tx="ascendant.1">იპოვე შენი ასცენდენტი</h2>
+      <p data-tx="ascendant.2" class="lead">არ იცი დაბადების ზუსტი დრო? მიუთითე თარიღი, ქალაქი და უპასუხე მარტივ კითხვებს. რაც უფრო ზუსტად აღწერ შენს გარეგნობასა და ცხოვრების მნიშვნელოვან მოვლენებს, მით უფრო სწორად გამოვთვლით შენი დაბადების დროს.</p>
     </div>
     <div class="withside">
       <div class="main">
@@ -1104,39 +1109,39 @@ svg .hn.on{fill:var(--accent);font-weight:700}
             <option value="morning">დილით (06:00–12:00)</option>
             <option value="afternoon">დღისით (12:00–18:00)</option>
             <option value="evening">საღამოს (18:00–24:00)</option>
-            <option value="form">ფორმაში მითითებული მიახლოებითი დროის ფარგლებში</option>
+            <option value="form">ზემოთ მითითებული მიახლოებითი დროის მიხედვით</option>
             <option value="custom">ჩემი შუალედი…</option>
           </select>
         </div>
         <p data-tx="ascendant.6" class="note">თუ დრო ზუსტად არ გახსოვს, არაუშავს: არჩეული შუალედის გარდა მის მეზობელ საათებსაც ვამოწმებთ. მაგალითად, თუ ოჯახში „6 საათზე“ გეუბნებიან, სინამდვილეში კი 17:30 იყო, სწორი პასუხი მაინც გამოჩნდება.</p>
         <div class="frow" id="custRow" hidden><span data-tx="ascendant.7" class="flabel">შუალედი</span><div class="fctl"><select id="cFrom" aria-label="დან"></select><span class="unit">-დან</span><select id="cTo" aria-label="მდე"></select><span class="unit">-მდე</span></div></div>
-        <p data-tx="ascendant.8" class="note">დროის გახსენებაში დაგეხმარება: ექიმის ცვლა, სადილის ან ვახშმის დრო, რა გადიოდა ტელევიზორში, რით მიდიოდნენ სამშობიაროში, ვინ სად იყო იმ დროს.</p>
+        <p data-tx="ascendant.8" class="note tipnote">დროის გახსენებაში დაგეხმარება: ექიმის ცვლა, სადილის ან ვახშმის დრო, რა გადიოდა ტელევიზორში, რით მიდიოდნენ სამშობიაროში, ვინ სად იყო იმ დროს.</p>
       </section>
 
       <section class="step" id="st2">
         <h4><span class="sn">2</span> კითხვარი</h4>
-        <p data-tx="ascendant.9" class="note">კითხვები შენს გარეგნობასა და დაბადებაზე. ვაჩვენებთ მხოლოდ იმ კითხვებს, რომლებიც შესაძლო ასცენდენტებს შორის არჩევაში გვეხმარება. ერთ კითხვაზე რამდენიმე პასუხის მონიშვნაც შეიძლება.</p>
+        <p data-tx="ascendant.9" class="note">კითხვები შენს გარეგნობასა და დაბადებაზე. სისტემა ავტომატურად გირჩევს მხოლოდ იმ კითხვებს, რომლებიც შენი სავარაუდო დროის დასაზუსტებლად არის საჭირო. შეგიძლია რამდენიმე პასუხიც მონიშნო.</p>
         <div class="qgrid" id="qList"></div>
       </section>
 
       <section class="step" id="st3">
         <h4><span class="sn">3</span> ამომავალი პლანეტები</h4>
-        <p data-tx="ascendant.10" class="note">პლანეტა, რომელიც შენი დაბადებისას ჰორიზონტზე ამოდიოდა, გარეგნობასა და ხასიათზე ძლიერ მოქმედებს, ზოგჯერ ასცენდენტის ნიშანზე მეტადაც. ვაჩვენებთ მხოლოდ იმ პლანეტებს, რომლებიც შენს მიერ მითითებულ დროს შეიძლება ამოდიოდა.</p>
+        <p data-tx="ascendant.10" class="note">პლანეტა, რომელიც შენი დაბადებისას ჰორიზონტზე ამოდიოდა, გარეგნობასა და ხასიათზე ძლიერ მოქმედებს, ზოგჯერ ასცენდენტის ნიშანზე მეტადაც. ვაჩვენებთ მხოლოდ იმ პლანეტებს, რომლებიც შენს მიერ მითითებულ დროს შეიძლება ამოდიოდა. მონიშნე ის აღწერა, რომელიც ყველაზე მეტად გგავს.</p>
         <div class="rlist" id="rList"></div>
       </section>
 
       <section class="step" id="st4">
         <h4><span class="sn">4</span> ცხოვრების მნიშვნელოვანი მოვლენები</h4>
-        <p data-tx="ascendant.11" class="note">ჩაწერე შენი ცხოვრების 3–6 მნიშვნელოვანი მოვლენა, რომლის წელი და თვე მაინც ზუსტად გახსოვს. ამ თარიღებზე პლანეტების მდებარეობით ვამოწმებთ, დაბადების რომელი დრო ერგება შენს ცხოვრებას. თუ ზუსტ დღესაც მიუთითებ, შედეგი უფრო ზუსტი იქნება.</p>
+        <p data-tx="ascendant.11" class="note">ჩაწერე შენი ცხოვრების 3–6 მნიშვნელოვანი მოვლენა (მაგ.: ქორწინება, შვილის შეძენა, სწავლის დაწყება, საცხოვრებლის შეცვლა ან კარიერული წინსვლა), რომლის წელი და თვე მაინც ზუსტად გახსოვს. ამ თარიღებზე პლანეტების მდებარეობით ვამოწმებთ, დაბადების რომელი დრო ერგება შენს ცხოვრებას. თუ ზუსტ დღესაც მიუთითებ, შედეგი უფრო ზუსტი იქნება.</p>
         <div class="evlist" id="evList"></div>
         <button type="button" id="evAdd" class="addbtn">+ მოვლენის დამატება</button>
       </section>
 
       <section class="step" id="st5">
         <h4><span class="sn">5</span> შედეგი</h4>
-        <label class="pill" style="align-self:flex-start"><input type="checkbox" id="tMode"> ტესტის რეჟიმი: ვიცი ჩემი დაბადების ზუსტი დრო და მინდა მეთოდი შევამოწმო</label>
+        <label class="pill" style="align-self:flex-start"><input type="checkbox" id="tMode"> შეამოწმე სიზუსტე: ვიცი ჩემი ზუსტი დრო და მინდა ალგორითმი გამოვცადო</label>
         <div class="frow" id="tRow" hidden><span data-tx="ascendant.12" class="flabel">შენი დაბადების ზუსტი დრო (გამოთვლაში არ ვიყენებთ, მხოლოდ შედეგს ვადარებთ)</span><div class="fctl"><select id="tH" aria-label="საათი"></select><span class="unit">სთ</span><select id="tM" aria-label="წუთი"></select><span class="unit">წთ</span></div></div>
-        <div class="row"><button type="button" class="primary" id="qGo">დროის გამოთვლა</button><button type="button" id="qReset">ყველაფრის გასუფთავება</button><span class="note" id="qCount"></span></div>
+        <div class="row"><button type="button" class="primary" id="qGo">აჩვენე ჩემი ასცენდენტი</button><button type="button" id="qReset" class="qreset">ყველაფრის გასუფთავება</button><span class="note" id="qCount"></span></div>
         <div class="qres" id="qRes" aria-live="polite"></div>
       </section>
 
@@ -1147,7 +1152,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
         <div class="sidecard">
           <div class="chart" id="ascChart"></div>
           <div class="candbar" id="candBar" aria-live="polite"></div>
-          <div class="livebar"><span class="livedot" aria-hidden="true"></span><span id="ascCap">ფერადი ნაწილები შესაძლო ასცენდენტებია. ყოველი პასუხის შემდეგ ნაკლები რჩება.</span></div>
+          <div class="livebar"><span class="livedot" aria-hidden="true"></span><span id="ascCap">რუკაზე ფერადად მონიშნულია შენი სავარაუდო ასცენდენტები. ყოველი კითხვის შემდეგ წრე ვიწროვდება, სანამ ზუსტ პასუხამდე არ მივალთ.</span></div>
           <button data-tx="ascendant.14" type="button" class="sidebig" aria-pressed="false">რუკის გადიდება</button>
         </div>
       </aside>
@@ -6384,7 +6389,7 @@ function drawAscPreview(best){
     $("ascCap").textContent=PW.has("asc",[PW.key(f)])?"ყველაზე სავარაუდო: ასცენდენტი "+S[sIdx(an.asc)].ka+", "+hm(best.m)+". რუკა ამ დროისთვისაა აგებული.":"ყველაზე სავარაუდო: ასცენდენტი "+S[sIdx(an.asc)].ka+". დაბადების სავარაუდო დრო სრულ ანალიზშია.";return}
   const mid=RW.pts[Math.floor(RW.pts.length/2)].m,d=toUTC(f.Y,f.M,f.D,mid,f.pl).d;
   liveChart($("ascChart"),positions(d),{cand:RW.signs,center:[String(RW.signs.length),RW.signs.length===1?"ასცენდენტი ცნობილია":"შესაძლო ასცენდენტი"],label:"შესაძლო ასცენდენტები"});
-  $("ascCap").textContent=RW.signs.length===1?"შენს მიერ მითითებულ დროს მხოლოდ ერთი ასცენდენტი გამოდის: "+S[RW.signs[0]].ka+".":"ფერადი ნაწილები შესაძლო ასცენდენტებია ("+RW.signs.length+"). ყოველი პასუხის შემდეგ ნაკლები რჩება.";
+  $("ascCap").textContent=RW.signs.length===1?"შენს მიერ მითითებულ დროს მხოლოდ ერთი ასცენდენტი გამოდის: "+S[RW.signs[0]].ka+".":"რუკაზე ფერადად მონიშნულია შენი სავარაუდო ასცენდენტები ("+RW.signs.length+"). ყოველი კითხვის შემდეგ წრე ვიწროვდება, სანამ ზუსტ პასუხამდე არ მივალთ.";
 }
 function answeredVisible(){return QS.filter((_,i)=>$("qList").children[i]&&!$("qList").children[i].hidden&&picks(i).length).length;}
 function updCount2(){if(!$("qList").children.length)return;const vis=QS.filter((_,i)=>$("qList").children[i]&&!$("qList").children[i].hidden).length;$("qCount").textContent="პასუხი: "+answeredVisible()+" / "+vis+" კითხვა";}
@@ -6558,8 +6563,8 @@ const STATS={
   const t=setTimeout(()=>{box.innerHTML='<p class="note">სტატისტიკა ჯერ ვერ ჩაიტვირთა.</p>';},10000);
   const ok=await STATS.watch(DATA=>{clearTimeout(t);const ALL=DATA.filter(x=>x&&x.v===1),R=ALL.filter(x=>x.rank>0);
     const keyed=ALL.filter(x=>x.key),list=keyed.length?'<h4 style="margin-top:14px">მონიშნული ტესტები</h4><div class="tbl"><table><thead><tr><th>დაბადების დღე</th><th>ნამდვილი დრო</th><th>გამოთვლილი</th><th>შედეგი</th></tr></thead><tbody>'+keyed.map(x=>{const [mm,dd]=x.key.split("-").map(Number);return '<tr><td>'+dd+' '+MONTHS[mm-1]+'</td><td class="num">'+(x.trueMin!=null?hm(x.trueMin):'—')+'</td><td class="num">'+(x.bestMin!=null?hm(x.bestMin):'—')+'</td><td>'+(x.rank===0?'ნამდვილი დრო შუალედის გარეთ იყო':x.hit1?'ასცენდენტი სწორად':'ასცენდენტი '+x.rank+'-ე ადგილზე')+', ცდომილება '+x.errMin+' წთ</td></tr>';}).join("")+'</tbody></table></div>':'';
-    if(!R.length){box.innerHTML='<p>ჯერ არცერთი ტესტი არ არის, რომელშიც ნამდვილი დრო არჩეულ შუალედში მოხვდა. თუ შენი ზუსტი დაბადების დრო იცი, ჩართე „ტესტის რეჟიმი“ მე-⁠5 ნაბიჯში და გაიარე კითხვარი.</p>'+list;return}
-    if(false){box.innerHTML='<p>ჯერ არცერთი ტესტი არ არის. თუ შენი ზუსტი დაბადების დრო იცი, ჩართე „ტესტის რეჟიმი“ მე-⁠5 ნაბიჯში და გაიარე კითხვარი: ასე გავარკვევთ, რამდენად კარგად მუშაობს მეთოდი სინამდვილეში.</p>';return}
+    if(!R.length){box.innerHTML='<p>ჯერ არცერთი ტესტი არ არის, რომელშიც ნამდვილი დრო არჩეულ შუალედში მოხვდა. თუ შენი ზუსტი დაბადების დრო იცი, ჩართე „შეამოწმე სიზუსტე“ მე-⁠5 ნაბიჯში და გაიარე კითხვარი.</p>'+list;return}
+    if(false){box.innerHTML='<p>ჯერ არცერთი ტესტი არ არის. თუ შენი ზუსტი დაბადების დრო იცი, ჩართე „შეამოწმე სიზუსტე“ მე-⁠5 ნაბიჯში და გაიარე კითხვარი: ასე გავარკვევთ, რამდენად კარგად მუშაობს მეთოდი სინამდვილეში.</p>';return}
     const pc=a=>Math.round(a*100)+"%",med=a=>{const s=[...a].sort((x,y)=>x-y);return s[Math.floor(s.length/2)]};
     const grp=(name,fn)=>{const g=R.filter(fn);return g.length?'<tr><td>'+name+'</td><td class="num">'+g.length+'</td><td class="num">'+pc(g.filter(x=>x.hit1).length/g.length)+'</td><td class="num">'+pc(g.reduce((a,x)=>a+1/x.nCand,0)/g.length)+'</td><td class="num">'+med(g.map(x=>x.errMin))+' წთ</td></tr>':''};
     box.innerHTML='<p>ტესტები ადამიანებისგან, რომლებმაც ზუსტი დრო იციან. „შემთხვევითი“ სვეტი გვიჩვენებს, რამდენს მივიღებდით ვარიანტის უბრალოდ შემთხვევით არჩევით. მეთოდი მაშინ მუშაობს, როცა სიზუსტე შემთხვევითზე შესამჩნევად მაღალია.</p><div class="tbl"><table><thead><tr><th>მეთოდი</th><th>ტესტი</th><th>ასცენდენტი სწორად</th><th>შემთხვევითი</th><th>საშუალო ცდომილება</th></tr></thead><tbody>'+

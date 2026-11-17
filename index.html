@@ -327,7 +327,7 @@ select:disabled{opacity:.45}
 .qres{display:flex;flex-direction:column;gap:10px}
 .cand{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:14px;align-items:center;background:var(--surface2);border:1px solid transparent;border-radius:12px;padding:12px 14px}
 .cand.best{border-color:var(--accent)}
-.cand>.glyph{font-size:2rem;line-height:1}
+:not(g).cand>.glyph{font-size:2rem;line-height:1}
 .cinfo{display:flex;flex-direction:column;gap:4px;min-width:0}
 .cinfo .num{font-family:var(--mono);font-size:.82rem;color:var(--muted)}
 .pct{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--accent);font-variant-numeric:tabular-nums}
@@ -1545,7 +1545,7 @@ function drawChart(el,ps,opt){
     const a0=i*30,[tx,ty]=pt((R+r)/2,a0+15),on=opt.hi===i,c=cand&&cand.has(i);
     const op=on?.95:c?.5:cand?.08:.2;
     h+='<g class="seg'+(c?' cand':'')+'" data-s="'+i+'" aria-label="'+s.ka+'"><path d="'+arc(R,r,a0,a0+30)+'" fill="var(--'+s.el+')" fill-opacity="'+op+'" stroke="var(--bg)" stroke-width="1.2"/>'+
-      '<text class="glyph" x="'+tx+'" y="'+ty+'" text-anchor="middle" dominant-baseline="central" font-size="'+(on?16:14)+'" fill="'+(on?'var(--bg)':'var(--'+s.el+')')+'"'+(cand&&!c&&!on?' opacity=".45"':'')+'>'+gl(s)+'</text></g>';
+      '<text class="glyph" x="'+tx+'" y="'+ty+'" text-anchor="middle" dominant-baseline="central" font-size="'+(on?16:14)+'" fill="'+(on?'var(--bg)':c?'var(--fg)':'var(--'+s.el+')')+'"'+(cand&&!c&&!on?' opacity=".45"':'')+'>'+gl(s)+'</text></g>';
   });
   /* degree ticks on the inner edge of the band */
   let t='';for(let d=0;d<360;d++){const L=d%10===0?7:d%5===0?4.5:2.2,[a,b]=pt(r,d),[c,e]=pt(r-L,d);t+='M'+a+' '+b+'L'+c+' '+e;}
@@ -7048,9 +7048,9 @@ $("kGo").addEventListener("click",runKarma);
   const Y=today.getFullYear(),M=today.getMonth()+1,D=today.getDate();
   const nowMin=(()=>{const u=today.getTime(),o=zoneOffset(PL.tz,u);const d=new Date(u+o*60000);return d.getUTCHours()*60+d.getUTCMinutes();})();
   const wheelEl=$("wheel");
-  /* the sky over Tbilisi right now, with a slow radar sweep (CSS animation, same as on the ascendant page) */
+  /* the sky over Tbilisi right now */
   const d0=new Date(),an0=angles(d0,PL.lat,PL.lo);
-  drawChart(wheelEl,positions(d0),{static:true,sweep:true,asc:an0.asc,mc:an0.mc,cusps:an0.cusps,hi:sIdx(an0.asc),label:"ცა თბილისის თავზე ახლა"});
+  drawChart(wheelEl,positions(d0),{static:true,asc:an0.asc,mc:an0.mc,cusps:an0.cusps,hi:sIdx(an0.asc),label:"ცა თბილისის თავზე ახლა"});
   /* night sky across the whole site: slowly drifting, twinkling stars and an occasional shooting star */
   const cv=$("sky"),cx=cv.getContext("2d");
   let W=0,H=0,stars=[],px=0,py=0,tx=0,ty=0,shoot=null,nextShot=performance.now()+4000+Math.random()*5000,lastT=0;

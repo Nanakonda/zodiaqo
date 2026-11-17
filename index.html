@@ -817,6 +817,12 @@ svg .hn.on{fill:var(--accent);font-weight:700}
 .gyears span{display:inline-flex;align-items:baseline;gap:8px;padding:6px 16px;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
 .gmore{margin-top:12px}.gmore summary{cursor:pointer;color:var(--accent);font-weight:600;margin-bottom:10px}
 .gyears b{font-size:1.05rem}.gyears small{font-size:.84rem;font-weight:600}
+
+.gcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start;margin-bottom:16px}
+.gcols>.panel{margin:0;min-width:0}
+.gcols .levh{flex-wrap:nowrap;align-items:flex-start}.gcols .levh .ldot{flex:0 0 auto;margin-top:8px}.gcols .levh b{min-width:0}
+.hpanel .lev{border-left:3px solid color-mix(in srgb,var(--fire) 70%,transparent)}
+.gyears.hy span{background:color-mix(in srgb,var(--fire) 75%,var(--surface));color:var(--fg)}
 </style>
 
 <div class="wrap">
@@ -7190,7 +7196,7 @@ function trialEvents(b){
     self.forEach(([a,typ])=>periods(b,g,L,a,orb,240,a===0?Math.ceil(5*365/STEP):Math.ceil(365/STEP)).forEach(p=>ev.push({k,t:"self",tka:typ==="ret"?"დაბრუნება":"საკუთარ პოზიციასთან",a,...p,ret:typ==="ret",txt:TRT[k][typ]})));});
   const ch=b.P("Chiron");if(ch){const g=lgrid(b.d,"Chiron",92);periods(b,g,ch.lon,0,1.5,300,Math.ceil(10*365/STEP)).forEach(p=>ev.push({k:"Chiron",t:"self",tka:"დაბრუნება",a:0,...p,ret:true,txt:TRT.Chiron.ret}));}
   return ev.sort((x,y)=>x.s-y.s);}
-function evTitle(e){const pk=BODIES.find(x=>x.k===e.k).ka;if(e.ret)return pk.replace(/ი$/,"ის")+" დაბრუნება";return pk+" "+(e.t==="self"?"ნატალურ "+pk.replace(/ი$/,"")+"თან":{Sun:"მზესთან",Moon:"მთვარესთან",ASC:"ასცენდენტთან"}[e.t])+": "+ANAME[e.a];}
+function evTitle(e){const pk=BODIES.find(x=>x.k===e.k).ka;if(e.ret)return pk.replace(/ი$/,"ის")+" დაბრუნება";return pk+" "+(e.t==="self"?"საკუთარ თავთან":{Sun:"შენს მზესთან",Moon:"შენს მთვარესთან",ASC:"შენს ასცენდენტთან"}[e.t]);}
 function lifeAxis(b,maxAge,rows,h){const W=720,L=90,R=16,x=a=>L+(W-L-R)*a/maxAge,now=ageAt(b,Date.now());
   let s='<svg viewBox="0 0 '+W+' '+(h+26)+'" role="img" aria-label="ასაკის ხაზი" class="lifesvg">';
   for(let a=0;a<=maxAge;a+=10)s+='<line x1="'+x(a)+'" x2="'+x(a)+'" y1="0" y2="'+h+'" stroke="var(--line)"/><text x="'+x(a)+'" y="'+(h+18)+'" text-anchor="middle" font-size="12" fill="var(--muted)">'+a+'</text>';
@@ -7222,7 +7228,7 @@ function goodHTML(b){const now=Date.now(),lim=now+12*365.25*864e5,ev=goodEvents(
   const pk=k=>BODIES.find(x=>x.k===k).ka;
   const card=e=>{const a1=Math.floor(ageAt(b,e.s)),a2=Math.floor(ageAt(b,e.e)),st=e.s<=now?"now":"next";
     return '<div class="lev good '+st+'"><div class="levh"><span class="ldot" style="background:'+GCOL[e.k]+'"></span><b>'+e.h+'</b>'+(st==="now"?'<span class="badge">ახლა</span>':'')+'</div><div class="muted num">'+lmR(e.s,e.e)+' · '+(a1===a2?a1:a1+'–'+a2)+' წლის ასაკში · '+pk(e.k)+'</div><p>'+e.txt+'</p></div>';};
-  return '<div class="panel gpanel"><h3 class="ph3">შესაძლებლობები</h3><p class="note">ხელსაყრელი პერიოდები მომდევნო 12 წელში: როცა იუპიტერი, სატურნი ან ურანი შენი რუკის მნიშვნელოვან წერტილებს კარგად ეხება. ეს კარგი დროა რაიმე ახლის დასაწყებად.</p>'+
+  return '<div class="panel gpanel"><h3 class="ph3">შესაძლებლობები</h3><p class="note">ხელსაყრელი პერიოდები მომდევნო 12 წელში. კარგი დროა რაიმე ახლის დასაწყებად.</p>'+
     (best.length?'<h4 class="lh4">ყველაზე ხელსაყრელი წლები</h4><div class="gyears">'+best.map(y=>'<span><b>'+y+'</b><small>'+(y-Y0)+' წლის</small></span>').join("")+'</div>':'')+
     '<div class="levl">'+ev.slice(0,6).map(card).join("")+'</div>'+(ev.length>6?'<details class="gmore"><summary>ყველა პერიოდის ნახვა ('+ev.length+')</summary><div class="levl">'+ev.slice(6).map(card).join("")+'</div></details>':'')+'</div>';}
 function buildTrials(){const el=$("trRes");if(!el)return;const b=lifeBase();if(b.err){el.innerHTML='<p class="err">'+b.err+'</p>';return}
@@ -7231,18 +7237,20 @@ function buildTrials(){const el=$("trRes");if(!el)return;const b=lifeBase();if(b
   /* heaviest years */
   const yr=Array(91).fill(0);ev.forEach(e=>{for(let a=Math.floor(ageAt(b,e.s));a<=Math.floor(ageAt(b,e.e))&&a<=90;a++)yr[a]+=TW[e.k]*(e.ret?1.2:1);});
   const nowA=Math.floor(ageAt(b,now)),pick=f=>{const t=[];yr.map((v,a)=>[a,v]).filter(x=>x[1]>0&&f(x[0])).sort((p,q)=>q[1]-p[1]).forEach(([a,v])=>{if(t.length<3&&t.every(z=>Math.abs(z[0]-a)>2))t.push([a,v]);});return t.sort((p,q)=>p[0]-q[0]);};
-  const topP=pick(a=>a<nowA),topF=pick(a=>a>=nowA);
+  const topP=pick(a=>a<nowA),topF=pick(a=>a>=nowA&&a<=nowA+12);
   const Y0=b.d.getFullYear(),card=e=>{const a1=Math.floor(ageAt(b,e.s)),a2=Math.floor(ageAt(b,e.e)),st=e.e<now?"past":e.s<=now?"now":"next";
     let tp=st==="past"?(TRP[e.k]||{})[e.ret?"ret":e.t]:null;
     if(tp&&a1<14)tp=["ბავშვობაში ასეთი პერიოდი, როგორც წესი, მთელ ოჯახზე აისახება. "+tp[0],"ჰკითხე ოჯახს, იყო თუ არა ამ წლებში საცხოვრებლის შეცვლა, ოჯახური სირთულე, ავადმყოფობა ან სკოლის შეცვლა."];
     return '<div class="lev '+st+'"><div class="levh"><span class="ldot" style="background:'+TCOL[e.k]+'"></span><b>'+evTitle(e)+'</b>'+(st==="now"?'<span class="badge">ახლა</span>':'')+'</div><div class="muted num">'+lmR(e.s,e.e)+' · '+(a1===a2?a1:a1+'–'+a2)+' წლის ასაკში</div><p>'+(tp?tp[0]:e.txt)+'</p>'+(tp?'<p class="lq"><b>შეამოწმე:</b> '+tp[1]+'</p>':'')+'</div>';};
   const ycard=([a])=>{const list=ev.filter(e=>Math.floor(ageAt(b,e.s))<=a&&Math.floor(ageAt(b,e.e))>=a);return '<div class="b3'+(a<nowA?' dim':'')+'"><div class="b3h"><span class="glyph">'+a+'</span><div><small>'+(a<nowA?'გავლილი · ':'')+'ასაკი</small><b>'+(Y0+a)+'–'+(Y0+a+1)+'</b></div></div><ul class="mfl">'+list.map(e=>'<li>'+evTitle(e)+'</li>').join("")+'</ul></div>';};
-  const fut=ev.filter(e=>e.e>=now),past=ev.filter(e=>e.e<now).reverse();
-  el.innerHTML=goodHTML(b)+'<div class="panel"><h3 class="ph3">სირთულეები ასაკის ხაზზე</h3><p class="note">თითოეული ზოლი ერთ რთულ პერიოდს აჩვენებს: როცა ნელი პლანეტა (სატურნი, ურანი, ნეპტუნი, პლუტონი ან ქირონი) შენი რუკის მნიშვნელოვან წერტილს ეხება. მკრთალი ზოლები უკვე გავლილია. დეტალების სანახავად მიიტანე მაუსი ზოლთან.</p><div class="tlwrap">'+svg+'</div>'+
+  const fut=ev.filter(e=>e.e>=now),past=ev.filter(e=>e.e<now).reverse(),lim=now+12*365.25*864e5,fut12=fut.filter(e=>e.s<=lim);
+  const hard='<div class="panel hpanel"><h3 class="ph3">სირთულეები</h3><p class="note">რთული პერიოდები მომდევნო 12 წელში. ამ დროს მეტი მოთმინება და ძალა დაგჭირდება.</p>'+
+    (topF.length?'<h4 class="lh4">ყველაზე დატვირთული წლები</h4><div class="gyears hy">'+topF.map(([a])=>'<span><b>'+(Y0+a)+'</b><small>'+a+' წლის</small></span>').join("")+'</div>':'')+
+    (fut12.length?'<div class="levl">'+fut12.slice(0,6).map(card).join("")+'</div>'+(fut12.length>6?'<details class="gmore"><summary>ყველა პერიოდის ნახვა ('+fut12.length+')</summary><div class="levl">'+fut12.slice(6).map(card).join("")+'</div></details>':''):'<p class="muted">მომდევნო 12 წელში გამორჩეული რთული პერიოდი ვერ მოიძებნა.</p>')+'</div>';
+  el.innerHTML='<div class="gcols">'+goodHTML(b)+hard+'</div><div class="panel"><h3 class="ph3">სირთულეები ასაკის ხაზზე</h3><p class="note">თითოეული ზოლი ერთ რთულ პერიოდს აჩვენებს: როცა ნელი პლანეტა (სატურნი, ურანი, ნეპტუნი, პლუტონი ან ქირონი) შენი რუკის მნიშვნელოვან წერტილს ეხება. მკრთალი ზოლები უკვე გავლილია. დეტალების სანახავად მიიტანე მაუსი ზოლთან.</p><div class="tlwrap">'+svg+'</div>'+
    '<div class="tlleg">'+PL.map(k=>'<span><i style="background:'+TCOL[k]+'"></i>'+BODIES.find(z=>z.k===k).ka+'</span>').join("")+'</div></div>'+
-   '<div class="panel"><h3 class="ph3">ყველაზე დატვირთული წლები</h3>'+(topF.length?'<h4 class="lh4">წინ</h4><div class="b3grid">'+topF.map(ycard).join("")+'</div>':'')+(topP.length?'<h4 class="lh4">გავლილი</h4><div class="b3grid">'+topP.map(ycard).join("")+'</div>':'')+
-   '<p class="note">როცა ერთ წელს რამდენიმე ასეთი პერიოდი ემთხვევა, ის ცხოვრების გარდამტეხ წლად ითვლება. ეს უბედურებას არ ნიშნავს: უბრალოდ, დიდი ცვლილებებისა და დატვირთვის წელია.</p></div>'+'<div class="panel"><h3 class="ph3">მიმდინარე და მომავალი რთული პერიოდები</h3>'+(fut.length?'<div class="levl">'+fut.map(card).join("")+'</div>':'<p class="muted">მომავალი პერიოდები ვერ მოიძებნა.</p>')+
-   '</div>'+(past.length?'<div class="panel"><h3 class="ph3">გავლილი რთული პერიოდები</h3><p class="note">ეს ის რთული პერიოდებია, რომლებიც უკვე გაიარე, ბოლოდან დაწყებული. თითოეულს მოყვება კითხვა: გაიხსენე, მართლა ასე იყო თუ არა. თუ უმეტესობა დაემთხვა, შენი დაბადების დრო და ასცენდენტი, სავარაუდოდ, სწორია. თუ ბევრი არ დაემთხვა, დრო <a href="#ascendant">ასცენდენტის გვერდზე</a> დააზუსტე: მე-⁠4 ნაბიჯში შეიყვანე შენი ცხოვრების მნიშვნელოვანი მოვლენები, რომლებიც გახსოვს.</p><div class="levl">'+past.map(card).join("")+'</div>':'')+(b.unknown?'<p class="note">დაბადების დრო არ ვიცით, ამიტომ მთვარე და ასცენდენტი არ ითვლება. <a href="#ascendant">დაადგინე ასცენდენტი</a> უფრო სრული სურათისთვის.</p>':'')+'</div>';}
+   (topP.length?'<div class="panel"><h3 class="ph3">ყველაზე დატვირთული წლები, რომლებიც უკვე გაიარე</h3><div class="b3grid">'+topP.map(ycard).join("")+'</div>':'<div class="panel">')+
+   '<p class="note">როცა ერთ წელს რამდენიმე ასეთი პერიოდი ემთხვევა, ის ცხოვრების გარდამტეხ წლად ითვლება. ეს უბედურებას არ ნიშნავს: უბრალოდ, დიდი ცვლილებებისა და დატვირთვის წელია.</p></div>'+(past.length?'<div class="panel"><h3 class="ph3">გავლილი რთული პერიოდები</h3><p class="note">ეს ის რთული პერიოდებია, რომლებიც უკვე გაიარე, ბოლოდან დაწყებული. თითოეულს მოყვება კითხვა: გაიხსენე, მართლა ასე იყო თუ არა. თუ უმეტესობა დაემთხვა, შენი დაბადების დრო და ასცენდენტი, სავარაუდოდ, სწორია. თუ ბევრი არ დაემთხვა, დრო <a href="#ascendant">ასცენდენტის გვერდზე</a> დააზუსტე: მე-⁠4 ნაბიჯში შეიყვანე შენი ცხოვრების მნიშვნელოვანი მოვლენები, რომლებიც გახსოვს.</p><div class="levl">'+past.map(card).join("")+'</div>':'')+(b.unknown?'<p class="note">დაბადების დრო არ ვიცით, ამიტომ მთვარე და ასცენდენტი არ ითვლება. <a href="#ascendant">დაადგინე ასცენდენტი</a> უფრო სრული სურათისთვის.</p>':'')+'</div>';}
 function buildCareer(){const el=$("carRes");if(!el)return;const b=lifeBase();if(b.err){el.innerHTML='<p class="err">'+b.err+'</p>';return}
   const sc=FIELDS.map(()=>0),why=FIELDS.map(()=>new Map());
   const add=(i,v,r)=>{sc[i]+=v;why[i].set(r,(why[i].get(r)||0)+v);};

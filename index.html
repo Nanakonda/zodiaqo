@@ -780,24 +780,24 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
 .txpop .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .atx{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.atx p{margin:0;color:var(--muted);flex:1 1 260px}
 
-/* ---------- home: today's sky ---------- */
-.dayctl{gap:12px}
-.dtop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
-.dtop small{color:var(--muted)}
-.dchips{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
-.dchip{padding:7px 2px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:.8rem;cursor:pointer;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
-.dchip[aria-selected="true"]{border-color:var(--accent);color:var(--accent-ink);background:var(--accent);font-weight:600}
-.dbody{display:flex;flex-direction:column;gap:10px;padding:16px 18px;border-radius:16px;border:1px solid var(--line);background:var(--surface)}
-.dhead{display:flex;align-items:center;gap:14px}
-.dmoon{flex:0 0 46px;width:46px;height:46px}.dmoon svg{width:100%;height:100%}
-.dhead small{color:var(--muted);font-size:.84rem}.dhead h3{margin:2px 0 0;font-size:1.15rem;text-wrap:balance}
-.dtxt{margin:0;font-size:.94rem;line-height:1.6}
-.dfacts{list-style:none;padding:0;margin:2px 0 0;display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:10px}
-.dfacts li{display:flex;gap:10px;align-items:flex-start}
-.dfacts li>div{display:flex;flex-direction:column;gap:1px;min-width:0}
-.dfacts b{font-size:.9rem;font-weight:600}.dfacts span:not(.dfi){font-size:.84rem;color:var(--muted)}
-.dfi{flex:0 0 22px;text-align:center;color:var(--accent);font-size:1rem;line-height:1.3}
-@media (max-width:420px){.dchip{font-size:.72rem}}
+
+/* ---------- chart hover polish ---------- */
+svg .pl{cursor:pointer;transition:opacity .3s ease}
+svg .pl>circle:not(.glow),svg .pl>text.glyph{transform-box:fill-box;transform-origin:center;transition:transform .35s cubic-bezier(.34,1.56,.64,1),stroke .25s,stroke-width .25s,filter .25s}
+svg .pl.on>circle:not(.glow){stroke:var(--accent);stroke-width:1.4}
+svg .pl.cur>circle:not(.glow){transform:scale(1.3);stroke:var(--accent);stroke-width:1.8;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--accent) 80%,transparent))}
+svg .pl.cur>text.glyph{transform:scale(1.25)}
+svg .seg path,svg .seg text{transform-box:view-box;transform-origin:200px 200px;transition:transform .4s cubic-bezier(.34,1.56,.64,1),fill-opacity .3s,opacity .3s}
+svg:has(.seg){overflow:visible}
+svg .seg:hover path,svg .seg:hover text,svg.foc .seg.on path,svg.foc .seg.on text{transform:scale(1.02)}
+svg .seg:hover path,svg.foc .seg.on path{fill-opacity:.85;filter:drop-shadow(0 0 6px rgba(0,0,0,.35))}
+svg.fs .seg:not(.on) path{fill-opacity:.1}
+svg.fs .seg:not(.on) text{opacity:.4}
+svg.foc .asp.on{stroke-dasharray:1;stroke-dashoffset:1;animation:aspdraw .5s ease-out forwards}
+@keyframes aspdraw{to{stroke-dashoffset:0}}
+svg .hn{transition:fill .25s}
+svg .hn.on{fill:var(--accent);font-weight:700}
+@media (prefers-reduced-motion:reduce){svg .pl>circle,svg .pl>text,svg .seg path,svg .seg text{transition:none}svg.foc .asp.on{animation:none;stroke-dasharray:none}}
 </style>
 
 <div class="wrap">
@@ -846,11 +846,13 @@ footer{flex-direction:column;align-items:center;text-align:center;gap:8px}
       </div>
       <div class="sim">
         <div class="wheel" id="wheel"></div>
-        <div class="simctl dayctl">
-          <div class="dtop"><small data-tx="home.5">ცა დღეს, თბილისის თავზე</small><button type="button" class="linkbtn" id="dayPlay" aria-pressed="false">▶ კვირა 10 წამში</button></div>
-          <div class="dchips" id="dayChips" role="tablist" aria-label="დღის არჩევა"></div>
-          <div class="dbody" id="dayBody" aria-live="polite"></div>
-          <p data-tx="home.6" class="note">ეს ცა ყველასთვის ერთია. რას ნიშნავს ის კონკრეტულად შენთვის, შენს ნატალურ რუკაზეა დამოკიდებული.</p>
+        <div class="simctl">
+          <div class="simread"><span class="glyph" id="simG"></span><div class="simtxt"><small data-tx="home.5">ასცენდენტი დღეს, თბილისში</small><b id="simAsc"></b><small id="simNext"></small></div></div>
+          <div class="ribbon" id="ribbon" aria-hidden="true"></div>
+          <input type="range" id="simT" min="0" max="1439" step="1" value="720" aria-label="დაბადების დრო">
+          <div class="simticks" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+          <div class="simbtns"><button type="button" class="btn ghost" id="simPlay" aria-pressed="false">▶ დღის გავლა</button><button type="button" class="btn ghost" id="simNow">ახლა</button></div>
+          <p data-tx="home.6" class="note">გადაატარე დრო და ნახე, როგორ ტრიალებს ცა და როგორ იცვლება ასცენდენტი ყოველ 1–3 საათში. სწორედ ამიტომ არის დაბადების დრო ასე მნიშვნელოვანი.</p>
         </div>
       </div>
     </div>
@@ -1594,11 +1596,11 @@ function drawChart(el,ps,opt){
   el.__data={ps,opt};chartHover(el);if(el.__focus)chartFocus(el,el.__focus);
 }
 /* hover: focus a planet, sign or house; dim the rest; show a tooltip card */
-function chartFocus(el,f){const svg=el.querySelector("svg");if(!svg)return;svg.classList.toggle("foc",!!f);
-  svg.querySelectorAll(".on").forEach(x=>x.classList.remove("on"));if(!f)return;
+function chartFocus(el,f){const svg=el.querySelector("svg");if(!svg)return;svg.classList.toggle("foc",!!f);svg.classList.toggle("fs",!!f&&f.s!=null);
+  svg.querySelectorAll(".on,.cur").forEach(x=>x.classList.remove("on","cur"));if(!f)return;
   const {ps,opt}=el.__data,cs=opt.cusps,hs=l=>cs?houseIdx(l,cs):null;
   const mark=k=>{svg.querySelectorAll('.pl[data-k="'+k+'"]').forEach(x=>x.classList.add("on"));};
-  if(f.k){mark(f.k);svg.querySelectorAll('.asp[data-a="'+f.k+'"],.asp[data-b="'+f.k+'"]').forEach(x=>{x.classList.add("on");mark(x.dataset.a===f.k?x.dataset.b:x.dataset.a);});}
+  if(f.k){mark(f.k);svg.querySelectorAll('.pl[data-k="'+f.k+'"]').forEach(x=>x.classList.add("cur"));svg.querySelectorAll('.asp[data-a="'+f.k+'"],.asp[data-b="'+f.k+'"]').forEach(x=>{x.classList.add("on");mark(x.dataset.a===f.k?x.dataset.b:x.dataset.a);});}
   if(f.s!=null){svg.querySelector('.seg[data-s="'+f.s+'"]')?.classList.add("on");ps.forEach(p=>{if(sIdx(p.lon)===f.s)mark(p.k);});}
   if(f.h){svg.querySelector('.hn[data-h="'+f.h+'"]')?.classList.add("on");ps.forEach(p=>{if(hs(p.lon)===f.h)mark(p.k);});}
 }
@@ -7019,83 +7021,36 @@ function runKarma(){
 $("kGo").addEventListener("click",runKarma);
 /* ---------- home: ascendant simulator + starfield ---------- */
 (function(){
-  /* ---------- home: "today's sky" — live chart, Moon of the day, phase, retrogrades, next events ---------- */
   const PL={lat:41.7151,lo:44.8271,tz:"Asia/Tbilisi",name:"თბილისი"};
-  const wheelEl=$("wheel");
-  const MDAY=[
-    ["აქტიური, თამამი დღე","ენერგია მაღალია, მოთმინება კი ნაკლები. კარგი დღეა ახლის დასაწყებად, ვარჯიშისთვის და სწრაფი გადაწყვეტილებებისთვის. ფრთხილად იყავი აჩქარებასა და კამათთან."],
-    ["მშვიდი, მყარი დღე","მოგინდება კომფორტი, გემრიელი საჭმელი და სიმშვიდე. კარგი დღეა ფულის საქმეებისთვის, საყიდლებისთვის და დაწყებული საქმის მშვიდად გასაგრძელებლად. ცვლილებებს ადვილად არ მიიღებ."],
-    ["საუბრების და სიახლეების დღე","გონება სწრაფად მუშაობს: ბევრი ზარი, მიმოწერა და შეხვედრაა. კარგი დღეა სწავლისთვის, მოლაპარაკებისთვის და მოკლე გასვლებისთვის. ყურადღება შეიძლება გაგეფანტოს."],
-    ["ემოციური, საოჯახო დღე","გრძნობები უფრო ძლიერია და მოგინდება სახლი და ახლობლები. კარგი დღეა ოჯახისთვის, სახლის საქმეებისთვის და ერთმანეთზე ზრუნვისთვის. ადვილად შეიძლება გეწყინოს."],
-    ["თავდაჯერებული, ნათელი დღე","მოგინდება სიხარული, ყურადღება და საკუთარი თავის გამოჩენა. კარგი დღეა შემოქმედებისთვის, გართობისთვის, პაემნისთვის და იდეის წარდგენისთვის. ამპარტავნებას მოერიდე."],
-    ["საქმიანი, მოწესრიგებული დღე","კარგი დღეა წვრილმანების მოსაგვარებლად, დასალაგებლად და ჯანმრთელობაზე საზრუნავად. ზედმეტი კრიტიკა, საკუთარი თავის მიმართაც, ხელს შეგიშლის."],
-    ["ჰარმონიისა და ურთიერთობების დღე","მოგინდება სილამაზე, სიმშვიდე და კარგი კომპანია. კარგი დღეა შეხვედრებისთვის, მორიგებისთვის და ერთობლივი გადაწყვეტილებებისთვის. არჩევანის გაკეთება შეიძლება გაგიჭირდეს."],
-    ["ღრმა, ინტენსიური დღე","გრძნობები ძლიერია და ზედაპირული საუბრები არ გაკმაყოფილებს. კარგი დღეა სერიოზული საქმისთვის, კვლევისთვის და ძველის დასასრულებლად. ეჭვიანობა და წყენა შეიძლება გაძლიერდეს."],
-    ["ოპტიმისტური, თავისუფალი დღე","მოგინდება სივრცე, მოგზაურობა და ახალი ცოდნა. კარგი დღეა სწავლისთვის, დაგეგმვისთვის და დიდი სურათის დასანახად. შეიძლება იმაზე მეტი დაჰპირდე სხვებს, ვიდრე შეგიძლია."],
-    ["სერიოზული, პროდუქტიული დღე","კარგი დღეა სამუშაოსთვის, დაგეგმვისთვის და პასუხისმგებლობის ასაღებად. ემოციები ნაკლებად ჩანს და ყველაფერს პრაქტიკულად უყურებ. ზედმეტად ნუ დაიტვირთავ თავს."],
-    ["მეგობრებისა და იდეების დღე","მოგინდება ახალი იდეები, მეგობრები და ცოტა დამოუკიდებლობა. კარგი დღეა გუნდური საქმისთვის, ტექნოლოგიებისთვის და არაჩვეულებრივი გადაწყვეტილებებისთვის. გრძნობებს შეიძლება მოშორებით შეხედო."],
-    ["მშვიდი, მეოცნებე დღე","ინტუიცია და თანაგრძნობა ძლიერია, ენერგია კი ნაკლები. კარგი დღეა დასვენებისთვის, მუსიკისთვის, ხელოვნებისთვის და სხვისი დახმარებისთვის. რთული გადაწყვეტილებები სხვა დღისთვის გადადე."]];
-  const PHD=["ახალი წამოწყებებისა და ჩანაფიქრების დროა.","დაწყებული ძალას იკრებს: დროა პირველი ნაბიჯების.","პირველი დაბრკოლებები ჩნდება: დროა გადაწყვეტილების და მოქმედების.","დროა დაწყებულის დახვეწის და გაუმჯობესების.","ემოციები მაქსიმუმზეა: შედეგები ჩანს და საქმეები სრულდება.","დროა გაზიარების, მადლიერების და ნელი ტემპის.","დროა გაწმენდის: გაუშვი ის, რაც აღარ გჭირდება.","დასვენების და ციკლის დასრულების დროა."];
-  const RXD={Mercury:"ხელშეკრულებებს, ტექნიკასა და მიმოწერას მეტი სიფრთხილე სჭირდება.",Venus:"ძველი ურთიერთობები და ფულის საკითხები ბრუნდება.",Mars:"ენერგია ნელდება: ახალი ბრძოლების ნაცვლად დაწყებული დაასრულე.",Jupiter:"ზრდა შინაგანია: გადახედე გეგმებს.",Saturn:"დროა გადახედო ვალდებულებებს და წესებს."};
-  const MDE=["იანვრამდე","თებერვლამდე","მარტამდე","აპრილამდე","მაისამდე","ივნისამდე","ივლისამდე","აგვისტომდე","სექტემბრამდე","ოქტომბრამდე","ნოემბრამდე","დეკემბრამდე"];
-  const WDF=["კვირა","ორშაბათი","სამშაბათი","ოთხშაბათი","ხუთშაბათი","პარასკევი","შაბათი"];
-  const loc=ms=>{const o=zoneOffset(PL.tz,ms);const d=new Date(ms+o*60000);return {Y:d.getUTCFullYear(),M:d.getUTCMonth(),D:d.getUTCDate(),wd:d.getUTCDay(),h:d.getUTCHours(),mi:d.getUTCMinutes()};};
-  const noonOf=ms=>{const l=loc(ms);return toUTCg(l.Y,l.M+1,l.D,720,PL).d.getTime();};
-  const dayKey=ms=>{const l=loc(ms);return l.Y*10000+l.M*100+l.D;};
-  const t0=Date.now(),k0=dayKey(t0);
-  const dayLbl=(ms,short)=>{const l=loc(ms),dd=Math.round((noonOf(ms)-noonOf(t0))/864e5);
-    if(dd===0)return "დღეს";if(dd===1)return "ხვალ";if(dd===2&&!short)return "ზეგ";return (short?WDF[l.wd].slice(0,3):WDF[l.wd])+(short?"":", ")+(short?" ":"")+l.D+(short?"":" "+MONTHS[l.M]);};
-  const whenTxt=ms=>{const l=loc(ms),dd=Math.round((noonOf(ms)-noonOf(t0))/864e5);
-    return (dd===0?"დღეს":dd===1?"ხვალ":dd===2?"ზეგ":l.D+" "+MONTHS[l.M])+", "+pad(l.h)+":"+pad(l.mi);};
-  const rxCache={};
-  function rxEnd(k,ms){const key=k+Math.floor(ms/864e5);if(key in rxCache)return rxCache[key];
-    let prev=norm(lonOf(k,new Date(ms))),res=null;
-    for(let i=1;i<=200;i++){const l=norm(lonOf(k,new Date(ms+i*864e5)));let d=l-prev;if(d>180)d-=360;if(d<-180)d+=360;if(d>0){res=ms+i*864e5;break}prev=l;}
-    return rxCache[key]=res;}
-  function moonNext(ms){const s0=sIdx(lonOf("Moon",new Date(ms)));for(let i=1;i<=72*4;i++){const t=ms+i*9e5;if(sIdx(lonOf("Moon",new Date(t)))!==s0)return {t,s:(s0+1)%12};}return null;}
-  let sel=t0,raf=0,tick=0;
-  function info(ms){
-    const d=new Date(ms),ps=positions(d),mo=ps[1],ms_=sIdx(mo.lon),ph=Astronomy.MoonPhase(d),phi=Math.floor(norm(ph+22.5)/45)%8,ill=Math.round((1-Math.cos(ph*Math.PI/180))/2*100);
-    const [tt,tx]=MDAY[ms_];
-    const FAST=["Mercury","Venus","Mars","Jupiter","Saturn"],rx=ps.filter(p=>p.retro&&FAST.includes(p.k)),rxs=ps.filter(p=>p.retro&&["Uranus","Neptune","Pluto"].includes(p.k));
-    const nx=moonNext(ms);let q=null,ex=null;try{q=Astronomy.SearchMoonQuarter(d);if(q&&QN[q.quarter]===PH[phi]){ex=q;q=Astronomy.NextMoonQuarter(q);}}catch(e){}
-    const rxHtml=(rx.length?rx.map(p=>{const e=rxEnd(p.k,ms),el=e?loc(e):null;
-        return '<li><span class="glyph dfi">'+p.g+VS+'</span><div><b>'+p.ka+' რეტროგრადულია'+(el?' '+el.D+' '+MDE[el.M]:'')+'</b><span>'+RXD[p.k]+'</span></div></li>';}).join("")
-      :'<li><span class="glyph dfi">℞</span><div><b>მერკურიდან სატურნამდე რეტროგრადული პლანეტა არ არის</b><span>ყოველდღიურ საქმეებს „უკუსვლა“ არ აფერხებს.</span></div></li>')+
-      (rxs.length?'<li><span class="glyph dfi">℞</span><div><b>ნელი პლანეტები: '+rxs.map(p=>p.ka).join(", ")+'</b><span>ისინიც რეტროგრადულია, მაგრამ ყოველდღიურობაზე ნაკლებად მოქმედებენ.</span></div></li>':'');
-    $("dayBody").innerHTML=
-      '<div class="dhead"><span class="dmoon">'+moonSvg(ph)+'</span><div><small>მთვარე '+LOC[ms_]+' '+gl(S[ms_])+'</small><h3>'+tt+'</h3></div></div>'+
-      '<p class="dtxt">'+tx+'</p>'+
-      '<ul class="dfacts">'+
-        '<li><span class="glyph dfi">☽</span><div><b>'+PH[phi]+' · '+ill+'%'+(ex?' · ზუსტად '+whenTxt(ex.time.date.getTime()):'')+'</b><span>'+PHD[phi]+'</span></div></li>'+rxHtml+
-        (nx?'<li><span class="glyph dfi">→</span><div><b>მთვარე '+LOC[nx.s]+' გადადის</b><span>'+whenTxt(nx.t)+'. დღის განწყობაც შეიცვლება.</span></div></li>':'')+
-        (q?'<li><span class="glyph dfi">◐</span><div><b>შემდეგი: '+QN[q.quarter]+'</b><span>'+whenTxt(q.time.date.getTime())+'</span></div></li>':'')+
-      '</ul>';
+  const Y=today.getFullYear(),M=today.getMonth()+1,D=today.getDate();
+  const nowMin=(()=>{const u=today.getTime(),o=zoneOffset(PL.tz,u);const d=new Date(u+o*60000);return d.getUTCHours()*60+d.getUTCMinutes();})();
+  const slider=$("simT"),wheelEl=$("wheel");
+  /* 24h ribbon of ascendant signs */
+  const band=[];for(let m=0;m<1440;m+=4){const s=sIdx(angles(toUTCg(Y,M,D,m,PL).d,PL.lat,PL.lo).asc);const l=band[band.length-1];if(l&&l.s===s)l.to=m+4;else band.push({s,from:m,to:m+4});}
+  $("ribbon").innerHTML=band.map(b=>'<span class="rb el-'+S[b.s].el+'" style="flex:'+(b.to-b.from)+'" title="'+S[b.s].ka+' '+hm(b.from)+'–'+hm(b.to-1)+'"><i class="glyph">'+(b.to-b.from>=60?gl(S[b.s]):'')+'</i></span>').join("");
+  let raf=0,last=-1;
+  function render(m){
+    if(m===last)return;last=m;
+    const d=toUTCg(Y,M,D,m,PL).d,ps=positions(d),an=angles(d,PL.lat,PL.lo),si=sIdx(an.asc);
+    drawChart(wheelEl,ps,{static:true,asc:an.asc,mc:an.mc,cusps:an.cusps,hi:si,center:[hm(m),"ასცენდენტი"],label:"ზოდიაქოს წრე: ასცენდენტი "+hm(m)+"-ზე"});
+    $("simG").textContent=gl(S[si]);$("simG").className="glyph el-"+S[si].el;
+    $("simAsc").textContent=S[si].ka+" "+deg(an.asc);
+    const nb=band.find(b=>m>=b.from&&m<b.to);$("simNext").textContent=nb?"ეს ასცენდენტი გრძელდება "+hm(nb.to%1440)+"-მდე":"";
+    slider.value=m;slider.setAttribute("aria-valuetext",hm(m)+", ასცენდენტი "+S[si].ka);
+    $("simT").style.setProperty("--p",(m/1439*100).toFixed(2)+"%");
   }
-  function chart(ms,anim){
-    const d=new Date(ms),ps=positions(d),an=angles(d,PL.lat,PL.lo),l=loc(ms),ms_=sIdx(ps[1].lon);
-    const o=raf?{static:true,hi:ms_,}:{static:true,asc:an.asc,mc:an.mc,cusps:an.cusps,hi:ms_,}; Object.assign(o,{center:[dayKey(ms)===k0&&!raf?pad(l.h)+":"+pad(l.mi):l.D+" "+MONTHS[l.M].slice(0,3),dayKey(ms)===k0&&!raf?"ცა ახლა":"ცა "+pad(l.h)+":00"],label:"ცა თბილისის თავზე, "+whenTxt(ms)+". მთვარე "+LOC[ms_]});
-    (anim?liveChart:drawChart)(wheelEl,ps,o);}
-  function chips(){const box=$("dayChips");let h="";for(let i=0;i<7;i++){const ms=i?noonOf(t0+i*864e5):t0;h+='<button type="button" class="dchip" role="tab" data-ms="'+ms+'" aria-selected="'+(dayKey(ms)===dayKey(sel))+'">'+dayLbl(ms,true)+'</button>';}box.innerHTML=h;}
-  function show(ms,anim){sel=ms;chips();chart(ms,anim);info(ms);}
-  const stop=()=>{cancelAnimationFrame(raf);raf=0;$("dayPlay").textContent="▶ კვირა 10 წამში";$("dayPlay").setAttribute("aria-pressed","false");};
+  const stop=()=>{cancelAnimationFrame(raf);raf=0;$("simPlay").textContent="▶ დღის გავლა";$("simPlay").setAttribute("aria-pressed","false");};
   function play(){
-    if(raf){stop();show(sel,false);return}
-    $("dayPlay").textContent="❚❚ პაუზა";$("dayPlay").setAttribute("aria-pressed","true");
-    let t=t0,tp=performance.now(),lastDay=-1,lastSign=-1;const end=t0+7*864e5;
-    const step=now=>{const dt=Math.min(64,now-tp);tp=now;t+=dt*(7*864e5/10000);
-      if(t>=end){stop();show(t0,true);return}
-      sel=t;chart(t,false);const dk=dayKey(t),s=sIdx(lonOf("Moon",new Date(t)));
-      if(dk!==lastDay||s!==lastSign){lastDay=dk;lastSign=s;chips();info(t);}
-      raf=requestAnimationFrame(step);};
-    raf=requestAnimationFrame(step);}
-  if(HAS){
-    $("dayChips").addEventListener("click",e=>{const b=e.target.closest(".dchip");if(!b)return;stop();show(+b.dataset.ms,true);});
-    $("dayChips").addEventListener("keydown",e=>{if(!["ArrowLeft","ArrowRight"].includes(e.key))return;const bs=[...$("dayChips").children],i=bs.findIndex(b=>b.getAttribute("aria-selected")==="true"),j=Math.max(0,Math.min(bs.length-1,i+(e.key==="ArrowRight"?1:-1)));stop();show(+bs[j].dataset.ms,true);$("dayChips").children[j].focus();});
-    $("dayPlay").addEventListener("click",play);
-    show(t0,false);
-    setInterval(()=>{if(!raf&&dayKey(sel)===k0&&!document.hidden){sel=Date.now();chart(sel,false);if(++tick%15===0)info(sel);}},60000);
-  }else{$("dayBody").innerHTML='<p class="err">ასტრონომიული ბიბლიოთეკა ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';}
+    if(raf){stop();return}
+    $("simPlay").textContent="❚❚ პაუზა";$("simPlay").setAttribute("aria-pressed","true");
+    let m=+slider.value,t0=performance.now();
+    const step=t=>{const dt=Math.min(64,t-t0);t0=t;m=(m+dt*0.09)%1440;render(Math.floor(m));raf=requestAnimationFrame(step);};
+    raf=requestAnimationFrame(step);
+  }
+  slider.addEventListener("input",()=>{stop();render(+slider.value);});
+  $("simPlay").addEventListener("click",play);
+  $("simNow").addEventListener("click",()=>{stop();render(nowMin);});
+  render(nowMin);
   /* night sky across the whole site: slowly drifting, twinkling stars and an occasional shooting star */
   const cv=$("sky"),cx=cv.getContext("2d");
   let W=0,H=0,stars=[],px=0,py=0,tx=0,ty=0,shoot=null,nextShot=performance.now()+4000+Math.random()*5000,lastT=0;

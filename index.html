@@ -846,14 +846,6 @@ svg .hn.on{fill:var(--accent);font-weight:700}
       </div>
       <div class="sim">
         <div class="wheel" id="wheel"></div>
-        <div class="simctl">
-          <div class="simread"><span class="glyph" id="simG"></span><div class="simtxt"><small data-tx="home.5">ასცენდენტი დღეს, თბილისში</small><b id="simAsc"></b><small id="simNext"></small></div></div>
-          <div class="ribbon" id="ribbon" aria-hidden="true"></div>
-          <input type="range" id="simT" min="0" max="1439" step="1" value="720" aria-label="დაბადების დრო">
-          <div class="simticks" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
-          <div class="simbtns"><button type="button" class="btn ghost" id="simPlay" aria-pressed="false">▶ დღის გავლა</button><button type="button" class="btn ghost" id="simNow">ახლა</button></div>
-          <p data-tx="home.6" class="note">გადაატარე დრო და ნახე, როგორ ტრიალებს ცა და როგორ იცვლება ასცენდენტი ყოველ 1–3 საათში. სწორედ ამიტომ არის დაბადების დრო ასე მნიშვნელოვანი.</p>
-        </div>
       </div>
     </div>
 
@@ -7024,33 +7016,20 @@ $("kGo").addEventListener("click",runKarma);
   const PL={lat:41.7151,lo:44.8271,tz:"Asia/Tbilisi",name:"თბილისი"};
   const Y=today.getFullYear(),M=today.getMonth()+1,D=today.getDate();
   const nowMin=(()=>{const u=today.getTime(),o=zoneOffset(PL.tz,u);const d=new Date(u+o*60000);return d.getUTCHours()*60+d.getUTCMinutes();})();
-  const slider=$("simT"),wheelEl=$("wheel");
-  /* 24h ribbon of ascendant signs */
-  const band=[];for(let m=0;m<1440;m+=4){const s=sIdx(angles(toUTCg(Y,M,D,m,PL).d,PL.lat,PL.lo).asc);const l=band[band.length-1];if(l&&l.s===s)l.to=m+4;else band.push({s,from:m,to:m+4});}
-  $("ribbon").innerHTML=band.map(b=>'<span class="rb el-'+S[b.s].el+'" style="flex:'+(b.to-b.from)+'" title="'+S[b.s].ka+' '+hm(b.from)+'–'+hm(b.to-1)+'"><i class="glyph">'+(b.to-b.from>=60?gl(S[b.s]):'')+'</i></span>').join("");
-  let raf=0,last=-1;
-  function render(m){
-    if(m===last)return;last=m;
-    const d=toUTCg(Y,M,D,m,PL).d,ps=positions(d),an=angles(d,PL.lat,PL.lo),si=sIdx(an.asc);
-    drawChart(wheelEl,ps,{static:true,asc:an.asc,mc:an.mc,cusps:an.cusps,hi:si,center:[hm(m),"ასცენდენტი"],label:"ზოდიაქოს წრე: ასცენდენტი "+hm(m)+"-ზე"});
-    $("simG").textContent=gl(S[si]);$("simG").className="glyph el-"+S[si].el;
-    $("simAsc").textContent=S[si].ka+" "+deg(an.asc);
-    const nb=band.find(b=>m>=b.from&&m<b.to);$("simNext").textContent=nb?"ეს ასცენდენტი გრძელდება "+hm(nb.to%1440)+"-მდე":"";
-    slider.value=m;slider.setAttribute("aria-valuetext",hm(m)+", ასცენდენტი "+S[si].ka);
-    $("simT").style.setProperty("--p",(m/1439*100).toFixed(2)+"%");
-  }
-  const stop=()=>{cancelAnimationFrame(raf);raf=0;$("simPlay").textContent="▶ დღის გავლა";$("simPlay").setAttribute("aria-pressed","false");};
-  function play(){
-    if(raf){stop();return}
-    $("simPlay").textContent="❚❚ პაუზა";$("simPlay").setAttribute("aria-pressed","true");
-    let m=+slider.value,t0=performance.now();
-    const step=t=>{const dt=Math.min(64,t-t0);t0=t;m=(m+dt*0.09)%1440;render(Math.floor(m));raf=requestAnimationFrame(step);};
-    raf=requestAnimationFrame(step);
-  }
-  slider.addEventListener("input",()=>{stop();render(+slider.value);});
-  $("simPlay").addEventListener("click",play);
-  $("simNow").addEventListener("click",()=>{stop();render(nowMin);});
-  render(nowMin);
+  const wheelEl=$("wheel");
+  /* the sky over Tbilisi keeps turning: about one hour of sky per second; pauses on hover, when off-screen or in a hidden tab */
+  let raf=0,m=nowMin,last=-1,hover=false,vis=true,tp=0;
+  function render(mm){const mi=Math.floor(mm);if(mi===last)return;last=mi;
+    const d=toUTCg(Y,M,D,mi,PL).d,ps=positions(d),an=angles(d,PL.lat,PL.lo),si=sIdx(an.asc);
+    drawChart(wheelEl,ps,{static:true,asc:an.asc,mc:an.mc,cusps:an.cusps,hi:si,center:[hm(mi),"ასცენდენტი "+S[si].ka],label:"ცა თბილისის თავზე "+hm(mi)+"-ზე, ასცენდენტი "+S[si].ka});}
+  const run=()=>!hover&&vis&&!document.hidden&&!RMQ.matches;
+  function step(t){const dt=Math.min(64,t-(tp||t));tp=t;m=(m+dt*.06)%1440;render(m);raf=run()?requestAnimationFrame(step):0;}
+  const go=()=>{if(!raf&&run()){tp=0;raf=requestAnimationFrame(step);}};
+  wheelEl.addEventListener("pointerenter",()=>{hover=true;});
+  wheelEl.addEventListener("pointerleave",()=>{hover=false;go();});
+  document.addEventListener("visibilitychange",go);
+  if("IntersectionObserver" in window)new IntersectionObserver(es=>{vis=es[0].isIntersecting;go();}).observe(wheelEl);
+  render(m);go();
   /* night sky across the whole site: slowly drifting, twinkling stars and an occasional shooting star */
   const cv=$("sky"),cx=cv.getContext("2d");
   let W=0,H=0,stars=[],px=0,py=0,tx=0,ty=0,shoot=null,nextShot=performance.now()+4000+Math.random()*5000,lastT=0;

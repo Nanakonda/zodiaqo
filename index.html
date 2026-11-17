@@ -860,6 +860,15 @@ button.qreset:hover{color:var(--fg);background:none}
 /* buttons in Mtavruli (FiraGO has Mtavruli glyphs) */
 .btn,button:not(.linkbtn):not(.qreset):not(.acctx):not(.txx){font-family:var(--display);text-transform:uppercase;font-feature-settings:"case" 1;letter-spacing:.04em;font-size:.88em}
 .btn.big,button.big{font-size:.95rem}
+
+/* home USP cards: aligned rows, small illustrations */
+.usps{row-gap:20px}
+.usp{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:14px;align-content:start}
+.usp-top{position:absolute;top:22px;right:24px;margin:0}
+.usp-ill{width:116px;max-width:none}
+.usp h2{padding-right:130px;align-self:end;margin:0}
+.usp .btn{align-self:end;justify-self:start;margin-top:8px}
+@media (max-width:560px){.usp-ill{width:76px}.usp h2{padding-right:84px}}
 </style>
 
 <div class="wrap">

@@ -810,6 +810,13 @@ svg .hn.on{fill:var(--accent);font-weight:700}
 .smb{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
 .smb i{display:block;width:100%;max-width:28px;border-radius:5px 5px 2px 2px;background:var(--water);opacity:.55}
 .smb.hot i{background:var(--accent);opacity:1}.smb span{font-size:.68rem;color:var(--muted)}.smb.hot span{color:var(--accent);font-weight:600}
+
+.gpanel{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.lev.good{border-left:3px solid var(--accent)}
+.gyears{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.gyears span{display:inline-flex;align-items:baseline;gap:8px;padding:6px 16px;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
+.gmore{margin-top:12px}.gmore summary{cursor:pointer;color:var(--accent);font-weight:600;margin-bottom:10px}
+.gyears b{font-size:1.05rem}.gyears small{font-size:.84rem;font-weight:600}
 </style>
 
 <div class="wrap">
@@ -820,7 +827,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
       <a data-tx="hdr.3" href="#natal" data-p="natal">ნატალური რუკა</a>
       <a data-tx="hdr.4" href="#compat" data-p="compat">წყვილის ანალიზი</a>
       <a data-tx="hdr.5" href="#career" data-p="career">პროფესია</a>
-      <a data-tx="hdr.6" href="#trials" data-p="trials">სირთულეები</a>
+      <a data-tx="hdr.6" href="#trials" data-p="trials">სირთულეები და შესაძლებლობები</a>
       <a data-tx="hdr.7" href="#marriage" data-p="marriage">დაოჯახება</a>
       <a href="#numerology" data-p="numerology" hidden>ნუმეროლოგია</a>
       <a href="#pricing" data-p="pricing" class="pwnav" hidden>ფასები</a>
@@ -920,7 +927,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
       <a class="tool" href="#natal"><span class="ti glyph">☉︎</span><b data-tx="home.30">ნატალური რუკა</b><span data-tx="home.31">შენი რუკა და მისი სრული ახსნა: ხასიათი, სიყვარული, ფული, ცხოვრების გზა</span></a>
       <a class="tool" href="#compat"><span class="ti glyph">♀︎♂︎</span><b data-tx="home.32">წყვილის ანალიზი</b><span data-tx="home.33">თავსებადობა, კარმული კავშირები და დაოჯახების ალბათობა</span></a>
       <a class="tool" href="#career"><span class="ti glyph">♑︎</span><b data-tx="home.34">პროფესია</b><span data-tx="home.35">რომელი სფეროები შეგეფერება და რით გამოიმუშავებ ფულს ყველაზე კარგად</span></a>
-      <a class="tool" href="#trials"><span class="ti glyph">♄︎</span><b data-tx="home.36">ცხოვრების სირთულეები</b><span data-tx="home.37">რა ასაკში გელის რთული პერიოდები და რას გასწავლის თითოეული</span></a>
+      <a class="tool" href="#trials"><span class="ti glyph">♄︎</span><b data-tx="home.36">სირთულეები და შესაძლებლობები</b><span data-tx="home.37">როდის ჯობს ახლის დაწყება და როდის გელის რთული პერიოდები</span></a>
       <a class="tool" href="#numerology" hidden><span class="ti glyph">9</span><b data-tx="home.38">ნუმეროლოგია</b><span data-tx="home.39">ცხოვრების გზა, დაბადების დღე, პირადი წელი, სახელის რიცხვები და პითაგორას კვადრატი</span></a>
       <a class="tool" href="#marriage"><span class="ti glyph">♀︎</span><b data-tx="home.40">დაოჯახება</b><span data-tx="home.41">რომელ წლებშია ქორწინება ყველაზე სავარაუდო</span></a>
     </div>
@@ -1189,8 +1196,8 @@ svg .hn.on{fill:var(--accent);font-weight:700}
   </section>
 
   <section class="sec page" id="trials" data-page="trials">
-    <div class="sec-head"><h2 data-tx="trials.1">როდის გელის სირთულეები</h2>
-      <p data-tx="trials.2" class="muted">ცხოვრებაში ყველას აქვს რთული პერიოდები, რომლებიც დაახლოებით ერთსა და იმავე ასაკში მოდის. ზუსტი დრო კი შენს რუკაზეა დამოკიდებული. აქ ჩანს, რა ასაკში მოდის თითოეული და რას ეხება.</p></div>
+    <div class="sec-head"><h2 data-tx="trials.1">სირთულეები და შესაძლებლობები</h2>
+      <p data-tx="trials.2" class="muted">ცხოვრებაში ყველას აქვს რთული და ხელსაყრელი პერიოდები. მათი დრო შენს რუკაზეა დამოკიდებული. აქ ჩანს, როდის ჯობს რაიმე ახლის დაწყება და როდის მოგიწევს მეტი ძალის დახარჯვა.</p></div>
     <div class="lifegrid"><div class="panel lifeform"><h3 data-tx="trials.3" class="ph3">დაბადების მონაცემები</h3><div class="bslot"></div></div><div class="liferes" id="trRes" aria-live="polite"></div></div>
   </section>
 
@@ -1310,7 +1317,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     pair_pack:{t:"წყვილის პაკეტი",k:"pair",p:22.90,inc:["karmic","compat"],d:"კარმული კავშირები და წყვილის ანალიზი ერთად, ერთ წყვილზე."},
     career:{t:"პროფესია",k:"single",p:9.90,inc:["career"],d:"რომელი სფეროები შეგეფერება, როგორ მუშაობ საუკეთესოდ და რით გამოიმუშავებ ფულს ყველაზე კარგად."},
     marriage:{t:"დაოჯახება",k:"single",p:9.90,inc:["marriage"],d:"როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."},
-    trials:{t:"სირთულეები",k:"single",p:9.90,inc:["trials"],d:"ცხოვრების რთული პერიოდები და რას გასწავლის თითოეული."},
+    trials:{t:"სირთულეები და შესაძლებლობები",k:"single",p:9.90,inc:["trials"],d:"ხელსაყრელი და რთული პერიოდები: როდის დაიწყო ახალი საქმე და როდის გაუფრთხილდე თავს."},
     numerology:{t:"ნუმეროლოგია",k:"single",p:7.90,inc:["numerology"],d:"ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."},
     full:{t:"სრული ციალი",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
   F2P:{asc:"asc_natal",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
@@ -1322,7 +1329,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     compat:["როგორ მოქმედებთ ერთმანეთზე","დეტალური ანალიზი: სად ეხმარებით ერთმანეთს, სად ეჯახებით და რა გაძლიერებთ წყვილად."],
     career:["შენი კარიერული პორტრეტი","სფეროები, რომლებიც შეგეფერება, შენი სამუშაო სტილი და ის, რით გამოიმუშავებ ფულს."],
     marriage:["სიყვარული და დაოჯახება","როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."],
-    trials:["სირთულეები და გამოსავალი","ცხოვრების რთული პერიოდები და რას გასწავლის თითოეული."],
+    trials:["შესაძლებლობები და სირთულეები","როდის ჯობს ახლის დაწყება და რა რთული პერიოდები გელის."],
     numerology:["შენი რიცხვების სრული განმარტება","ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."]},
   fmt:n=>(+n).toFixed(2)+" ₾",
   price(id){const p=PW.P[id].p;if(!PW.promo)return p;return Math.max(.9,Math.round(p*(1-PW.promo.pct/100))-.1);},
@@ -7189,6 +7196,35 @@ function lifeAxis(b,maxAge,rows,h){const W=720,L=90,R=16,x=a=>L+(W-L-R)*a/maxAge
   for(let a=0;a<=maxAge;a+=10)s+='<line x1="'+x(a)+'" x2="'+x(a)+'" y1="0" y2="'+h+'" stroke="var(--line)"/><text x="'+x(a)+'" y="'+(h+18)+'" text-anchor="middle" font-size="12" fill="var(--muted)">'+a+'</text>';
   s+=rows(x);if(now>0&&now<maxAge)s+='<line x1="'+x(now)+'" x2="'+x(now)+'" y1="0" y2="'+h+'" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 3"/><text x="'+(x(now)+4)+'" y="11" font-size="11" fill="var(--accent)">ახლა</text>';
   return s+'</svg>';}
+
+/* ---------- favourable periods: Jupiter on/with personal points, harmonious Saturn and Uranus ---------- */
+const GTXT={
+  Jupiter:{Sun:["იღბლისა და ზრდის პერიოდი","კარგი დროა ახალი საქმის, სწავლის ან მოგზაურობის დასაწყებად. რასაც ახლა წამოიწყებ, ადვილად წავა წინ."],
+    Moon:["სიმშვიდე და სიხარული სახლში","კარგი დროა გადასვლისთვის, სახლის მოწყობისთვის ან ოჯახის გაფართოებისთვის."],
+    Venus:["სიყვარულისა და სიამოვნების პერიოდი","კარგი დროა გაცნობისთვის, ურთიერთობის გასაღრმავებლად და ფულის საქმეებისთვის."],
+    ASC:["თავდაჯერების და ახალი ნაცნობების პერიოდი","ადამიანები შენკენ მოდიან. კარგი დროა საკუთარი თავის წარმოჩენისთვის და ახალი გარემოსთვის."],
+    MC:["კარიერული წარმატების პერიოდი","კარგი დროა დაწინაურებისთვის, ახალი სამსახურისთვის ან საკუთარი საქმის გასაფართოებლად."]},
+  Saturn:{Sun:["მყარი ნაბიჯების პერიოდი","შრომა შედეგს იძლევა. რასაც ახლა ააშენებ, დიდხანს გაძლებს."],
+    ASC:["სიმწიფისა და სიმშვიდის პერიოდი","კარგი დროა სერიოზული გადაწყვეტილებებისთვის და გრძელვადიანი გეგმებისთვის."],
+    MC:["დაფასებული შრომის პერიოდი","კარიერაში ძალისხმევა ფასდება. კარგი დროა გრძელვადიანი მიზნისთვის."]},
+  Uranus:{Sun:["სასიამოვნო სიახლეების პერიოდი","ცვლილებები ადვილად მოდის. კარგი დროა ახალი გზის საცდელად."],
+    ASC:["თავისუფლების და განახლების პერიოდი","კარგი დროა იმიჯის, გარემოს ან ცხოვრების წესის შესაცვლელად."],
+    MC:["მოულოდნელი შესაძლებლობები საქმეში","კარგი დროა პროფესიაში ახალი მიმართულების საცდელად."]}};
+const GCOL={Jupiter:"var(--accent)",Saturn:"var(--earth)",Uranus:"var(--air)"};
+function goodEvents(b){const ev=[],T={Sun:b.P("Sun").lon,Venus:b.P("Venus").lon};if(!b.unknown)T.Moon=b.P("Moon").lon;if(b.an){T.ASC=b.an.asc;T.MC=b.an.mc;}
+  [["Jupiter",[0,60,120],2],["Saturn",[60,120],1.5],["Uranus",[60,120],1.5]].forEach(([k,As,orb])=>{const g=lgrid(b.d,k,92);
+    Object.entries(T).forEach(([t,L])=>{const tx=GTXT[k][t];if(!tx)return;As.forEach(a=>periods(b,g,L,a,orb,200,Math.ceil(365/STEP)).forEach(p=>ev.push({k,t,a,...p,h:tx[0],txt:tx[1],w:(k==="Jupiter"?2:1.5)*(a===0?1.2:1)})));});});
+  return ev.sort((x,y)=>x.s-y.s);}
+function goodHTML(b){const now=Date.now(),lim=now+12*365.25*864e5,ev=goodEvents(b).filter(e=>e.e>=now&&e.s<=lim);
+  if(!ev.length)return '<div class="panel"><h3 class="ph3">შესაძლებლობები</h3><p class="muted">მომდევნო 12 წელში გამორჩეული ხელსაყრელი პერიოდი ვერ მოიძებნა.</p></div>';
+  const Y0=b.d.getFullYear(),yr={};ev.forEach(e=>{for(let y=new Date(Math.max(e.s,now)).getFullYear();y<=new Date(e.e).getFullYear();y++)yr[y]=(yr[y]||0)+e.w;});
+  const best=[];Object.entries(yr).map(([y,v])=>[+y,v]).sort((p,q)=>q[1]-p[1]).forEach(([y,v])=>{if(best.length<3&&best.every(z=>Math.abs(z-y)>1))best.push(y);});best.sort((p,q)=>p-q);
+  const pk=k=>BODIES.find(x=>x.k===k).ka;
+  const card=e=>{const a1=Math.floor(ageAt(b,e.s)),a2=Math.floor(ageAt(b,e.e)),st=e.s<=now?"now":"next";
+    return '<div class="lev good '+st+'"><div class="levh"><span class="ldot" style="background:'+GCOL[e.k]+'"></span><b>'+e.h+'</b>'+(st==="now"?'<span class="badge">ახლა</span>':'')+'</div><div class="muted num">'+lmR(e.s,e.e)+' · '+(a1===a2?a1:a1+'–'+a2)+' წლის ასაკში · '+pk(e.k)+'</div><p>'+e.txt+'</p></div>';};
+  return '<div class="panel gpanel"><h3 class="ph3">შესაძლებლობები</h3><p class="note">ხელსაყრელი პერიოდები მომდევნო 12 წელში: როცა იუპიტერი, სატურნი ან ურანი შენი რუკის მნიშვნელოვან წერტილებს კარგად ეხება. ეს კარგი დროა რაიმე ახლის დასაწყებად.</p>'+
+    (best.length?'<h4 class="lh4">ყველაზე ხელსაყრელი წლები</h4><div class="gyears">'+best.map(y=>'<span><b>'+y+'</b><small>'+(y-Y0)+' წლის</small></span>').join("")+'</div>':'')+
+    '<div class="levl">'+ev.slice(0,6).map(card).join("")+'</div>'+(ev.length>6?'<details class="gmore"><summary>ყველა პერიოდის ნახვა ('+ev.length+')</summary><div class="levl">'+ev.slice(6).map(card).join("")+'</div></details>':'')+'</div>';}
 function buildTrials(){const el=$("trRes");if(!el)return;const b=lifeBase();if(b.err){el.innerHTML='<p class="err">'+b.err+'</p>';return}
   const ev=trialEvents(b),now=Date.now(),PL=["Saturn","Uranus","Neptune","Pluto","Chiron"];
   const svg=lifeAxis(b,90,x=>PL.map((k,r)=>{const y=r*30+6;return '<text x="0" y="'+(y+14)+'" font-size="13" fill="var(--fg)">'+BODIES.find(z=>z.k===k).ka+'</text>'+ev.filter(e=>e.k===k).map(e=>{const a1=ageAt(b,e.s),a2=Math.max(ageAt(b,e.e),a1+.25);return '<rect class="tlb" x="'+x(a1)+'" y="'+y+'" width="'+Math.max(4,x(a2)-x(a1))+'" height="20" rx="5" fill="'+TCOL[k]+'" fill-opacity="'+(e.e<now?.45:.9)+'"><title>'+evTitle(e)+' · '+lmR(e.s,e.e)+'</title></rect>';}).join("")}).join(""),PL.length*30+4);
@@ -7202,11 +7238,11 @@ function buildTrials(){const el=$("trRes");if(!el)return;const b=lifeBase();if(b
     return '<div class="lev '+st+'"><div class="levh"><span class="ldot" style="background:'+TCOL[e.k]+'"></span><b>'+evTitle(e)+'</b>'+(st==="now"?'<span class="badge">ახლა</span>':'')+'</div><div class="muted num">'+lmR(e.s,e.e)+' · '+(a1===a2?a1:a1+'–'+a2)+' წლის ასაკში</div><p>'+(tp?tp[0]:e.txt)+'</p>'+(tp?'<p class="lq"><b>შეამოწმე:</b> '+tp[1]+'</p>':'')+'</div>';};
   const ycard=([a])=>{const list=ev.filter(e=>Math.floor(ageAt(b,e.s))<=a&&Math.floor(ageAt(b,e.e))>=a);return '<div class="b3'+(a<nowA?' dim':'')+'"><div class="b3h"><span class="glyph">'+a+'</span><div><small>'+(a<nowA?'გავლილი · ':'')+'ასაკი</small><b>'+(Y0+a)+'–'+(Y0+a+1)+'</b></div></div><ul class="mfl">'+list.map(e=>'<li>'+evTitle(e)+'</li>').join("")+'</ul></div>';};
   const fut=ev.filter(e=>e.e>=now),past=ev.filter(e=>e.e<now).reverse();
-  el.innerHTML='<div class="panel"><h3 class="ph3">სირთულეები ასაკის ხაზზე</h3><p class="note">თითოეული ზოლი ერთ რთულ პერიოდს აჩვენებს: როცა ნელი პლანეტა (სატურნი, ურანი, ნეპტუნი, პლუტონი ან ქირონი) შენი რუკის მნიშვნელოვან წერტილს ეხება. მკრთალი ზოლები უკვე გავლილია. დეტალების სანახავად მიიტანე მაუსი ზოლთან.</p><div class="tlwrap">'+svg+'</div>'+
+  el.innerHTML=goodHTML(b)+'<div class="panel"><h3 class="ph3">სირთულეები ასაკის ხაზზე</h3><p class="note">თითოეული ზოლი ერთ რთულ პერიოდს აჩვენებს: როცა ნელი პლანეტა (სატურნი, ურანი, ნეპტუნი, პლუტონი ან ქირონი) შენი რუკის მნიშვნელოვან წერტილს ეხება. მკრთალი ზოლები უკვე გავლილია. დეტალების სანახავად მიიტანე მაუსი ზოლთან.</p><div class="tlwrap">'+svg+'</div>'+
    '<div class="tlleg">'+PL.map(k=>'<span><i style="background:'+TCOL[k]+'"></i>'+BODIES.find(z=>z.k===k).ka+'</span>').join("")+'</div></div>'+
    '<div class="panel"><h3 class="ph3">ყველაზე დატვირთული წლები</h3>'+(topF.length?'<h4 class="lh4">წინ</h4><div class="b3grid">'+topF.map(ycard).join("")+'</div>':'')+(topP.length?'<h4 class="lh4">გავლილი</h4><div class="b3grid">'+topP.map(ycard).join("")+'</div>':'')+
-   '<p class="note">როცა ერთ წელს რამდენიმე ასეთი პერიოდი ემთხვევა, ის ცხოვრების გარდამტეხ წლად ითვლება. ეს უბედურებას არ ნიშნავს: უბრალოდ, დიდი ცვლილებებისა და დატვირთვის წელია.</p></div>'+'<div class="panel"><h3 class="ph3">მიმდინარე და მომავალი პერიოდები</h3>'+(fut.length?'<div class="levl">'+fut.map(card).join("")+'</div>':'<p class="muted">მომავალი პერიოდები ვერ მოიძებნა.</p>')+
-   '</div>'+(past.length?'<div class="panel"><h3 class="ph3">გავლილი პერიოდები</h3><p class="note">ეს ის რთული პერიოდებია, რომლებიც უკვე გაიარე, ბოლოდან დაწყებული. თითოეულს მოყვება კითხვა: გაიხსენე, მართლა ასე იყო თუ არა. თუ უმეტესობა დაემთხვა, შენი დაბადების დრო და ასცენდენტი, სავარაუდოდ, სწორია. თუ ბევრი არ დაემთხვა, დრო <a href="#ascendant">ასცენდენტის გვერდზე</a> დააზუსტე: მე-⁠4 ნაბიჯში შეიყვანე შენი ცხოვრების მნიშვნელოვანი მოვლენები, რომლებიც გახსოვს.</p><div class="levl">'+past.map(card).join("")+'</div>':'')+(b.unknown?'<p class="note">დაბადების დრო არ ვიცით, ამიტომ მთვარე და ასცენდენტი არ ითვლება. <a href="#ascendant">დაადგინე ასცენდენტი</a> უფრო სრული სურათისთვის.</p>':'')+'</div>';}
+   '<p class="note">როცა ერთ წელს რამდენიმე ასეთი პერიოდი ემთხვევა, ის ცხოვრების გარდამტეხ წლად ითვლება. ეს უბედურებას არ ნიშნავს: უბრალოდ, დიდი ცვლილებებისა და დატვირთვის წელია.</p></div>'+'<div class="panel"><h3 class="ph3">მიმდინარე და მომავალი რთული პერიოდები</h3>'+(fut.length?'<div class="levl">'+fut.map(card).join("")+'</div>':'<p class="muted">მომავალი პერიოდები ვერ მოიძებნა.</p>')+
+   '</div>'+(past.length?'<div class="panel"><h3 class="ph3">გავლილი რთული პერიოდები</h3><p class="note">ეს ის რთული პერიოდებია, რომლებიც უკვე გაიარე, ბოლოდან დაწყებული. თითოეულს მოყვება კითხვა: გაიხსენე, მართლა ასე იყო თუ არა. თუ უმეტესობა დაემთხვა, შენი დაბადების დრო და ასცენდენტი, სავარაუდოდ, სწორია. თუ ბევრი არ დაემთხვა, დრო <a href="#ascendant">ასცენდენტის გვერდზე</a> დააზუსტე: მე-⁠4 ნაბიჯში შეიყვანე შენი ცხოვრების მნიშვნელოვანი მოვლენები, რომლებიც გახსოვს.</p><div class="levl">'+past.map(card).join("")+'</div>':'')+(b.unknown?'<p class="note">დაბადების დრო არ ვიცით, ამიტომ მთვარე და ასცენდენტი არ ითვლება. <a href="#ascendant">დაადგინე ასცენდენტი</a> უფრო სრული სურათისთვის.</p>':'')+'</div>';}
 function buildCareer(){const el=$("carRes");if(!el)return;const b=lifeBase();if(b.err){el.innerHTML='<p class="err">'+b.err+'</p>';return}
   const sc=FIELDS.map(()=>0),why=FIELDS.map(()=>new Map());
   const add=(i,v,r)=>{sc[i]+=v;why[i].set(r,(why[i].get(r)||0)+v);};

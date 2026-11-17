@@ -852,8 +852,8 @@ svg .hn.on{fill:var(--accent);font-weight:700}
 .pwgift{display:flex;align-items:center;gap:8px;margin:0;padding:8px 12px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--accent) 60%,transparent);background:color-mix(in srgb,var(--accent) 10%,transparent);font-size:.9rem;text-align:left}
 .pwgift svg{flex:0 0 20px;width:20px;height:20px;color:var(--accent)}
 
-.tipnote{display:flex;gap:8px;align-items:flex-start;background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:10px;padding:10px 12px;color:var(--fg)}
-.tipnote::before{content:"💡";flex:0 0 auto}
+.tipnote{display:block;position:relative;padding-left:36px!important;background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:10px;padding:10px 12px;color:var(--fg)}
+.tipnote::before{content:"💡";position:absolute;left:12px;top:10px}
 button.qreset{background:none;border:0;box-shadow:none;padding:4px 6px;font-size:.8rem;color:var(--muted);text-decoration:underline;text-underline-offset:3px;margin-left:auto}
 button.qreset:hover{color:var(--fg);background:none}
 
@@ -6739,6 +6739,7 @@ function coupleYears(fa,fb){
     const mm=Math.max(...ms);if(mm<=0)return;let k0=ms.indexOf(mm),s0=k0,e0=k0;while(s0>0&&ms[s0-1]>=mm*.8)s0--;while(e0<11&&ms[e0+1]>=mm*.8)e0++;
     t.mon=s0===e0?MONTHS[s0]:MONTHS[s0]+" – "+MONTHS[e0];});
   return '<div class="smy"><h4>დაოჯახებისთვის ყველაზე სავარაუდო წლები</h4><p class="muted">წლები და თვეები, როცა ორივეს რუკაზე ერთდროულად აქტიურდება ქორწინების ტრადიციული ნიშნები.</p>'+
+    '<p class="note tipnote">რატომ განსხვავდება ეს წლები შენი პირადი დაოჯახების წლებისგან? <a href="#marriage">დაოჯახების გვერდი</a> მხოლოდ შენს რუკას უყურებს და მთელ ცხოვრებას მოიცავს. აქ კი მომდევნო 12 წლიდან რჩება ის წლები, რომლებიც ორივესთვის ერთად არის ხელსაყრელი. თუ რომელიმე წელი შენთვის ძლიერია, პარტნიორისთვის კი სუსტი, ის აქ დაბლა ჩამოდის. შედეგი რომ ზუსტი იყოს, დაბადების მონაცემები ორივე გვერდზე ერთნაირად უნდა იყოს შეყვანილი.</p>'+
     '<div class="smyears">'+top.sort((p,q)=>p.y-q.y).map(t=>'<span class="smyr"><b>'+t.y+'</b>'+(t.mon?'<small>'+t.mon+'</small>':'')+'</span>').join("")+'</div>'+
     '<div class="smbars" role="img" aria-label="ქორწინების ნიშნები წლების მიხედვით">'+rows.map(r=>'<div class="smb'+(hot.has(r.y)?' hot':'')+'" title="'+r.y+'"><i style="height:'+Math.max(4,Math.round(r.v/mx*100))+'%"></i><span>'+r.y+'</span></div>').join("")+'</div></div>';
 }
@@ -7358,6 +7359,7 @@ function buildMarriage(){const el=$("mrRes");if(!el)return;const b=lifeBase();if
     early=[an&&[1,5,7].includes(H(ven))&&"ვენერა "+hLoc(H(ven)),an&&H(P("Jupiter").lon)===7&&"იუპიტერი მე-⁠7 სახლში",["Venus","Jupiter"].includes(r7)&&"მე-⁠7 სახლს „კეთილი“ პლანეტა მართავს"].filter(Boolean);
   const p7=an?b.ps.filter(p=>H(p.lon)===7):[];
   el.innerHTML='<div class="panel"><h3 class="ph3">ყველაზე სავარაუდო პერიოდები</h3><p class="note">სვეტები აჩვენებს, ყოველ წელს „ქორწინების“ რამდენი ნიშანი ემთხვევა ერთმანეთს. ოქროსფერი სვეტები ყველაზე ძლიერი წლებია.</p><div class="tlwrap">'+svg+'</div>'+
+    '<p class="note tipnote">ეს წლები მხოლოდ შენს რუკაზეა გამოთვლილი, 16-დან 56 წლამდე, გავლილი წლების ჩათვლით. <a href="#compat">წყვილის ანალიზში</a> წლები შეიძლება განსხვავდებოდეს: იქ რჩება მხოლოდ ის წლები, რომლებიც შენთვისაც და პარტნიორისთვისაც ერთდროულად არის ხელსაყრელი.</p>'+
    '<div class="b3grid">'+win.sort((p,q)=>p.a-q.a).map(w=>'<div class="b3'+(w.a+1<now?' dim':'')+'"><div class="b3h"><span class="glyph">'+w.a+'</span><div><small>'+(w.a+1<now?'გავლილი':'ასაკი')+'</small><b>'+(Y0+w.a)+'–'+(Y0+w.a+1)+'</b></div></div><ul class="mfl">'+[...w.act.entries()].sort((p,q)=>F.find(f=>f.txt===q[0]).w-F.find(f=>f.txt===p[0]).w).slice(0,4).map(([t,[s,e]])=>'<li>'+t+' <span class="muted num">('+(lmY(s)===lmY(e)?lmY(s):lmY(s)+' – '+lmY(e))+')</span></li>').join("")+'</ul></div>').join("")+'</div>'+
    (b.unknown?'<p class="note">დაბადების დრო არ ვიცით, ამიტომ დესცენდენტი და მე-⁠7 სახლი არ ითვლება და შედეგი ნაკლებად ზუსტია. <a href="#ascendant">დაადგინე ასცენდენტი</a>.</p>':'')+'</div>'+
    '<div class="panel interp"><h3 class="ph3">ქორწინება შენს რუკაში</h3>'+

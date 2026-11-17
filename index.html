@@ -803,6 +803,13 @@ svg .hn.on{fill:var(--accent);font-weight:700}
 .smlist{list-style:none;padding:0;margin:4px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
 .smlist li{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)}
 .smlist b{font-size:.92rem}.smlist span{font-size:.86rem;color:var(--muted)}
+
+.smy{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid var(--line)}.smy h4{margin:0}.smy p{margin:0}
+.smyears{display:flex;gap:10px;flex-wrap:wrap}.smyr b{display:inline-block;padding:6px 16px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:1.05rem}
+.smbars{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;height:110px;align-items:end;margin-top:6px}
+.smb{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.smb i{display:block;width:100%;max-width:28px;border-radius:5px 5px 2px 2px;background:var(--water);opacity:.55}
+.smb.hot i{background:var(--accent);opacity:1}.smb span{font-size:.72rem;color:var(--muted)}
 </style>
 
 <div class="wrap">
@@ -1359,7 +1366,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     if(ch&&ch.tagName==="H3")ch.remove();
     if(cmp){cmp.insertAdjacentHTML("beforebegin",(bt?'<div class="panel interp"><h3 class="ph3">რას ნიშნავს შენი ასცენდენტი</h3><p>'+escH(bt)+'</p></div>':'')+PW.card("asc",k,["დაბადების სავარაუდო დრო","ყველა შესაძლო ასცენდენტი პროცენტებით","ქულა დროის მიხედვით","სრული ნატალური რუკა ამ დროით"],"","asc_natal"));cmp.remove();}},
   refresh(){const pg=document.querySelector(".page:not([hidden])"),id=pg&&pg.dataset.page;
-    try{if(id==="natal")buildNatal(false);else if(id==="compat")runSyn();else if(id==="ascendant"&&$("qRes").innerHTML)runRect();else if(["career","trials","marriage","numerology"].includes(id))buildLife();showMyAsc();}catch(e){console.error(e);}},
+    try{if(id==="natal")buildNatal(false);else if(id==="compat"&&$("sRes").innerHTML)runSyn();else if(id==="ascendant"&&$("qRes").innerHTML)runRect();else if(["career","trials","marriage","numerology"].includes(id))buildLife();showMyAsc();}catch(e){console.error(e);}},
   async init(){PW.wire();
     try{const qs=new URLSearchParams(location.search);if(qs.has("pw")){if(qs.get("pw")==="1")localStorage.setItem("tsiali_pw","1");else localStorage.removeItem("tsiali_pw");qs.delete("pw");history.replaceState(null,"",location.pathname+(qs.toString()?"?"+qs:"")+location.hash);}}catch(e){}
     let pv=false;try{pv=localStorage.getItem("tsiali_pw")==="1";}catch(e){}
@@ -6657,10 +6664,26 @@ function marriageChance(A,B,asp){
   const sum=F.reduce((s,f)=>s+f.w,0),pct=Math.round(15+80*(1-Math.exp(-sum/7)));
   F.sort((a,b)=>b.w-a.w);
   const lvl=pct>=70?"მაღალი":pct>=50?"საშუალო":"დაბალი";
+  let yrs="";try{yrs=coupleYears(A.b,B.b);}catch(e){console.error(e);}
   return '<div class="panel smar"><div class="smh"><div><h3 class="ph3">დაოჯახების ალბათობა</h3><p class="muted">ასტროლოგიაში ქორწინებას ზოგიერთი კავშირი უკავშირდება. რაც მეტია ასეთი კავშირი, მით მაღალია ქულა.</p></div><div class="smpct"><b>'+pct+'%</b><span>'+lvl+'</span></div></div>'+
     '<div class="bar"><i style="width:'+pct+'%"></i></div>'+
     (F.length?'<ul class="smlist">'+(()=>{const G=[];F.forEach(f=>{const g=G.find(x=>x.t===f.t);if(g){if(g.l.length<2)g.l.push(f.l);}else G.push({t:f.t,l:[f.l]});});return G.slice(0,6).map(g=>'<li><b>'+g.l.join(" · ")+'</b><span>'+g.t+'</span></li>').join("");})()+'</ul>':'<p>ქორწინების ტრადიციული ნიშნები თქვენს რუკებს შორის თითქმის არ ჩანს. ეს არ ნიშნავს, რომ ერთად ვერ იქნებით: ურთიერთობას ადამიანები ქმნიან.</p>')+
-    (!A.an||!B.an?'<p class="note">დაბადების ზუსტი დრო ორივესთვის რომ ვიცოდეთ, მე-7 სახლსაც შევამოწმებდით და შედეგი უფრო ზუსტი იქნებოდა.</p>':'')+'</div>';
+    yrs+(!A.an||!B.an?'<p class="note">დაბადების ზუსტი დრო ორივესთვის რომ ვიცოდეთ, მე-7 სახლსაც შევამოწმებდით და შედეგი უფრო ზუსტი იქნებოდა.</p>':'')+'</div>';
+}
+
+/* couple: the calendar years in which both partners have marriage markers at once */
+function coupleYears(fa,fb){
+  const ba=lifeBaseOf(fa),bb=lifeBaseOf(fb),ma=marriageYS(ba),mb=marriageYS(bb);
+  const Y0a=ba.d.getFullYear(),Y0b=bb.d.getFullYear(),now=new Date().getFullYear(),N=12;
+  const mxa=Math.max(...ma.ys.map(y=>y.v),1),mxb=Math.max(...mb.ys.map(y=>y.v),1);
+  const va=y=>{const r=ma.ys.find(x=>x.a===y-Y0a);return r?r.v/mxa:0},vb=y=>{const r=mb.ys.find(x=>x.a===y-Y0b);return r?r.v/mxb:0};
+  const rows=[];for(let y=now;y<now+N;y++){const a=va(y),b=vb(y);rows.push({y,a,b,v:Math.sqrt(a*b)*.7+Math.max(a,b)*.3});}
+  const mx=Math.max(...rows.map(r=>r.v),.01),top=[];[...rows].sort((p,q)=>q.v-p.v).forEach(r=>{if(top.length<3&&r.v>.15&&top.every(t=>Math.abs(t.y-r.y)>1))top.push(r);});
+  if(!top.length)return '<p class="note">მომდევნო '+N+' წელში ორივესთვის ერთდროულად ძლიერი „ქორწინების წელი“ არ ჩანს.</p>';
+  const hot=new Set(top.map(t=>t.y));
+  return '<div class="smy"><h4>ყველაზე სავარაუდო წლები</h4><p class="muted">წლები, როცა ორივეს რუკაზე ერთდროულად აქტიურდება ქორწინების ტრადიციული ნიშნები.</p>'+
+    '<div class="smyears">'+top.sort((p,q)=>p.y-q.y).map(t=>'<span class="smyr"><b>'+t.y+'</b></span>').join("")+'</div>'+
+    '<div class="smbars" role="img" aria-label="ქორწინების ნიშნები წლების მიხედვით">'+rows.map(r=>'<div class="smb'+(hot.has(r.y)?' hot':'')+'" title="'+r.y+'"><i style="height:'+Math.max(4,Math.round(r.v/mx*100))+'%"></i><span>'+String(r.y).slice(2)+'</span></div>').join("")+'</div></div>';
 }
 function runSyn(){
   if(!HAS){$("sRes").innerHTML='<p class="err">ასტრონომიული ბიბლიოთეკა ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';return}
@@ -7094,7 +7117,6 @@ const liveNatal=debounce(()=>{buildNatal(false);if(!$("ascendant").hidden)updWin
 ["input","change"].forEach(ev=>$("bformBox").addEventListener(ev,e=>{if(e.target.id==="bCity"&&ev==="input")return;liveNatal();}));
 const liveSyn=debounce(()=>{if(!FA.read().err&&!FB.read().err)runSyn();},280);
 const liveKar=debounce(()=>{if(!FKA.read().err&&!FKB.read().err)runKarma();},280);
-["pA","pB"].forEach(id=>["change","input"].forEach(ev=>$(id).addEventListener(ev,e=>{if(e.target.type==="text"&&ev==="input")return;liveSyn();})));
 ["kA","kB"].forEach(id=>["change","input"].forEach(ev=>$(id).addEventListener(ev,e=>{if(e.target.type==="text"&&ev==="input")return;liveKar();})));
 /* partner A on the compatibility and karmic pages follows the visitor's own birth data */
 function myData(){const D=+$("bDay").value,M=+$("bMonth").value,Y=+$("bYear").value;let H=+$("bHour").value,Mi=+$("bMin").value,unknown=prec()==="unknown";
@@ -7131,7 +7153,8 @@ const TCOL={Saturn:"var(--earth)",Uranus:"var(--air)",Neptune:"var(--water)",Plu
 const TW={Saturn:2.5,Uranus:2,Neptune:1.8,Pluto:3,Chiron:1.5};
 const ANAME={0:"შეერთება",90:"კვადრატი",180:"ოპოზიცია",60:"სექსტილი",120:"ტრიგონი"};
 const LIFE={grid:{}};
-function lifeBase(){const f=readForm();if(f.err)return {err:f.err};const unknown=f.p==="unknown";const {d}=toUTC(f.Y,f.M,f.D,unknown?720:f.mins,f.pl);
+function lifeBase(){const f=readForm();if(f.err)return {err:f.err};return lifeBaseOf(f);}
+function lifeBaseOf(f){const unknown=f.p==="unknown"||f.unknown===true;const {d}=toUTC(f.Y,f.M,f.D,unknown?720:f.mins,f.pl);
   const ps=positions(d),an=unknown?null:angles(d,f.pl.lat,f.pl.lo);return {f,d,ps,an,unknown,approx:f.p==="approx",P:k=>ps.find(p=>p.k===k)};}
 const STEP=10;
 function lgrid(d,k,years){const key=Math.round(d.getTime()/864e5)+k,g=LIFE.grid[key];const n=Math.ceil(years*365.25/STEP);
@@ -7204,7 +7227,8 @@ function buildCareer(){const el=$("carRes");if(!el)return;const b=lifeBase();if(
       '<p><b>სამუშაო სტილი (მე-⁠6 სახლი '+LOC[sIdx(an.cusps[5])]+').</b> '+W6[sIdx(an.cusps[5])]+'</p><p><b>ფულის წყარო (მე-⁠2 სახლი '+LOC[sIdx(an.cusps[1])]+').</b> '+M2[sIdx(an.cusps[1])]+'</p>'
      :'<p class="note">ცის შუაგულისა და სახლებისთვის დაბადების დროა საჭირო, ამიტომ შედეგი მხოლოდ მზეს, მერკურს, მარსსა და სატურნს ეყრდნობა. <a href="#ascendant">დაადგინე ასცენდენტი</a> უფრო ზუსტი შედეგისთვის.</p>')+
     '<p><b>სატურნი '+LOC[sIdx(P("Saturn").lon)]+':</b> '+RT2.Saturn[sIdx(P("Saturn").lon)]+'</p></div>';}
-function buildMarriage(){const el=$("mrRes");if(!el)return;const b=lifeBase();if(b.err){el.innerHTML='<p class="err">'+b.err+'</p>';return}
+/* marriage markers per year of life (transits + progressions); shared by the marriage page and the couple analysis */
+function marriageYS(b){
   const P=b.P,an=b.an,ven=P("Venus").lon,A0=16,A1=56,i0=Math.floor(A0*365.25/STEP),i1=Math.ceil(A1*365.25/STEP);
   const dsc=an?norm(an.asc+180):null,r7=an?RULER[sIdx(an.cusps[6])]:null,r7l=an?P(r7).lon:null,H=an?l=>houseIdx(l,an.cusps):null;
   const F=[];const fac=(id,txt,w)=>F.push({id,txt,w,hit:new Float32Array(i1)});
@@ -7231,6 +7255,9 @@ function buildMarriage(){const el=$("mrRes");if(!el)return;const b=lifeBase();if
   /* yearly score */
   const ys=[];for(let a=A0;a<A1;a++){const s=Math.floor(a*365.25/STEP),e=Math.floor((a+1)*365.25/STEP);let v=0;const act=new Map();
     F.forEach(f=>{let c=0,first=-1,last=-1;for(let i=s;i<e;i++)if(f.hit[i]){c++;if(first<0)first=i;last=i;}if(c){v+=f.w*Math.min(1,c/(e-s)*3);act.set(f.txt,[lDate(b,first).getTime(),lDate(b,last).getTime()]);}});ys.push({a,v,act});}
+  return {P,an,ven,A0,A1,dsc,r7,r7l,H,F,ys};}
+function buildMarriage(){const el=$("mrRes");if(!el)return;const b=lifeBase();if(b.err){el.innerHTML='<p class="err">'+b.err+'</p>';return}
+  const {P,an,ven,A0,A1,dsc,r7,r7l,H,F,ys}=marriageYS(b);
   const mx=Math.max(...ys.map(y=>y.v),1),now=ageAt(b,Date.now()),Y0=b.d.getFullYear();
   const win=[];[...ys].sort((p,q)=>q.v-p.v).forEach(y=>{if(win.length<4&&y.v>0&&win.every(w=>Math.abs(w.a-y.a)>1))win.push(y);});
   const W=720,L=30,R=8,Hh=150,bw=(W-L-R)/(A1-A0),x=a=>L+(a-A0)*bw;
@@ -7488,7 +7515,7 @@ function route(){
   window.scrollTo(0,0);
 }
 window.addEventListener("hashchange",route);
-txInit();PW.init();updWin();runSyn();runRetro();route();
+txInit();PW.init();updWin();runRetro();route();
 
 /* ---------- accounts: Supabase auth + saved people (public site only) ---------- */
 const ACCT={sb:null,user:null,self:null,people:[],mk:false};window.ACCT_USER=()=>ACCT.user;

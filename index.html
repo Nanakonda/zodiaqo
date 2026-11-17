@@ -7058,7 +7058,7 @@ $("kGo").addEventListener("click",runKarma);
     const d=new Date(ms),ps=positions(d),mo=ps[1],ms_=sIdx(mo.lon),ph=Astronomy.MoonPhase(d),phi=Math.floor(norm(ph+22.5)/45)%8,ill=Math.round((1-Math.cos(ph*Math.PI/180))/2*100);
     const [tt,tx]=MDAY[ms_];
     const FAST=["Mercury","Venus","Mars","Jupiter","Saturn"],rx=ps.filter(p=>p.retro&&FAST.includes(p.k)),rxs=ps.filter(p=>p.retro&&["Uranus","Neptune","Pluto"].includes(p.k));
-    const nx=moonNext(ms);let q=null;try{q=Astronomy.SearchMoonQuarter(d);}catch(e){}
+    const nx=moonNext(ms);let q=null,ex=null;try{q=Astronomy.SearchMoonQuarter(d);if(q&&QN[q.quarter]===PH[phi]){ex=q;q=Astronomy.NextMoonQuarter(q);}}catch(e){}
     const rxHtml=(rx.length?rx.map(p=>{const e=rxEnd(p.k,ms),el=e?loc(e):null;
         return '<li><span class="glyph dfi">'+p.g+VS+'</span><div><b>'+p.ka+' რეტროგრადულია'+(el?' '+el.D+' '+MDE[el.M]:'')+'</b><span>'+RXD[p.k]+'</span></div></li>';}).join("")
       :'<li><span class="glyph dfi">℞</span><div><b>მერკურიდან სატურნამდე რეტროგრადული პლანეტა არ არის</b><span>ყოველდღიურ საქმეებს „უკუსვლა“ არ აფერხებს.</span></div></li>')+
@@ -7067,7 +7067,7 @@ $("kGo").addEventListener("click",runKarma);
       '<div class="dhead"><span class="dmoon">'+moonSvg(ph)+'</span><div><small>მთვარე '+LOC[ms_]+' '+gl(S[ms_])+'</small><h3>'+tt+'</h3></div></div>'+
       '<p class="dtxt">'+tx+'</p>'+
       '<ul class="dfacts">'+
-        '<li><span class="glyph dfi">☽</span><div><b>'+PH[phi]+' · '+ill+'%</b><span>'+PHD[phi]+'</span></div></li>'+rxHtml+
+        '<li><span class="glyph dfi">☽</span><div><b>'+PH[phi]+' · '+ill+'%'+(ex?' · ზუსტად '+whenTxt(ex.time.date.getTime()):'')+'</b><span>'+PHD[phi]+'</span></div></li>'+rxHtml+
         (nx?'<li><span class="glyph dfi">→</span><div><b>მთვარე '+LOC[nx.s]+' გადადის</b><span>'+whenTxt(nx.t)+'. დღის განწყობაც შეიცვლება.</span></div></li>':'')+
         (q?'<li><span class="glyph dfi">◐</span><div><b>შემდეგი: '+QN[q.quarter]+'</b><span>'+whenTxt(q.time.date.getTime())+'</span></div></li>':'')+
       '</ul>';

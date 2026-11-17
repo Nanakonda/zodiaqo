@@ -1322,7 +1322,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     asc_natal:{t:"ასცენდენტის დადგენა",k:"single",p:19.90,inc:["asc","natal"],gift:"natal",pop:true,d:"დაბადების დრო არ იცი? ციალი გამოთვლის, დაახლოებით რომელ საათზე დაიბადე და რომელია შენი ასცენდენტი."},
     natal:{t:"სრული ნატალური რუკა",k:"single",p:14.90,inc:["natal"],d:"შენი რუკის ყველა ნაწილი: ხასიათი, სიყვარული, ფული, კარიერა და ცხოვრების გზა."},
     karmic:{t:"კარმული კავშირები",k:"pair",p:14.90,inc:["karmic"],d:"ყველა კარმული კავშირი შენსა და შენს ადამიანს შორის და რას ნიშნავს ისინი ერთად."},
-    compat:{t:"წყვილის ანალიზი",k:"pair",p:22.90,inc:["compat","karmic"],gift:"karmic",d:"რამდენად ერგებით ერთმანეთს, დაოჯახების ალბათობა და ყველაზე სავარაუდო წლები."},
+    compat:{t:"წყვილის ანალიზი",k:"pair",p:22.90,inc:["compat","karmic"],gift:"karmic",d:"რამდენად ერგებით ერთმანეთს, დაოჯახების ალბათობა და დაოჯახებისთვის ყველაზე სავარაუდო წლები."},
     pair_pack:{t:"წყვილის პაკეტი",k:"pair",p:22.90,inc:["karmic","compat"],d:"კარმული კავშირები და წყვილის ანალიზი ერთად, ერთ წყვილზე."},
     career:{t:"პროფესია",k:"single",p:6.90,inc:["career"],d:"რომელი სფეროები შეგეფერება, როგორ მუშაობ საუკეთესოდ და რით გამოიმუშავებ ფულს ყველაზე კარგად."},
     marriage:{t:"დაოჯახება",k:"single",p:9.90,inc:["marriage"],d:"როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."},
@@ -6705,7 +6705,7 @@ function coupleYears(fa,fb){
   top.forEach(t=>{const ms=[];for(let k=0;k<12;k++){const t0=Date.UTC(t.y,k,1),t1=Date.UTC(t.y,k+1,1),a=mS(ma,ba,t0,t1),b=mS(mb,bb,t0,t1);ms.push(Math.sqrt(a*b)*.7+Math.max(a,b)*.3);}
     const mm=Math.max(...ms);if(mm<=0)return;let k0=ms.indexOf(mm),s0=k0,e0=k0;while(s0>0&&ms[s0-1]>=mm*.8)s0--;while(e0<11&&ms[e0+1]>=mm*.8)e0++;
     t.mon=s0===e0?MONTHS[s0]:MONTHS[s0]+" – "+MONTHS[e0];});
-  return '<div class="smy"><h4>ყველაზე სავარაუდო წლები</h4><p class="muted">წლები და თვეები, როცა ორივეს რუკაზე ერთდროულად აქტიურდება ქორწინების ტრადიციული ნიშნები.</p>'+
+  return '<div class="smy"><h4>დაოჯახებისთვის ყველაზე სავარაუდო წლები</h4><p class="muted">წლები და თვეები, როცა ორივეს რუკაზე ერთდროულად აქტიურდება ქორწინების ტრადიციული ნიშნები.</p>'+
     '<div class="smyears">'+top.sort((p,q)=>p.y-q.y).map(t=>'<span class="smyr"><b>'+t.y+'</b>'+(t.mon?'<small>'+t.mon+'</small>':'')+'</span>').join("")+'</div>'+
     '<div class="smbars" role="img" aria-label="ქორწინების ნიშნები წლების მიხედვით">'+rows.map(r=>'<div class="smb'+(hot.has(r.y)?' hot':'')+'" title="'+r.y+'"><i style="height:'+Math.max(4,Math.round(r.v/mx*100))+'%"></i><span>'+r.y+'</span></div>').join("")+'</div></div>';
 }

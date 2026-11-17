@@ -51,8 +51,7 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:14p
 .mainnav{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
 .mainnav a{color:var(--muted);text-decoration:none;font-size:.9rem;padding:6px 11px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
 .mainnav a:hover{color:var(--fg);background:var(--surface2)}
-.mainnav a.star{color:var(--fg);border-color:color-mix(in srgb, var(--accent) 55%, var(--line))}
-.mainnav a.star::before{content:"✦ ";color:var(--accent)}
+.mainnav a.star{color:var(--fg);border-color:var(--accent)}
 .mainnav a[aria-current="page"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .mainnav a[aria-current="page"]::before{color:var(--accent-ink)}
 
@@ -796,6 +795,14 @@ svg.foc .asp.on{stroke-dasharray:1;stroke-dashoffset:1;animation:aspdraw .5s eas
 @keyframes aspdraw{to{stroke-dashoffset:0}}
 svg .hn{transition:fill .25s}
 svg .hn.on{fill:var(--accent);font-weight:700}
+
+/* couple: marriage + karmic */
+.smar{display:flex;flex-direction:column;gap:12px}
+.smh{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.smh p{margin:4px 0 0;max-width:60ch}
+.smpct{display:flex;flex-direction:column;align-items:flex-end}.smpct b{font-size:2.2rem;color:var(--accent);line-height:1}.smpct span{color:var(--muted);font-size:.85rem}
+.smlist{list-style:none;padding:0;margin:4px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.smlist li{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)}
+.smlist b{font-size:.92rem}.smlist span{font-size:.86rem;color:var(--muted)}
 </style>
 
 <div class="wrap">
@@ -803,7 +810,6 @@ svg .hn.on{fill:var(--accent);font-weight:700}
     <a class="brand" href="#home" aria-label="ციალი, მთავარი გვერდი"><svg class="zlock" viewBox="0 0 420 100" aria-hidden="true"><g transform="translate(0 -0.1) scale(0.864)"><defs><linearGradient id="zmg" x1="0.15" y1="0.1" x2="0.85" y2="0.95"><stop offset="0" style="stop-color:var(--mk1)"/><stop offset="1" style="stop-color:var(--mk2)"/></linearGradient><radialGradient id="hzm"><stop offset="0" style="stop-color:var(--mk1)" stop-opacity=".4"/><stop offset="1" style="stop-color:var(--mk1)" stop-opacity="0"/></radialGradient></defs><circle cx="44" cy="58" r="30" fill="url(#hzm)"/><path d="M44.00 24.00 C46.72 42.70 55.93 55.28 70.52 58.00 C55.93 60.72 46.72 73.30 44.00 92.00 C41.28 73.30 32.07 60.72 17.48 58.00 C32.07 55.28 41.28 42.70 44.00 24.00Z" fill="url(#zmg)"/><path d="M71.00 14.50 C72.16 22.48 76.09 27.84 82.31 29.00 C76.09 30.16 72.16 35.52 71.00 43.50 C69.84 35.52 65.91 30.16 59.69 29.00 C65.91 27.84 69.84 22.48 71.00 14.50Z" fill="url(#zmg)"/></g><g transform="translate(85.8 81.0) scale(0.0870)"><path d="M378.1201171875 9.3800048828125Q300.2601318359375 9.3800048828125 239.67010498046875 -14.0999755859375Q179.080078125 -37.5799560546875 138.35003662109375 -84.8199462890625Q97.6199951171875 -132.0599365234375 76.4599609375 -204.3399658203125Q55.2999267578125 -276.6199951171875 55.2999267578125 -374.840087890625Q55.2999267578125 -437.800048828125 64.96990966796875 -497.260009765625Q74.639892578125 -556.719970703125 92.119873046875 -611.6499633789062Q109.599853515625 -666.5799560546875 132.599853515625 -714.0H262.600341796875Q241.3603515625 -663.679931640625 224.95037841796875 -610.2699584960938Q208.5404052734375 -556.8599853515625 199.75042724609375 -498.6600341796875Q190.96044921875 -440.4600830078125 190.96044921875 -375.080078125Q190.96044921875 -283.360107421875 210.25042724609375 -221.75018310546875Q229.5404052734375 -160.1402587890625 270.84033203125 -129.580322265625Q312.1402587890625 -99.0203857421875 379.360107421875 -99.0203857421875Q456.8599853515625 -99.0203857421875 497.34991455078125 -131.080322265625Q537.83984375 -163.1402587890625 537.83984375 -223.4600830078125Q537.83984375 -256.280029296875 521.9298706054688 -282.64996337890625Q506.0198974609375 -309.0198974609375 474.4599609375 -324.599853515625Q442.9000244140625 -340.1798095703125 394.400146484375 -340.1798095703125H355.240234375L355.6202392578125 -445.16015625H420.72021484375Q454.840087890625 -445.16015625 477.8800048828125 -452.45013427734375Q500.919921875 -459.7401123046875 512.8798828125 -473.820068359375Q524.83984375 -487.9000244140625 524.83984375 -506.3399658203125Q524.83984375 -529.919921875 509.28985595703125 -546.9498901367188Q493.7398681640625 -563.9798583984375 474.2598876953125 -578.83984375Q457.2598876953125 -592.83984375 440.4998779296875 -609.7898559570312Q423.7398681640625 -626.7398681640625 413.7398681640625 -651.89990234375Q403.7398681640625 -677.0599365234375 405.4998779296875 -714.0H535.88037109375Q536.2603759765625 -688.3800048828125 552.0703735351562 -671.3800048828125Q567.88037109375 -654.3800048828125 587.7403564453125 -638.52001953125Q612.7403564453125 -618.9000244140625 635.2403564453125 -590.9700317382812Q657.7403564453125 -563.0400390625 657.7403564453125 -517.6199951171875Q657.7403564453125 -482.52001953125 643.0503540039062 -457.33001708984375Q628.3603515625 -432.1400146484375 602.0003662109375 -417.07000732421875Q575.640380859375 -402.0 539.4404296875 -395.760009765625V-392.52001953125Q575.640380859375 -386.1400146484375 605.3103637695312 -364.52001953125Q634.9803466796875 -342.9000244140625 653.100341796875 -305.5400390625Q671.2203369140625 -268.1800537109375 671.2203369140625 -211.840087890625Q671.2203369140625 -144.280029296875 634.4202880859375 -94.45001220703125Q597.6202392578125 -44.6199951171875 531.940185546875 -17.6199951171875Q466.2601318359375 9.3800048828125 378.1201171875 9.3800048828125ZM838.079833984375 0.0Q821.35986328125 -48.9599609375 808.3798828125 -104.00994873046875Q795.39990234375 -159.0599365234375 788.159912109375 -229.12994384765625Q780.919921875 -299.199951171875 780.919921875 -391.6199951171875Q780.919921875 -510.239990234375 816.0599365234375 -583.4299926757812Q851.199951171875 -656.6199951171875 910.6699829101562 -690.3099975585938Q970.1400146484375 -724.0 1044.320068359375 -724.0Q1118.5001220703125 -724.0 1178.16015625 -690.3099975585938Q1237.8201904296875 -656.6199951171875 1272.7702026367188 -583.4299926757812Q1307.72021484375 -510.239990234375 1307.72021484375 -391.6199951171875Q1307.72021484375 -299.199951171875 1300.480224609375 -229.12994384765625Q1293.240234375 -159.0599365234375 1280.5702514648438 -104.00994873046875Q1267.9002685546875 -48.9599609375 1250.560302734375 0.0H1118.27978515625Q1134.479736328125 -50.0599365234375 1146.2697143554688 -106.3199462890625Q1158.0596923828125 -162.5799560546875 1164.8696899414062 -231.92999267578125Q1171.6796875 -301.280029296875 1171.6796875 -391.1800537109375Q1171.6796875 -473.639892578125 1156.3597412109375 -523.039794921875Q1141.039794921875 -572.439697265625 1112.3798828125 -594.0196533203125Q1083.719970703125 -615.599609375 1044.320068359375 -615.599609375Q1004.920166015625 -615.599609375 976.26025390625 -594.0196533203125Q947.600341796875 -572.439697265625 932.2803955078125 -523.039794921875Q916.96044921875 -473.639892578125 916.96044921875 -391.1800537109375Q916.96044921875 -301.280029296875 923.7704467773438 -231.92999267578125Q930.5804443359375 -162.5799560546875 942.5604248046875 -106.3199462890625Q954.5404052734375 -50.0599365234375 970.3603515625 0.0ZM1672.60009765625 9.3800048828125Q1596.800048828125 9.3800048828125 1539.4500122070312 -19.30999755859375Q1482.0999755859375 -48.0 1449.8899536132812 -101.1400146484375Q1417.679931640625 -154.280029296875 1417.679931640625 -226.4600830078125Q1417.679931640625 -254.1800537109375 1420.8699340820312 -282.73004150390625Q1424.0599365234375 -311.280029296875 1439.5399169921875 -352.0H1570.3004150390625Q1557.8204345703125 -315.9000244140625 1554.3904418945312 -286.300048828125Q1550.96044921875 -256.7000732421875 1550.96044921875 -234.840087890625Q1550.96044921875 -175.5802001953125 1581.2403564453125 -136.73028564453125Q1611.520263671875 -97.88037109375 1672.60009765625 -97.88037109375Q1716.47998046875 -97.88037109375 1743.0899047851562 -116.580322265625Q1769.6998291015625 -135.2802734375 1782.1597900390625 -168.2001953125Q1794.6197509765625 -201.1201171875 1794.6197509765625 -242.9000244140625Q1794.6197509765625 -289.0999755859375 1782.499755859375 -325.93994140625Q1770.3797607421875 -362.7799072265625 1750.6397705078125 -393.7598876953125Q1730.8997802734375 -424.7398681640625 1708.6597900390625 -452.9798583984375Q1680.27978515625 -490.35986328125 1654.3297729492188 -527.8098754882812Q1628.3797607421875 -565.2598876953125 1614.6897583007812 -610.5399169921875Q1600.999755859375 -655.8199462890625 1608.519775390625 -714.0H1738.4202880859375Q1734.6602783203125 -673.6600341796875 1746.2802734375 -639.9900512695312Q1757.9002685546875 -606.320068359375 1779.2102661132812 -575.7000732421875Q1800.520263671875 -545.080078125 1824.520263671875 -512.4600830078125Q1850.1402587890625 -479.080078125 1874.1402587890625 -440.580078125Q1898.1402587890625 -402.080078125 1913.6402587890625 -354.080078125Q1929.1402587890625 -306.080078125 1929.1402587890625 -243.840087890625Q1929.1402587890625 -167.1800537109375 1898.3102416992188 -110.1600341796875Q1867.480224609375 -53.1400146484375 1810.1301879882812 -21.8800048828125Q1752.7801513671875 9.3800048828125 1672.60009765625 9.3800048828125ZM2698.599853515625 0.0Q2695.7398681640625 -24.5799560546875 2679.5198974609375 -44.48992919921875Q2663.2999267578125 -64.39990234375 2637.5299682617188 -79.56988525390625Q2611.760009765625 -94.7398681640625 2579.3700561523438 -104.9798583984375Q2546.9801025390625 -115.2198486328125 2511.3301391601562 -120.33984375Q2475.68017578125 -125.4598388671875 2441.2001953125 -125.4598388671875Q2369.7801513671875 -125.4598388671875 2316.0701293945312 -109.24981689453125Q2262.360107421875 -93.039794921875 2220.2601318359375 -71.039794921875L2170.199951171875 -153.52001953125Q2186.159912109375 -162.760009765625 2203.8098754882812 -170.8800048828125Q2221.4598388671875 -179.0 2241.1098022460938 -184.8800048828125Q2260.759765625 -190.760009765625 2281.3397216796875 -192.9000244140625V-195.9000244140625Q2224.5797119140625 -210.56005859375 2179.5497436523438 -235.840087890625Q2134.519775390625 -261.1201171875 2103.2498168945312 -297.5001220703125Q2071.9798583984375 -333.880126953125 2055.639892578125 -381.7200927734375Q2039.2999267578125 -429.56005859375 2039.2999267578125 -487.9599609375Q2039.2999267578125 -555.679931640625 2063.5599365234375 -608.8199462890625Q2087.8199462890625 -661.9599609375 2135.5299682617188 -692.97998046875Q2183.239990234375 -724.0 2253.6600341796875 -724.0Q2314.9400634765625 -724.0 2356.0001220703125 -696.3099975585938Q2397.0601806640625 -668.6199951171875 2414.2001953125 -619.719970703125H2419.5802001953125Q2437.2001953125 -670.8599853515625 2475.6301879882812 -697.4299926757812Q2514.0601806640625 -724.0 2570.5802001953125 -724.0Q2628.5401611328125 -724.0 2667.2501831054688 -696.1199951171875Q2705.960205078125 -668.239990234375 2721.5802001953125 -619.719970703125H2726.960205078125Q2745.1002197265625 -668.6199951171875 2784.8102416992188 -696.3099975585938Q2824.520263671875 -724.0 2884.3203125 -724.0Q2954.7403564453125 -724.0 3003.5903930664062 -691.739990234375Q3052.4404296875 -659.47998046875 3077.8404541015625 -602.5299682617188Q3103.240478515625 -545.5799560546875 3103.240478515625 -471.5799560546875Q3103.240478515625 -409.5399169921875 3089.1704711914062 -355.44989013671875Q3075.1004638671875 -301.35986328125 3046.200439453125 -246.4197998046875L2927.0999755859375 -287.199951171875Q2951.3399658203125 -335.679931640625 2960.9099731445312 -381.12994384765625Q2970.47998046875 -426.5799560546875 2970.47998046875 -475.2999267578125Q2970.47998046875 -546.559814453125 2944.4900512695312 -582.0297241210938Q2918.5001220703125 -617.4996337890625 2873.520263671875 -617.4996337890625Q2845.560302734375 -617.4996337890625 2826.4803466796875 -601.3296508789062Q2807.400390625 -585.15966796875 2798.0604248046875 -556.8197021484375Q2788.720458984375 -528.479736328125 2788.720458984375 -491.4197998046875V-376.639892578125H2660.8199462890625V-497.599853515625Q2660.8199462890625 -531.519775390625 2651.47998046875 -558.4097290039062Q2642.1400146484375 -585.2996826171875 2622.5100708007812 -601.399658203125Q2602.880126953125 -617.4996337890625 2570.5802001953125 -617.4996337890625Q2540.76025390625 -617.4996337890625 2520.8203125 -602.3296508789062Q2500.88037109375 -587.15966796875 2490.92041015625 -560.2697143554688Q2480.96044921875 -533.3797607421875 2480.96044921875 -497.599853515625V-376.639892578125H2353.43994140625V-491.4197998046875Q2353.43994140625 -525.999755859375 2345.219970703125 -554.6497192382812Q2337.0 -583.2996826171875 2318.6100463867188 -600.399658203125Q2300.2200927734375 -617.4996337890625 2269.400146484375 -617.4996337890625Q2224.2802734375 -617.4996337890625 2197.7903442382812 -584.939697265625Q2171.3004150390625 -552.3797607421875 2171.3004150390625 -480.8798828125Q2171.3004150390625 -420.6199951171875 2192.9503784179688 -377.25006103515625Q2214.600341796875 -333.880126953125 2255.4202880859375 -304.66015625Q2296.240234375 -275.440185546875 2353.3701782226562 -258.27020263671875Q2410.5001220703125 -241.1002197265625 2481.4600830078125 -233.240234375Q2550.240234375 -226.240234375 2609.3703002929688 -209.41021728515625Q2668.5003662109375 -192.5802001953125 2714.7603759765625 -164.61016845703125Q2761.0203857421875 -136.64013671875 2789.88037109375 -95.91009521484375Q2818.7403564453125 -55.1800537109375 2825.3603515625 0.0ZM3276.079833984375 0.0Q3259.35986328125 -48.9599609375 3246.3798828125 -104.00994873046875Q3233.39990234375 -159.0599365234375 3226.159912109375 -229.12994384765625Q3218.919921875 -299.199951171875 3218.919921875 -391.6199951171875Q3218.919921875 -510.239990234375 3254.0599365234375 -583.4299926757812Q3289.199951171875 -656.6199951171875 3348.6699829101562 -690.3099975585938Q3408.1400146484375 -724.0 3482.320068359375 -724.0Q3556.5001220703125 -724.0 3616.16015625 -690.3099975585938Q3675.8201904296875 -656.6199951171875 3710.7702026367188 -583.4299926757812Q3745.72021484375 -510.239990234375 3745.72021484375 -391.6199951171875Q3745.72021484375 -299.199951171875 3738.480224609375 -229.12994384765625Q3731.240234375 -159.0599365234375 3718.5702514648438 -104.00994873046875Q3705.9002685546875 -48.9599609375 3688.560302734375 0.0H3556.27978515625Q3572.479736328125 -50.0599365234375 3584.2697143554688 -106.3199462890625Q3596.0596923828125 -162.5799560546875 3602.8696899414062 -231.92999267578125Q3609.6796875 -301.280029296875 3609.6796875 -391.1800537109375Q3609.6796875 -473.639892578125 3594.3597412109375 -523.039794921875Q3579.039794921875 -572.439697265625 3550.3798828125 -594.0196533203125Q3521.719970703125 -615.599609375 3482.320068359375 -615.599609375Q3442.920166015625 -615.599609375 3414.26025390625 -594.0196533203125Q3385.600341796875 -572.439697265625 3370.2803955078125 -523.039794921875Q3354.96044921875 -473.639892578125 3354.96044921875 -391.1800537109375Q3354.96044921875 -301.280029296875 3361.7704467773438 -231.92999267578125Q3368.5804443359375 -162.5799560546875 3380.5604248046875 -106.3199462890625Q3392.5404052734375 -50.0599365234375 3408.3603515625 0.0Z" fill="currentColor"/></g></svg></a>
     <nav class="mainnav" aria-label="გვერდები">
       <a data-tx="hdr.1" href="#ascendant" class="star" data-p="ascendant">ასცენდენტის დადგენა</a>
-      <a data-tx="hdr.2" href="#karmic" data-p="karmic">კარმული კავშირები</a>
       <a data-tx="hdr.3" href="#natal" data-p="natal">ნატალური რუკა</a>
       <a data-tx="hdr.4" href="#compat" data-p="compat">წყვილის ანალიზი</a>
       <a data-tx="hdr.5" href="#career" data-p="career">პროფესია</a>
@@ -818,7 +824,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
   <div id="txBar" class="txbar" hidden role="region" aria-label="რედაქტირების რეჟიმი">
     <span class="txdot" aria-hidden="true"></span><b>რედაქტირების რეჟიმი</b>
     <span class="txhint">დააჭირე მონიშნულ ტექსტს და ჩაასწორე.</span><span id="txNote" class="txnote" aria-live="polite"></span>
-    <label class="txpg">გვერდი <select id="txPg"><option value="home">მთავარი</option><option value="ascendant">ასცენდენტის დადგენა</option><option value="karmic">კარმული კავშირები</option><option value="natal">ნატალური რუკა</option><option value="compat">წყვილის ანალიზი</option><option value="career">პროფესია</option><option value="trials">სირთულეები</option><option value="marriage">დაოჯახება</option><option value="pricing">ფასები</option></select></label>
+    <label class="txpg">გვერდი <select id="txPg"><option value="home">მთავარი</option><option value="ascendant">ასცენდენტის დადგენა</option><option value="natal">ნატალური რუკა</option><option value="compat">წყვილის ანალიზი</option><option value="career">პროფესია</option><option value="trials">სირთულეები</option><option value="marriage">დაოჯახება</option><option value="pricing">ფასები</option></select></label>
     <button type="button" class="btn ghost" id="txOff">დასრულება</button>
   </div>
   <div id="txPop" class="panel txpop" hidden role="dialog" aria-label="ტექსტის რედაქტირება">
@@ -838,7 +844,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
         <p data-tx="home.2" class="lead">ციალი ასცენდენტს ოთხი წყაროდან ადგენს: დღის მონაკვეთი, კითხვარი, ამომავალი პლანეტები და ცხოვრების მოვლენები. შემდეგ კი გაჩვენებს, რა კარმული კავშირი გაკავშირებს შენს ადამიანთან.</p>
         <div class="cta-row">
           <a data-tx="home.3" class="btn primary big" href="#ascendant">დაადგინე ასცენდენტი</a>
-          <a data-tx="home.4" class="btn ghost big" href="#karmic">კარმული კავშირები</a>
+          <a data-tx="home.4" class="btn ghost big" href="#compat">წყვილის ანალიზი</a>
         </div>
         <p class="sun-now" id="sunNow"></p>
       </div>
@@ -884,15 +890,15 @@ svg .hn.on{fill:var(--accent);font-weight:700}
             <text x="156" y="66" text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace" fill="var(--fire)">B</text>
           </svg>
         </div>
-        <h2 data-tx="home.18">კარმული კავშირები</h2>
-        <p data-tx="home.19">ნახე, რა გაკვეთილი მოაქვს თქვენს ურთიერთობას და საიდან მოდის „ნაცნობობის“ განცდა, რომელიც პირველივე შეხვედრაზე ჩნდება.</p>
+        <h2 data-tx="home.18">წყვილის ანალიზი</h2>
+        <p data-tx="home.19">ნახე, რამდენად ერგებით ერთმანეთს, რა გაკავშირებთ კარმულად და რამდენად სავარაუდოა, რომ დაოჯახდებით.</p>
         <ul class="facts-mini">
-          <li data-tx="home.20">☋︎ სამხრეთი და ☊︎ ჩრდილოეთი კვანძი</li>
-          <li data-tx="home.21">♄︎ სატურნი და ♇︎ პლუტონი</li>
-          <li data-tx="home.22">Vx ბედისწერის წერტილი</li>
-          <li data-tx="home.23">12 მე-⁠12 სახლი და რეტროგრადები</li>
+          <li data-tx="home.20">საერთო თავსებადობა</li>
+          <li data-tx="home.21">კარმული კავშირები</li>
+          <li data-tx="home.22">დაოჯახების ალბათობა</li>
+          <li data-tx="home.23">ძლიერი და რთული მხარეები</li>
         </ul>
-        <a data-tx="home.24" class="btn primary" href="#karmic">შემოწმება</a>
+        <a data-tx="home.24" class="btn primary" href="#compat">შემოწმება</a>
       </article>
     </div>
 
@@ -1200,7 +1206,6 @@ svg .hn.on{fill:var(--accent);font-weight:700}
     <div class="sec-head">
       <h2 data-tx="compat.1">წყვილის სრული ანალიზი</h2>
       <p data-tx="compat.2" class="muted">შეიყვანე შენი და პარტნიორის მონაცემები და ერთ გვერდზე ნახავ თავსებადობას, ორივეს რუკას, ასპექტებს და კომპოზიტურ რუკას.</p>
-      <p><a data-tx="compat.3" href="#karmic">კარმული კავშირების ცალკე კალკულატორი →</a></p>
     </div>
     <div class="panel syn-forms">
       <div class="partner pa" id="pA"></div>
@@ -1294,16 +1299,16 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     asc_natal:{t:"ასცენდენტი + სრული რუკა",k:"single",p:19.90,inc:["asc","natal"],pop:true,d:"დაბადების დრო არ იცი? ციალი გამოთვლის, დაახლოებით რომელ საათზე დაიბადე, და ამ დროით სრულ რუკას აგებს."},
     natal:{t:"სრული ნატალური რუკა",k:"single",p:14.90,inc:["natal"],d:"შენი რუკის ყველა ნაწილი: ხასიათი, სიყვარული, ფული, კარიერა და ცხოვრების გზა."},
     karmic:{t:"კარმული კავშირები",k:"pair",p:14.90,inc:["karmic"],d:"ყველა კარმული კავშირი შენსა და შენს ადამიანს შორის და რას ნიშნავს ისინი ერთად."},
-    compat:{t:"წყვილის ანალიზი",k:"pair",p:14.90,inc:["compat"],d:"როგორ მოქმედებთ ერთმანეთზე: სად ეხმარებით ერთმანეთს და სად ეჯახებით."},
+    compat:{t:"წყვილის ანალიზი",k:"pair",p:22.90,inc:["compat","karmic"],d:"თავსებადობა, დაოჯახების ალბათობა და კარმული კავშირები ერთ წყვილზე."},
     pair_pack:{t:"წყვილის პაკეტი",k:"pair",p:22.90,inc:["karmic","compat"],d:"კარმული კავშირები და წყვილის ანალიზი ერთად, ერთ წყვილზე."},
     career:{t:"პროფესია",k:"single",p:9.90,inc:["career"],d:"რომელი სფეროები გიხდება, როგორ მუშაობ საუკეთესოდ და საიდან მოდის შენი ფული."},
     marriage:{t:"დაოჯახება",k:"single",p:9.90,inc:["marriage"],d:"როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."},
     trials:{t:"სირთულეები",k:"single",p:9.90,inc:["trials"],d:"ცხოვრების რთული პერიოდები და რას გასწავლის თითოეული."},
     numerology:{t:"ნუმეროლოგია",k:"single",p:7.90,inc:["numerology"],d:"ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."},
     full:{t:"სრული ციალი",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
-  F2P:{asc:"asc_natal",natal:"natal",karmic:"karmic",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
+  F2P:{asc:"asc_natal",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
   FN:{asc:"ასცენდენტი და დაბადების სავარაუდო დრო",natal:"სრული ნატალური რუკა",karmic:"კარმული კავშირები",compat:"წყვილის ანალიზი",career:"პროფესია",marriage:"დაოჯახება",trials:"სირთულეები",numerology:"ნუმეროლოგია"},
-  PG:{asc:"ascendant",natal:"natal",karmic:"karmic",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
+  PG:{asc:"ascendant",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
   FT:{natal:["შენი რუკის სრული ანალიზი","ხასიათი, სიყვარული, ფული და ცხოვრების გზა: ყველაფერი შენი დაბადების მონაცემებით დაწერილი."],
     asc:["გაიგე, რომელ საათზე დაიბადე","ციალი გამოთვლის შენი დაბადების სავარაუდო დროს და ამ დროით სრულ ნატალურ რუკას აგებს."],
     karmic:["ყველა კარმული კავშირი","რა გაკავშირებთ, რისი სწავლა შეგიძლიათ ერთმანეთისგან და რას ნიშნავს ეს კავშირები ერთად."],
@@ -1314,7 +1319,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     numerology:["შენი რიცხვების სრული განმარტება","ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."]},
   fmt:n=>(+n).toFixed(2)+" ₾",
   price(id){const p=PW.P[id].p;if(!PW.promo)return p;return Math.max(.9,Math.round(p*(1-PW.promo.pct/100))-.1);},
-  sumOf(id){return PW.P[id].inc.reduce((s,f)=>s+(f==="asc"?0:PW.P[f==="natal"&&PW.P[id].inc.includes("asc")?"asc_natal":PW.F2P[f]].p),0);},
+  sumOf(id){const inc=PW.P[id].inc,ids=[...new Set(inc.filter(f=>f!=="asc").map(f=>f==="natal"&&inc.includes("asc")?"asc_natal":PW.F2P[f]))];return ids.reduce((s,x)=>s+PW.P[x].p,0);},
   key(o){if(!o||o.err||!o.pl)return"";return [o.Y,o.M,o.D,(+o.pl.lat).toFixed(2),(+o.pl.lo).toFixed(2)].join("|");},
   pkey(ks){return [...ks].sort().join("~");},
   has(feat,keys){if(PW.mode==="off")return true;if(!keys||!keys.length||keys.some(k=>!k))return false;
@@ -1323,7 +1328,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
       if(pr.k==="pair")return keys.length===2&&o.chart_key===PW.pkey(keys);
       return keys.length===1&&o.chart_key===keys[0];});},
   priceHtml(id){const p=PW.P[id].p,np=PW.price(id);return '<div class="pwprice">'+(PW.promo?'<s>'+PW.fmt(p)+'</s> ':'')+'<b>'+PW.fmt(np)+'</b>'+(PW.promo?'<span class="pwtag">−'+PW.promo.pct+'% · გახსნის ფასი</span>':'')+'</div>';},
-  upHtml(feat){const up=["karmic","compat"].includes(feat)?"pair_pack":"full",sum=up==="pair_pack"?PW.P.karmic.p+PW.P.compat.p:PW.sumOf("full");
+  upHtml(feat){const up="full",sum=PW.sumOf("full");
     return '<button type="button" class="linkbtn pwup" data-buy="'+up+'">'+(up==="pair_pack"?'ან ორივე ერთად, წყვილის პაკეტით':'ან ყველაფერი ერთად, სრული ციალით')+': <b>'+PW.fmt(PW.price(up))+'</b> <span class="muted">('+PW.fmt(sum)+'-ის ნაცვლად)</span></button>';},
   LOCK:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
   card(feat,keys,titles,peek,pid){pid=pid||PW.F2P[feat];const [t,sub]=PW.FT[feat];
@@ -1354,7 +1359,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     if(ch&&ch.tagName==="H3")ch.remove();
     if(cmp){cmp.insertAdjacentHTML("beforebegin",(bt?'<div class="panel interp"><h3 class="ph3">რას ნიშნავს შენი ასცენდენტი</h3><p>'+escH(bt)+'</p></div>':'')+PW.card("asc",k,["დაბადების სავარაუდო დრო","ყველა შესაძლო ასცენდენტი პროცენტებით","ქულა დროის მიხედვით","სრული ნატალური რუკა ამ დროით"],"","asc_natal"));cmp.remove();}},
   refresh(){const pg=document.querySelector(".page:not([hidden])"),id=pg&&pg.dataset.page;
-    try{if(id==="natal")buildNatal(false);else if(id==="karmic"&&$("kRes").innerHTML)runKarma();else if(id==="compat")runSyn();else if(id==="ascendant"&&$("qRes").innerHTML)runRect();else if(["career","trials","marriage","numerology"].includes(id))buildLife();showMyAsc();}catch(e){console.error(e);}},
+    try{if(id==="natal")buildNatal(false);else if(id==="compat")runSyn();else if(id==="ascendant"&&$("qRes").innerHTML)runRect();else if(["career","trials","marriage","numerology"].includes(id))buildLife();showMyAsc();}catch(e){console.error(e);}},
   async init(){PW.wire();
     try{const qs=new URLSearchParams(location.search);if(qs.has("pw")){if(qs.get("pw")==="1")localStorage.setItem("tsiali_pw","1");else localStorage.removeItem("tsiali_pw");qs.delete("pw");history.replaceState(null,"",location.pathname+(qs.toString()?"?"+qs:"")+location.hash);}}catch(e){}
     let pv=false;try{pv=localStorage.getItem("tsiali_pw")==="1";}catch(e){}
@@ -1374,13 +1379,13 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
   renderPricing(){const top=$("prTop"),grid=$("prGrid"),pro=$("prPromo");if(!top)return;
     const days=PW.promo?Math.max(1,Math.ceil((PW.promo.ends-Date.now())/864e5)):0;
     pro.innerHTML=PW.promo?'<div class="prpromo"><b>გახსნის ფასები: ყველაფერი −'+PW.promo.pct+'%</b><span>შეთავაზება '+days+' დღეში მთავრდება</span></div>':"";
-    const card=(id,cls,badge)=>{const P=PW.P[id],pg=PW.PG[P.inc[0]],sum=P.k==="bundle"?PW.sumOf(id):id==="pair_pack"?PW.P.karmic.p+PW.P.compat.p:0;
+    const card=(id,cls,badge)=>{const P=PW.P[id],pg=PW.PG[P.inc[0]],sum=P.k==="bundle"?PW.sumOf(id):0;
       return '<article class="prc '+(cls||"")+'">'+(badge?'<span class="prbadge">'+badge+'</span>':'')+'<h3 data-tx="prod.'+id+'.t">'+TX("prod."+id+".t",P.t)+'</h3><p data-tx="prod.'+id+'.d">'+TX("prod."+id+".d",P.d)+'</p>'+
         (P.inc.length>1?'<ul class="princ">'+P.inc.map(f=>'<li>'+PW.FN[f]+'</li>').join("")+'</ul>':'')+
         PW.priceHtml(id)+(sum?'<p class="prsave">ცალ-ცალკე '+PW.fmt(sum)+' · ზოგავ '+Math.round((1-PW.price(id)/sum)*100)+'%</p>':'')+
         '<a class="btn '+(cls?'primary':'ghost')+'" href="#'+pg+'">'+(id==="full"?'დაწყება':'შედეგის ნახვა')+'</a></article>';};
-    top.innerHTML=card("full","best",TX("prod.badge.best","საუკეთესო ფასი"))+card("asc_natal","pop",TX("prod.badge.pop","ყველაზე პოპულარული"))+card("pair_pack","pop",TX("prod.badge.pair","წყვილებისთვის"));
-    grid.innerHTML=["natal","karmic","compat","career","marriage","trials"].map(id=>card(id)).join("");}
+    top.innerHTML=card("full","best",TX("prod.badge.best","საუკეთესო ფასი"))+card("asc_natal","pop",TX("prod.badge.pop","ყველაზე პოპულარული"))+card("compat","pop",TX("prod.badge.pair","წყვილებისთვის"));
+    grid.innerHTML=["natal","career","marriage","trials"].map(id=>card(id)).join("");}
 };
 PW.buyOpen=function(id,keys){const P=PW.P[id];if(!P)return;PW.ctx={id,keys};const el=$("buyBody");
   const u=window.ACCT_USER&&window.ACCT_USER();
@@ -6630,6 +6635,33 @@ function synExtra(A,B){
   return '<div class="panel" id="s-pos"><div><h3 style="margin-bottom:12px">მთვარის ფაზების თავსებადობა</h3><div class="phases"><div><span class="ca">'+NM.A+'</span>'+moonSvg(pa)+'<b>'+phName(pa)+'</b></div><div><span class="cb">'+NM.B+'</span>'+moonSvg(pb)+'<b>'+phName(pb)+'</b></div></div>'+
    '<p style="margin-top:12px">'+txt+'</p><p class="note" style="margin-top:8px">მთვარის ფაზა, რომელშიც დაიბადე, შენს ბუნებრივ რიტმს აჩვენებს: როგორ იწყებ და ასრულებ საქმეებს. '+(unk?'დრო უცნობია, ამიტომ ფაზა მიახლოებითია.':'')+'</p></div><details class="techmore" style="margin-top:18px"><summary><b>პლანეტების ზუსტი პოზიციები</b><span class="muted">ნიშნები და გრადუსები ორივესთვის, ასტროლოგიის მცოდნეთათვის</span></summary>'+tbl+'</details></div>';
 }
+
+/* ---------- couple: likelihood of marriage (traditional synastry markers) ---------- */
+const MRULE={"Moon|Sun":[3,"ხასიათი და გრძნობები ერთმანეთს ავსებს. ტრადიციულად ქორწინების ყველაზე ძლიერ ნიშნად ითვლება."],
+  "Mars|Venus":[2,"ერთმანეთის მიმართ ძლიერი მიზიდულობაა."],
+  "Moon|Moon":[2,"ემოციურად მსგავსად გრძნობთ, ამიტომ ერთად ცხოვრება გაგიადვილდებათ."],
+  "Moon|Venus":[2,"ერთმანეთის მიმართ სითბო და სინაზე ბუნებრივად ჩნდება."],
+  "Sun|Venus":[1.5,"ერთმანეთი მოგწონთ და ერთმანეთს აფასებთ."],
+  "Saturn|Sun":[1.5,"ურთიერთობას სერიოზულობა და ვალდებულების განცდა აქვს."],"Moon|Saturn":[1.5,"ურთიერთობას სერიოზულობა და ვალდებულების განცდა აქვს."],"Saturn|Venus":[1.5,"ურთიერთობას სერიოზულობა და ვალდებულების განცდა აქვს."],
+  "Jupiter|Sun":[1,"ერთმანეთს მხარს უჭერთ და ერთად იზრდებით."],"Jupiter|Moon":[1,"ერთმანეთს მხარს უჭერთ და ერთად იზრდებით."],"Jupiter|Venus":[1,"ერთმანეთს მხარს უჭერთ და ერთად იზრდებით."]};
+function marriageChance(A,B,asp){
+  const F=[],AM={0:1,120:.9,60:.7,180:.7,90:.4};
+  asp.forEach(x=>{const r=MRULE[[x.p.k,x.q.k].sort().join("|")];if(!r)return;
+    let m=AM[x.X.a];if(x.X.a===90&&(x.p.k==="Saturn"||x.q.k==="Saturn"))m=.6;
+    F.push({w:r[0]*m*(1-.5*x.orb/(x.X.o+1)),l:GEN(NM.A)+" "+KA(x.p.k)+" და "+GEN(NM.B)+" "+KA(x.q.k),t:r[1]});});
+  const house=(X,Y,nx,ny)=>{if(!Y.an)return;const dsc=norm(Y.an.asc+180);
+    X.ps.forEach(p=>{if(!["Sun","Moon","Venus","Jupiter"].includes(p.k))return;
+      if(sep(p.lon,dsc)<=6)F.push({w:p.k==="Jupiter"?1.5:2.2,l:GEN(nx)+" "+KA(p.k)+" "+GEN(ny)+" დესცენდენტზეა",t:ny+" მას ბუნებრივად ხედავს პარტნიორად."});
+      else if(houseIdx(p.lon,Y.an.cusps)===7)F.push({w:p.k==="Jupiter"?1.2:2,l:GEN(nx)+" "+KA(p.k)+" "+GEN(ny)+" მე-7 სახლშია",t:"მე-7 სახლი ქორწინებისა და პარტნიორობის სახლია."});});};
+  house(A,B,NM.A,NM.B);house(B,A,NM.B,NM.A);
+  const sum=F.reduce((s,f)=>s+f.w,0),pct=Math.round(15+80*(1-Math.exp(-sum/7)));
+  F.sort((a,b)=>b.w-a.w);
+  const lvl=pct>=70?"მაღალი":pct>=50?"საშუალო":"დაბალი";
+  return '<div class="panel smar"><div class="smh"><div><h3 class="ph3">დაოჯახების ალბათობა</h3><p class="muted">ასტროლოგიაში ქორწინებას ზოგიერთი კავშირი უკავშირდება. რაც მეტია ასეთი კავშირი, მით მაღალია ქულა.</p></div><div class="smpct"><b>'+pct+'%</b><span>'+lvl+'</span></div></div>'+
+    '<div class="bar"><i style="width:'+pct+'%"></i></div>'+
+    (F.length?'<ul class="smlist">'+(()=>{const G=[];F.forEach(f=>{const g=G.find(x=>x.t===f.t);if(g){if(g.l.length<2)g.l.push(f.l);}else G.push({t:f.t,l:[f.l]});});return G.slice(0,6).map(g=>'<li><b>'+g.l.join(" · ")+'</b><span>'+g.t+'</span></li>').join("");})()+'</ul>':'<p>ქორწინების ტრადიციული ნიშნები თქვენს რუკებს შორის თითქმის არ ჩანს. ეს არ ნიშნავს, რომ ერთად ვერ იქნებით: ურთიერთობას ადამიანები ქმნიან.</p>')+
+    (!A.an||!B.an?'<p class="note">დაბადების ზუსტი დრო ორივესთვის რომ ვიცოდეთ, მე-7 სახლსაც შევამოწმებდით და შედეგი უფრო ზუსტი იქნებოდა.</p>':'')+'</div>';
+}
 function runSyn(){
   if(!HAS){$("sRes").innerHTML='<p class="err">ასტრონომიული ბიბლიოთეკა ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';return}
   const a=FA.read(),b=FB.read();if(a.err||b.err){$("sNote").textContent=a.err||b.err;return}setNames(FA,FB);
@@ -6663,7 +6695,8 @@ function runSyn(){
   const X=coupleExtras(a,b,A,B);
   $("sRes").insertAdjacentHTML("beforeend",X.html);X.draw();
   const first=$("sRes").firstElementChild;if(first)first.id="s-sum";
-  $("sRes").insertAdjacentHTML("afterbegin",'<nav class="toc" aria-label="შედეგის ნაწილები">'+[["s-sum","საერთო ქულა"],["s-pos","პოზიციები"],["s-asp","ასპექტები"]].concat(X.toc.slice(1)).map(([id,t])=>'<button type="button" class="chip" data-t="'+id+'">'+t+'</button>').join("")+'</nav>');PW.gate($("sRes"),"compat",[PW.key(a),PW.key(b)],{keep:1});
+  first.insertAdjacentHTML("afterend",'<div id="s-mar">'+marriageChance(A,B,asp)+'</div>');
+  $("sRes").insertAdjacentHTML("afterbegin",'<nav class="toc" aria-label="შედეგის ნაწილები">'+[["s-sum","საერთო ქულა"],["s-mar","დაოჯახება"],["s-pos","პოზიციები"],["s-asp","ასპექტები"]].concat(X.toc.slice(1)).map(([id,t])=>'<button type="button" class="chip" data-t="'+id+'">'+t+'</button>').join("")+'</nav>');PW.gate($("sRes"),"compat",[PW.key(a),PW.key(b)],{keep:2});
 }
 $("sGo").addEventListener("click",runSyn);
 $("sRes").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(b&&$(b.dataset.t))$(b.dataset.t).scrollIntoView({behavior:"smooth",block:"start"});});
@@ -7015,13 +7048,13 @@ $("kGo").addEventListener("click",runKarma);
   const Y=today.getFullYear(),M=today.getMonth()+1,D=today.getDate();
   const nowMin=(()=>{const u=today.getTime(),o=zoneOffset(PL.tz,u);const d=new Date(u+o*60000);return d.getUTCHours()*60+d.getUTCMinutes();})();
   const wheelEl=$("wheel");
-  /* the sky over Tbilisi keeps turning: about one hour of sky per second; pauses on hover, when off-screen or in a hidden tab */
+  /* the sky over Tbilisi keeps turning: about twelve minutes of sky per second; pauses on hover, when off-screen or in a hidden tab */
   let raf=0,m=nowMin,last=-1,hover=false,vis=true,tp=0;
   function render(mm){const mi=Math.floor(mm);if(mi===last)return;last=mi;
     const d=toUTCg(Y,M,D,mi,PL).d,ps=positions(d),an=angles(d,PL.lat,PL.lo),si=sIdx(an.asc);
     drawChart(wheelEl,ps,{static:true,asc:an.asc,mc:an.mc,cusps:an.cusps,hi:si,center:[hm(mi),"ასცენდენტი "+S[si].ka],label:"ცა თბილისის თავზე "+hm(mi)+"-ზე, ასცენდენტი "+S[si].ka});}
   const run=()=>!hover&&vis&&!document.hidden;
-  function step(t){const dt=Math.min(64,t-(tp||t));tp=t;m=(m+dt*.06)%1440;render(m);raf=run()?requestAnimationFrame(step):0;}
+  function step(t){const dt=Math.min(64,t-(tp||t));tp=t;m=(m+dt*.012)%1440;render(m);raf=run()?requestAnimationFrame(step):0;}
   const go=()=>{if(!raf&&run()){tp=0;raf=requestAnimationFrame(step);}};
   wheelEl.addEventListener("pointerenter",()=>{hover=true;});
   wheelEl.addEventListener("pointerleave",()=>{hover=false;go();});
@@ -7449,7 +7482,7 @@ $("nMore").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(
     try{navigator.clipboard.writeText(t.value).then(ok,()=>{t.select();});}catch(_){t.select();}}});
 buildNatal(true);
 /* ---------- pages ---------- */
-const PAGES=["home","ascendant","karmic","natal","compat","career","trials","marriage","pricing","admin"],ALIAS={numerology:"home",report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
+const PAGES=["home","ascendant","natal","compat","career","trials","marriage","pricing","admin"],ALIAS={numerology:"home",karmic:"compat",report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
 let precTouched=false;document.querySelectorAll('input[name="prec"]').forEach(r=>r.addEventListener("change",()=>{precTouched=true;}));
 function route(){
   const h=location.hash.slice(1),sign=S.findIndex(x=>x.id===h);

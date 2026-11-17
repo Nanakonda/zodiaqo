@@ -106,8 +106,8 @@ header.top .acctbtn{white-space:nowrap}
 .usp p{color:var(--muted);max-width:60ch}
 .usp .btn{align-self:flex-start;margin-top:auto}
 .steps-mini{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;counter-reset:st}
-.steps-mini li{counter-increment:st;display:flex;flex-direction:column;gap:2px;background:var(--surface2);border-radius:12px;padding:10px 12px 10px 40px;position:relative;font-size:.86rem;color:var(--muted)}
-.steps-mini li::before{content:counter(st);position:absolute;left:12px;top:10px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:600 .75rem/20px var(--mono);text-align:center}
+.steps-mini li{counter-increment:st;display:flex;flex-direction:column;gap:2px;background:var(--surface2);border-radius:12px;padding:10px 12px;position:relative;font-size:.86rem;color:var(--muted)}
+.steps-mini li::before{display:none;content:counter(st);position:absolute;left:12px;top:10px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:600 .75rem/20px var(--mono);text-align:center}
 .steps-mini b{color:var(--fg);font-weight:600;font-size:.92rem}
 .facts-mini{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .facts-mini li{background:var(--surface2);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;font-size:.86rem;color:var(--muted)}
@@ -925,10 +925,10 @@ button.qreset:hover{color:var(--fg);background:none}
         <h2 data-tx="home.7">იპოვე შენი ასცენდენტი</h2>
         <p data-tx="home.8">ასცენდენტი ყოველ 1–3 საათში იცვლება, ამიტომ დაბადების დროის გარეშე მას ვერ დაადგენ. ციალი შენი პასუხებით ნაბიჯ-ნაბიჯ ამოწმებს, დაბადების რომელი დრო შეესაბამება შენს რუკას.</p>
         <ol class="steps-mini">
-          <li><b data-tx="home.9">დღის მონაკვეთი</b><span data-tx="home.10">ნათელი თუ ბნელი, დილა თუ საღამო</span></li>
-          <li><b data-tx="home.11">კითხვარი</b><span data-tx="home.12">კითხვები შენს გარეგნობასა და დაბადებაზე</span></li>
-          <li><b data-tx="home.13">ამომავალი პლანეტები</b><span data-tx="home.14">პლანეტები, რომლებიც გავლენას ახდენენ გარეგნობაზე</span></li>
-          <li><b data-tx="home.15">ცხოვრების მოვლენები</b><span data-tx="home.16">მნიშვნელოვანი თარიღები შენი ცხოვრებიდან</span></li>
+          <li><b data-tx="home.9">დროის შუალედი</b><span data-tx="home.10">ნათელი თუ ბნელი, დღის ნაწილი ან მიახლოებითი საათი</span></li>
+          <li><b data-tx="home.11">კითხვარი</b><span data-tx="home.12">მარტივი კითხვები შენს გარეგნობასა და დაბადების დეტალებზე</span></li>
+          <li><b data-tx="home.13">ამომავალი პლანეტები</b><span data-tx="home.14">პლანეტები, რომლებიც გარეგნობასა და ხასიათზე მოქმედებენ</span></li>
+          <li><b data-tx="home.15">ცხოვრების მოვლენები</b><span data-tx="home.16">3–6 მნიშვნელოვანი თარიღი დროის ზუსტი გადამოწმებისთვის</span></li>
         </ol>
         <a data-tx="home.17" class="btn primary" href="#ascendant">დაიწყე უფასოდ</a>
       </article>

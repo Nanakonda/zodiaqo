@@ -919,7 +919,7 @@ svg .hn.on{fill:var(--accent);font-weight:700}
     <div class="tools">
       <a class="tool" href="#natal"><span class="ti glyph">☉︎</span><b data-tx="home.30">ნატალური რუკა</b><span data-tx="home.31">შენი რუკა და მისი სრული ახსნა: ხასიათი, სიყვარული, ფული, ცხოვრების გზა</span></a>
       <a class="tool" href="#compat"><span class="ti glyph">♀︎♂︎</span><b data-tx="home.32">წყვილის ანალიზი</b><span data-tx="home.33">თავსებადობა, კარმული კავშირები და დაოჯახების ალბათობა</span></a>
-      <a class="tool" href="#career"><span class="ti glyph">♑︎</span><b data-tx="home.34">პროფესია</b><span data-tx="home.35">რომელი სფეროები შეგეფერება და საიდან მოდის შენი ფული</span></a>
+      <a class="tool" href="#career"><span class="ti glyph">♑︎</span><b data-tx="home.34">პროფესია</b><span data-tx="home.35">რომელი სფეროები შეგეფერება და რით გამოიმუშავებ ფულს ყველაზე კარგად</span></a>
       <a class="tool" href="#trials"><span class="ti glyph">♄︎</span><b data-tx="home.36">ცხოვრების სირთულეები</b><span data-tx="home.37">რა ასაკში გელის რთული პერიოდები და რას გასწავლის თითოეული</span></a>
       <a class="tool" href="#numerology" hidden><span class="ti glyph">9</span><b data-tx="home.38">ნუმეროლოგია</b><span data-tx="home.39">ცხოვრების გზა, დაბადების დღე, პირადი წელი, სახელის რიცხვები და პითაგორას კვადრატი</span></a>
       <a class="tool" href="#marriage"><span class="ti glyph">♀︎</span><b data-tx="home.40">დაოჯახება</b><span data-tx="home.41">რომელ წლებშია ქორწინება ყველაზე სავარაუდო</span></a>
@@ -1308,7 +1308,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     karmic:{t:"კარმული კავშირები",k:"pair",p:14.90,inc:["karmic"],d:"ყველა კარმული კავშირი შენსა და შენს ადამიანს შორის და რას ნიშნავს ისინი ერთად."},
     compat:{t:"წყვილის ანალიზი",k:"pair",p:22.90,inc:["compat","karmic"],d:"თავსებადობა, დაოჯახების ალბათობა და კარმული კავშირები ერთ წყვილზე."},
     pair_pack:{t:"წყვილის პაკეტი",k:"pair",p:22.90,inc:["karmic","compat"],d:"კარმული კავშირები და წყვილის ანალიზი ერთად, ერთ წყვილზე."},
-    career:{t:"პროფესია",k:"single",p:9.90,inc:["career"],d:"რომელი სფეროები შეგეფერება, როგორ მუშაობ საუკეთესოდ და საიდან მოდის შენი ფული."},
+    career:{t:"პროფესია",k:"single",p:9.90,inc:["career"],d:"რომელი სფეროები შეგეფერება, როგორ მუშაობ საუკეთესოდ და რით გამოიმუშავებ ფულს ყველაზე კარგად."},
     marriage:{t:"დაოჯახება",k:"single",p:9.90,inc:["marriage"],d:"როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."},
     trials:{t:"სირთულეები",k:"single",p:9.90,inc:["trials"],d:"ცხოვრების რთული პერიოდები და რას გასწავლის თითოეული."},
     numerology:{t:"ნუმეროლოგია",k:"single",p:7.90,inc:["numerology"],d:"ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."},
@@ -1320,7 +1320,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     asc:["გაიგე, რომელ საათზე დაიბადე","ციალი გამოთვლის შენი დაბადების სავარაუდო დროს და ამ დროით სრულ ნატალურ რუკას აგებს."],
     karmic:["ყველა კარმული კავშირი","რა გაკავშირებთ, რისი სწავლა შეგიძლიათ ერთმანეთისგან და რას ნიშნავს ეს კავშირები ერთად."],
     compat:["როგორ მოქმედებთ ერთმანეთზე","დეტალური ანალიზი: სად ეხმარებით ერთმანეთს, სად ეჯახებით და რა გაძლიერებთ წყვილად."],
-    career:["შენი კარიერული პორტრეტი","სფეროები, რომლებიც შეგეფერება, შენი სამუშაო სტილი და ფულის წყარო."],
+    career:["შენი კარიერული პორტრეტი","სფეროები, რომლებიც შეგეფერება, შენი სამუშაო სტილი და ის, რით გამოიმუშავებ ფულს."],
     marriage:["სიყვარული და დაოჯახება","როგორი პარტნიორი გჭირდება და რა გეხმარება ურთიერთობაში."],
     trials:["სირთულეები და გამოსავალი","ცხოვრების რთული პერიოდები და რას გასწავლის თითოეული."],
     numerology:["შენი რიცხვების სრული განმარტება","ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."]},
@@ -7230,7 +7230,7 @@ function buildCareer(){const el=$("carRes");if(!el)return;const b=lifeBase();if(
     '<details class="lpast"><summary>სხვა სფეროები</summary><div class="fgrid">'+ord.slice(3,8).map((x,k)=>fc(x,k+3)).join("")+'</div></details></div>'+
     '<div class="panel interp"><h3 class="ph3">კარიერული პორტრეტი</h3>'+
     (an?'<p><b>ცის შუაგული '+LOC[ms]+'.</b> '+MCT[ms]+'</p>'+(p10.length?p10.map(p=>'<p><b>'+p.ka+' მე-⁠10 სახლში.</b> '+(PHS[p.k]?PHS[p.k][9]:'')+'</p>').join(""):'<p><b>მე-⁠10 სახლის მმართველი, '+P(RULER[ms]).ka+', '+hLoc(H(P(RULER[ms]).lon))+'ა.</b> კარიერული შესაძლებლობები ხშირად იხსნება '+HL[H(P(RULER[ms]).lon)-1]+'.</p>')+
-      '<p><b>სამუშაო სტილი (მე-⁠6 სახლი '+LOC[sIdx(an.cusps[5])]+').</b> '+W6[sIdx(an.cusps[5])]+'</p><p><b>ფულის წყარო (მე-⁠2 სახლი '+LOC[sIdx(an.cusps[1])]+').</b> '+M2[sIdx(an.cusps[1])]+'</p>'
+      '<p><b>სამუშაო სტილი (მე-⁠6 სახლი '+LOC[sIdx(an.cusps[5])]+').</b> '+W6[sIdx(an.cusps[5])]+'</p><p><b>როგორ გამოიმუშავებ ფულს (მე-⁠2 სახლი '+LOC[sIdx(an.cusps[1])]+').</b> '+M2[sIdx(an.cusps[1])]+'</p>'
      :'<p class="note">ცის შუაგულისა და სახლებისთვის დაბადების დროა საჭირო, ამიტომ შედეგი მხოლოდ მზეს, მერკურს, მარსსა და სატურნს ეყრდნობა. <a href="#ascendant">დაადგინე ასცენდენტი</a> უფრო ზუსტი შედეგისთვის.</p>')+
     '<p><b>სატურნი '+LOC[sIdx(P("Saturn").lon)]+':</b> '+RT2.Saturn[sIdx(P("Saturn").lon)]+'</p></div>';}
 /* marriage markers per year of life (transits + progressions); shared by the marriage page and the couple analysis */

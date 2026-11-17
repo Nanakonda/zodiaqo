@@ -7048,13 +7048,16 @@ $("kGo").addEventListener("click",runKarma);
   const Y=today.getFullYear(),M=today.getMonth()+1,D=today.getDate();
   const nowMin=(()=>{const u=today.getTime(),o=zoneOffset(PL.tz,u);const d=new Date(u+o*60000);return d.getUTCHours()*60+d.getUTCMinutes();})();
   const wheelEl=$("wheel");
-  /* the sky over Tbilisi keeps turning: about twelve minutes of sky per second; pauses on hover, when off-screen or in a hidden tab */
-  let raf=0,m=nowMin,last=-1,hover=false,vis=true,tp=0;
-  function render(mm){const mi=Math.floor(mm);if(mi===last)return;last=mi;
-    const d=toUTCg(Y,M,D,mi,PL).d,ps=positions(d),an=angles(d,PL.lat,PL.lo),si=sIdx(an.asc);
-    drawChart(wheelEl,ps,{static:true,asc:an.asc,mc:an.mc,cusps:an.cusps,hi:si,center:[hm(mi),"ასცენდენტი "+S[si].ka],label:"ცა თბილისის თავზე "+hm(mi)+"-ზე, ასცენდენტი "+S[si].ka});}
+  /* the sky over Tbilisi keeps turning slowly and smoothly: redrawn every frame with fractional minutes
+     (planet positions cached per minute, house angles recomputed per frame); pauses on hover, off-screen or in a hidden tab */
+  let raf=0,m=nowMin,hover=false,vis=true,tp=0,pm=-1,pps=null;
+  function render(mm){const mi=Math.floor(mm);
+    if(mi!==pm){pm=mi;pps=positions(toUTCg(Y,M,D,mi,PL).d);}
+    const d=toUTCg(Y,M,D,0,PL).d;d.setTime(d.getTime()+mm*60000);
+    const an=angles(d,PL.lat,PL.lo);
+    drawChart(wheelEl,pps,{static:true,asc:an.asc,mc:an.mc,cusps:an.cusps,hi:sIdx(an.asc),label:"ცა თბილისის თავზე"});}
   const run=()=>!hover&&vis&&!document.hidden;
-  function step(t){const dt=Math.min(64,t-(tp||t));tp=t;m=(m+dt*.012)%1440;render(m);raf=run()?requestAnimationFrame(step):0;}
+  function step(t){const dt=Math.min(64,t-(tp||t));tp=t;m=(m+dt*.004)%1440;render(m);raf=run()?requestAnimationFrame(step):0;}
   const go=()=>{if(!raf&&run()){tp=0;raf=requestAnimationFrame(step);}};
   wheelEl.addEventListener("pointerenter",()=>{hover=true;});
   wheelEl.addEventListener("pointerleave",()=>{hover=false;go();});

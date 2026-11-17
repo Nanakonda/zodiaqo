@@ -615,7 +615,6 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.85rem;color:
   .cand{grid-template-columns:auto minmax(0,1fr) auto}
   .cand button{grid-column:1/-1}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.livedot,.spin,.sweep,.glow,.seg.cand path,.ctip{animation:none}.drawin{animation:none;stroke-dashoffset:0}}
 html{scroll-behavior:smooth}
 
 @media (min-width:861px){
@@ -797,7 +796,6 @@ svg.foc .asp.on{stroke-dasharray:1;stroke-dashoffset:1;animation:aspdraw .5s eas
 @keyframes aspdraw{to{stroke-dashoffset:0}}
 svg .hn{transition:fill .25s}
 svg .hn.on{fill:var(--accent);font-weight:700}
-@media (prefers-reduced-motion:reduce){svg .pl>circle,svg .pl>text,svg .seg path,svg .seg text{transition:none}svg.foc .asp.on{animation:none;stroke-dasharray:none}}
 </style>
 
 <div class="wrap">
@@ -1625,7 +1623,7 @@ const RMQ=matchMedia("(prefers-reduced-motion: reduce)");
 function liveChart(el,ps,opt){
   opt=opt||{};const prev=el.__st;cancelAnimationFrame(el.__raf||0);
   const st={lon:{},asc:opt.asc,mc:opt.mc,cusps:opt.cusps};ps.forEach(p=>st.lon[p.k]=p.lon);el.__st=st;
-  if(!prev||RMQ.matches||(prev.asc==null)!==(opt.asc==null)){drawChart(el,ps,opt);return}
+  if(!prev||(prev.asc==null)!==(opt.asc==null)){drawChart(el,ps,opt);return}
   const dl=(a,b)=>{let d=norm(b-a);return d>180?d-360:d};
   const t0=performance.now(),T=520,ease=x=>1-Math.pow(1-x,3);
   const step=t=>{const k=ease(Math.min(1,(t-t0)/T)),L=(a,b)=>a==null||b==null?b:norm(a+dl(a,b)*k);
@@ -7022,7 +7020,7 @@ $("kGo").addEventListener("click",runKarma);
   function render(mm){const mi=Math.floor(mm);if(mi===last)return;last=mi;
     const d=toUTCg(Y,M,D,mi,PL).d,ps=positions(d),an=angles(d,PL.lat,PL.lo),si=sIdx(an.asc);
     drawChart(wheelEl,ps,{static:true,asc:an.asc,mc:an.mc,cusps:an.cusps,hi:si,center:[hm(mi),"ასცენდენტი "+S[si].ka],label:"ცა თბილისის თავზე "+hm(mi)+"-ზე, ასცენდენტი "+S[si].ka});}
-  const run=()=>!hover&&vis&&!document.hidden&&!RMQ.matches;
+  const run=()=>!hover&&vis&&!document.hidden;
   function step(t){const dt=Math.min(64,t-(tp||t));tp=t;m=(m+dt*.06)%1440;render(m);raf=run()?requestAnimationFrame(step):0;}
   const go=()=>{if(!raf&&run()){tp=0;raf=requestAnimationFrame(step);}};
   wheelEl.addEventListener("pointerenter",()=>{hover=true;});

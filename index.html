@@ -45,9 +45,15 @@ a{color:var(--accent)}
 [hidden]{display:none!important}
 /* nav */
 header.top{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px 24px;border-bottom:1px solid var(--line);padding-bottom:14px}
-header.top .brand{grid-column:1/-1;grid-row:1;justify-self:start}
-header.top .mainnav{grid-column:1;grid-row:2;min-width:0}
-header.top .acctbtn{grid-column:2;grid-row:2}
+header.top{width:min(1360px,calc(100vw - 32px));align-self:center;box-sizing:border-box}
+header.top .brand{grid-column:1;grid-row:1;justify-self:start}
+header.top .acctbtn{grid-column:2;grid-row:1}
+header.top .mainnav{grid-column:1/-1;grid-row:2;min-width:0}
+@media (min-width:1380px){
+  header.top{grid-template-columns:auto 1fr auto}
+  header.top .mainnav{grid-column:2;grid-row:1;justify-content:center;flex-wrap:nowrap}
+  header.top .acctbtn{grid-column:3}
+}
 .brand{font-family:var(--display);font-weight:700;font-size:1.2rem;display:flex;align-items:center;gap:10px;color:var(--fg);text-decoration:none}
 .brand{display:flex;align-items:center}.brand .zlock{height:40px;width:auto;display:block;color:var(--fg);overflow:visible}
 .brand .zword{text-transform:uppercase;font-feature-settings:"case" 1;letter-spacing:.08em;font-size:1.15rem}
@@ -603,9 +609,6 @@ footer{border-top:1px solid var(--line);padding-top:18px;font-size:.85rem;color:
   .cbl{gap:4px 12px}
   .cbi{font-size:.84rem}
   .mainnav{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:4px;scrollbar-width:none}
-  header.top .brand{grid-column:1}
-  header.top .acctbtn{grid-row:1}
-  header.top .mainnav{grid-column:1/-1}
   .mainnav::-webkit-scrollbar{display:none}
   .big3{grid-template-columns:1fr}
   .cal{gap:3px}

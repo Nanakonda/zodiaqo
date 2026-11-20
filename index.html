@@ -873,6 +873,25 @@ button.qreset:hover{color:var(--fg);background:none}
 .prc.best{position:relative}
 .prc.best .prstar{position:absolute;top:18px;right:20px;color:var(--accent);font-size:1.5rem;line-height:1;text-shadow:0 0 14px color-mix(in srgb,var(--accent) 60%,transparent)}
 .prc .prsub{color:var(--accent);font-weight:600;font-size:.92rem;margin-top:-4px}
+
+label.pill>input,label.opt>input{width:auto;flex:none;margin:0}
+/* ---------- phone layout ---------- */
+@media (max-width:560px){
+  .wrap{gap:32px;padding-block:6px 40px}
+  header.top{padding-top:6px;padding-bottom:14px}
+  .hero h1,.hero h2{margin-top:0}
+  .hero .btn.big,.hero .btn{width:100%;justify-content:center;text-align:center;box-sizing:border-box}
+  .step>label.pill{white-space:normal;line-height:1.35;align-items:flex-start;text-align:left;border-radius:12px}
+  .side:not(.big) #ascCap{display:none}
+  .side:not(.big) .sidecard{padding:8px 10px}
+  .usp{padding:20px 18px}
+  .steps-mini,.facts-mini{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .steps-mini li,.facts-mini li{padding:10px}
+  .prfree{flex-direction:column;align-items:flex-start;gap:8px;padding:16px 18px}
+  .prfree span{position:relative;padding-left:22px}
+  .prfree span::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
+  .panel{padding:18px 16px}
+}
 </style>
 
 <div class="wrap">

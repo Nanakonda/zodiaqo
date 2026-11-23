@@ -1073,12 +1073,12 @@ label.pill>input,label.opt>input{width:auto;flex:none;margin:0}
               <label class="mini" for="nLon">გრძედი °<input type="number" id="nLon" step="0.01" value="44.83"></label>
             </div>
           </div>
-          <div class="frow">
+          <div class="frow" id="hsRow" hidden>
             <label class="flabel" for="nHs">სახლების სისტემა</label>
             <div class="fctl"><select id="nHs" aria-describedby="hsInfo"><option value="P" selected>პლაციდუსი (რეკომენდებული)</option><option value="E">თანაბარი სახლები</option><option value="W">მთელი ნიშნები</option></select></div>
             <details class="hsmore"><summary data-tx="natal.4">რა არის სახლების სისტემა?</summary><div class="hsbox"><p data-tx="natal.5" class="note">სახლები ცას 12 ცხოვრებისეულ სფეროდ ყოფს: პიროვნება, ფინანსები, ოჯახი, ურთიერთობები და ა.შ. სისტემა ცვლის მხოლოდ სახლების საზღვრებს. პლანეტების ნიშნები და ასცენდენტი იგივე რჩება. თუ არ იცი, რომელი აირჩიო, დატოვე პლაციდუსი.</p><p class="note" id="hsInfo"></p></div></details>
           </div>
-          <div class="frow">
+          <div class="frow" id="tzRow" hidden>
             <label class="flabel" for="nTz">დროის სარტყელი</label>
             <div class="fctl"><select id="nTz"></select><span class="note" id="tzInfo"></span></div>
           </div>
@@ -6094,7 +6094,7 @@ cityIn.addEventListener("keydown",e=>{
   else if(e.key==="Escape")closeList();
 });
 cityList.addEventListener("mousedown",e=>{const li=e.target.closest("li[data-i]");if(li){e.preventDefault();pickCity(+li.dataset.i);}});
-$("manualT").addEventListener("click",()=>{manual=!manual;$("manualRow").hidden=!manual;if(manual){city=-1;cityIn.value="";if($("nTz").value==="auto")$("nTz").value="4";}updTz();});
+$("manualT").addEventListener("click",()=>{manual=!manual;$("manualRow").hidden=!manual;$("tzRow").hidden=!manual;if(!manual)$("nTz").value="auto";if(manual){city=-1;cityIn.value="";if($("nTz").value==="auto")$("nTz").value="4";}updTz();});
 
 /* precision */
 function prec(){return document.querySelector('input[name="prec"]:checked').value}

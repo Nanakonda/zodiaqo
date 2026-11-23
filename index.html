@@ -943,7 +943,7 @@ label.pill>input,label.opt>input{width:auto;flex:none;margin:0}
       <a data-tx="hdr.5" href="#career" data-p="career">პროფესია</a>
       <a data-tx="hdr.6" href="#trials" data-p="trials">შესაძლებლობები და გამოწვევები</a>
       <a data-tx="hdr.7" href="#marriage" data-p="marriage">დაოჯახება</a>
-      <a data-tx="hdr.12" href="#matrix" data-p="matrix">ბედის მატრიცა</a>
+      <a data-tx="hdr.12" href="#matrix" data-p="matrix" hidden>ბედის მატრიცა</a>
       <a href="#numerology" data-p="numerology" hidden>ნუმეროლოგია</a>
       <a href="#pricing" data-p="pricing" class="pwnav" hidden>ფასები</a>
     </nav></div>
@@ -1013,7 +1013,8 @@ label.pill>input,label.opt>input{width:auto;flex:none;margin:0}
       <a class="tool" href="#compat"><span class="ti glyph">♀︎♂︎</span><b data-tx="home.32">წყვილის ანალიზი</b><span data-tx="home.33">ემოციური თავსებადობა, კარმული კავშირები და ქორწინების პერსპექტივა.</span></a>
       <a class="tool" href="#career"><span class="ti glyph">♑︎</span><b data-tx="home.34">პროფესია</b><span data-tx="home.35">რომელი სფეროები შეგეფერება და სად გაქვს ფინანსური წარმატების ყველაზე დიდი შანსი.</span></a>
       <a class="tool" href="#trials"><span class="ti glyph">♄︎</span><b data-tx="home.36">შესაძლებლობები და გამოწვევები</b><span data-tx="home.37">როდის ჯობს ახალი საქმის წამოწყება და როდის გმართებს მეტი სიფრთხილე.</span></a>
-      <a class="tool" href="#matrix"><span class="ti glyph">✦</span><b data-tx="home.44">ბედის მატრიცა</b><span data-tx="home.45">22 არკანი შენი დაბადების თარიღიდან: ხასიათი, ტალანტები, ფული, სიყვარული, კარმული კუდი და დანიშნულება.</span></a>
+      <a class="tool" href="#ascendant"><span class="ti glyph">↑</span><b data-tx="home.42">ასცენდენტის დადგენა</b><span data-tx="home.43">დაბადების დრო, რომელიც არ იცი, და ნიშანი, რომლითაც სხვები გხედავენ.</span></a>
+      <a class="tool" href="#matrix" hidden><span class="ti glyph">✦</span><b data-tx="home.44">ბედის მატრიცა</b><span data-tx="home.45">22 არკანი შენი დაბადების თარიღიდან: ხასიათი, ტალანტები, ფული, სიყვარული, კარმული კუდი და დანიშნულება.</span></a>
       <a class="tool" href="#numerology" hidden><span class="ti glyph">9</span><b data-tx="home.38">ნუმეროლოგია</b><span data-tx="home.39">ცხოვრების გზა, დაბადების დღე, პირადი წელი, სახელის რიცხვები და პითაგორას კვადრატი</span></a>
       <a class="tool" href="#marriage"><span class="ti"><svg viewBox="0 0 28 20" width="26" height="19" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="11" r="7"/><circle cx="18" cy="11" r="7"/></g><path d="M8 3.2l2-2.2 2 2.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><b data-tx="home.40">დაოჯახება</b><span data-tx="home.41">რომელ წლებშია ქორწინებისა და სერიოზული ურთიერთობის ყველაზე ხელსაყრელი დრო.</span></a>
     </div>
@@ -1421,7 +1422,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     trials:{t:"შესაძლებლობები და გამოწვევები",k:"single",p:9.90,inc:["trials"],d:"როდის ჯობს ახალი საქმის წამოწყება და როდის გმართებს მეტი სიფრთხილე."},
     matrix:{t:"ბედის მატრიცა",k:"single",p:9.90,inc:["matrix"],d:"სრული ახსნა: ხასიათი, ტალანტები, ფული, სიყვარული, კარმული კუდი, დანიშნულება, ასაკობრივი რუკა, ენერგეტიკული ცენტრები და წყვილის მატრიცა."},
     numerology:{t:"ნუმეროლოგია",k:"single",p:7.90,inc:["numerology"],d:"ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."},
-    full:{t:"სრული ციალი",sub:"სრული წვდომა ყველა ანალიზზე",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials","matrix"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
+    full:{t:"სრული ციალი",sub:"სრული წვდომა ყველა ანალიზზე",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
   F2P:{matrix:"matrix",asc:"asc_natal",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
   FN:{matrix:"ბედის მატრიცის სრული ახსნა",asc:"ასცენდენტი და დაბადების სავარაუდო დრო",natal:"სრული ნატალური რუკა",karmic:"კარმული კავშირები",compat:"წყვილის ანალიზი",career:"პროფესია",marriage:"დაოჯახება",trials:"შესაძლებლობები და გამოწვევები",numerology:"ნუმეროლოგია"},
   PG:{matrix:"matrix",asc:"ascendant",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
@@ -7927,7 +7928,7 @@ $("nMore").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(
     try{navigator.clipboard.writeText(t.value).then(ok,()=>{t.select();});}catch(_){t.select();}}});
 buildNatal(true);
 /* ---------- pages ---------- */
-const PAGES=["home","ascendant","natal","compat","career","trials","marriage","matrix","pricing","admin"],ALIAS={numerology:"home",karmic:"compat",report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
+const PAGES=["home","ascendant","natal","compat","career","trials","marriage","pricing","admin"],ALIAS={matrix:"home",numerology:"home",karmic:"compat",report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
 let precTouched=false;document.querySelectorAll('input[name="prec"]').forEach(r=>r.addEventListener("change",()=>{precTouched=true;}));
 function route(){
   const h=location.hash.slice(1),sign=S.findIndex(x=>x.id===h);

@@ -1438,7 +1438,7 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
   sumOf(id){const inc=PW.P[id].inc,ids=[...new Set(inc.filter(f=>f!=="asc").map(f=>f==="natal"&&inc.includes("asc")?"asc_natal":PW.F2P[f]))];return ids.reduce((s,x)=>s+PW.P[x].p,0);},
   key(o){if(!o||o.err||!o.pl)return"";return [o.Y,o.M,o.D,(+o.pl.lat).toFixed(2),(+o.pl.lo).toFixed(2)].join("|");},
   pkey(ks){return [...ks].sort().join("~");},
-  has(feat,keys){if(PW.mode==="off")return true;if(!keys||!keys.length||keys.some(k=>!k))return false;
+  has(feat,keys){if(PW.mode==="off"||PW.admin)return true;if(!keys||!keys.length||keys.some(k=>!k))return false;
     return PW.owned.some(o=>{const pr=PW.P[o.product_id];if(!pr||!pr.inc.includes(feat))return false;
       if(pr.k==="bundle")return keys.includes(o.chart_key);
       if(pr.k==="pair")return keys.length===2&&o.chart_key===PW.pkey(keys);
@@ -1497,7 +1497,8 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
       const p=po[0],now=Date.now();if(p&&p.active&&Date.parse(p.starts_at)<=now&&Date.parse(p.ends_at)>now)PW.promo={pct:p.pct,ends:Date.parse(p.ends_at)};
     }catch(e){}
     PW.renderPricing();if(PW.mode!=="off")PW.refresh();},
-  async loadOwned(){if(!ACCT.sb||!ACCT.user){PW.owned=[];return}
+  async loadOwned(){if(!ACCT.sb||!ACCT.user){PW.owned=[];PW.admin=false;return}
+    try{const r=await ACCT.sb.rpc("is_admin");PW.admin=r.data===true;}catch(e){PW.admin=false;}
     const {data,error}=await ACCT.sb.from("purchases").select("product_id,chart_key,status,created_at").eq("status","paid");
     PW.owned=error?[]:data;if(PW.mode!=="off")PW.refresh();},
   renderPricing(){const top=$("prTop"),grid=$("prGrid"),pro=$("prPromo");if(!top)return;
@@ -8191,7 +8192,7 @@ window.addEventListener("hashchange",()=>{if(TXT.edit){txClose();const pg=locati
     const sb=window.supabase.createClient(SB.url,SB.key,{auth:{flowType:"pkce",detectSessionInUrl:true,persistSession:true}});ACCT.sb=sb;
     sb.auth.onAuthStateChange((ev,session)=>{const u=session?session.user:null,was=ACCT.user&&ACCT.user.id;ACCT.user=u;renderAcctBtn();
       if(ev==="PASSWORD_RECOVERY"){ACCT.recovery=true;setTimeout(acctOpen,200);}
-      if(u&&was!==u.id)setTimeout(acctLoad,0);if(!u){ACCT.self=null;ACCT.people=[];PW.owned=[];ADM.ok=false;if(TXT.edit)txEdit(false);if(location.hash==="#admin")admOpen();renderPick();if(was&&PW.mode!=="off")PW.refresh();}});
+      if(u&&was!==u.id)setTimeout(acctLoad,0);if(!u){ACCT.self=null;ACCT.people=[];PW.owned=[];PW.admin=false;ADM.ok=false;if(TXT.edit)txEdit(false);if(location.hash==="#admin")admOpen();renderPick();if(was&&PW.mode!=="off")PW.refresh();}});
     const qs=new URLSearchParams(location.search);await sb.auth.getSession();
     if(qs.has("code")||qs.has("error")||qs.has("error_description")){let back="";try{back=sessionStorage.getItem("zw_back")||"";sessionStorage.removeItem("zw_back");}catch(e){}
       history.replaceState(null,"",location.pathname+(back||location.hash));if(back)route();

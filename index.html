@@ -913,6 +913,36 @@ label.pill>input,label.opt>input{width:auto;flex:none;margin:0}
 .mxpd input{width:90px}
 @media (max-width:860px){.mxgrid{grid-template-columns:1fr}}
 @media (max-width:560px){.mxchips{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* yearly forecast */
+.yrthemes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.yrthemes>div,.yrbest>div{background:var(--surface2);border-radius:12px;padding:10px 12px}
+.yrthemes small,.yrbest small{display:block;color:var(--muted);font-size:.8rem}
+.yrthemes p{margin:4px 0 0}
+.yrbest{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.yrbest b{font-size:.9rem}
+.yrtblw{overflow-x:auto}
+.yrtbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.yrtbl th,.yrtbl td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:center}
+.yrtbl td:first-child,.yrtbl th:first-child{text-align:left}
+.yrtbl tr.cur td{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.yrdot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:middle}
+.yrdot.good{background:var(--earth)}.yrdot.mid{background:var(--line)}.yrdot.hard{background:var(--fire)}
+.yrleg{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.85rem;margin:8px 0 0}
+.yrleg span{display:inline-flex;align-items:center;gap:6px}
+.yrmon.cur{border-color:var(--accent)}
+.yrrate{display:flex;gap:14px;flex-wrap:wrap;font-size:.88rem;color:var(--muted);margin-bottom:8px}
+.yrrate span{display:inline-flex;align-items:center;gap:6px}
+.yrfoc{margin:0 0 10px;padding-left:1.1em}.yrfoc li{margin:3px 0}
+.yrnote{background:var(--surface2);border-left:3px solid var(--air);border-radius:0 10px 10px 0;padding:8px 12px;margin:8px 0;font-size:.92rem}
+.yrnote.ecl{border-left-color:var(--accent)}
+.yrevs{display:flex;flex-direction:column;gap:8px}
+.yrev{background:var(--surface2);border-radius:12px;padding:10px 12px;border-left:3px solid var(--line)}
+.yrev.good{border-left-color:var(--earth)}.yrev.hard{border-left-color:var(--fire)}.yrev.mid{border-left-color:var(--accent)}
+.yrevh{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.yrevh small{color:var(--muted)}
+.yrev p{margin:4px 0 0}
+@media (max-width:560px){.yrthemes{grid-template-columns:1fr}.yrbest{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* ---------- phone layout ---------- */
 @media (max-width:560px){
   .wrap{gap:32px;padding-block:6px 40px}
@@ -943,6 +973,7 @@ label.pill>input,label.opt>input{width:auto;flex:none;margin:0}
       <a data-tx="hdr.5" href="#career" data-p="career">პროფესია</a>
       <a data-tx="hdr.6" href="#trials" data-p="trials">შესაძლებლობები და გამოწვევები</a>
       <a data-tx="hdr.7" href="#marriage" data-p="marriage">დაოჯახება</a>
+      <a data-tx="hdr.13" href="#year" data-p="year">წლის პროგნოზი</a>
       <a data-tx="hdr.12" href="#matrix" data-p="matrix" hidden>ბედის მატრიცა</a>
       <a href="#numerology" data-p="numerology" hidden>ნუმეროლოგია</a>
       <a href="#pricing" data-p="pricing" class="pwnav" hidden>ფასები</a>
@@ -1013,7 +1044,7 @@ label.pill>input,label.opt>input{width:auto;flex:none;margin:0}
       <a class="tool" href="#compat"><span class="ti glyph">♀︎♂︎</span><b data-tx="home.32">წყვილის ანალიზი</b><span data-tx="home.33">ემოციური თავსებადობა, კარმული კავშირები და ქორწინების პერსპექტივა.</span></a>
       <a class="tool" href="#career"><span class="ti glyph">♑︎</span><b data-tx="home.34">პროფესია</b><span data-tx="home.35">რომელი სფეროები შეგეფერება და სად გაქვს ფინანსური წარმატების ყველაზე დიდი შანსი.</span></a>
       <a class="tool" href="#trials"><span class="ti glyph">♄︎</span><b data-tx="home.36">შესაძლებლობები და გამოწვევები</b><span data-tx="home.37">როდის ჯობს ახალი საქმის წამოწყება და როდის გმართებს მეტი სიფრთხილე.</span></a>
-      <a class="tool" href="#ascendant"><span class="ti glyph">↑</span><b data-tx="home.42">ასცენდენტის დადგენა</b><span data-tx="home.43">დაბადების დრო, რომელიც არ იცი, და ნიშანი, რომლითაც სხვები გხედავენ.</span></a>
+      <a class="tool" href="#year"><span class="ti glyph">☉</span><b data-tx="home.46">წლის პროგნოზი</b><span data-tx="home.47">თვეების მიხედვით: სიყვარული, კარიერა, ფული და ენერგია, მნიშვნელოვანი თარიღები და დაბნელებები.</span></a>
       <a class="tool" href="#matrix" hidden><span class="ti glyph">✦</span><b data-tx="home.44">ბედის მატრიცა</b><span data-tx="home.45">22 არკანი შენი დაბადების თარიღიდან: ხასიათი, ტალანტები, ფული, სიყვარული, კარმული კუდი და დანიშნულება.</span></a>
       <a class="tool" href="#numerology" hidden><span class="ti glyph">9</span><b data-tx="home.38">ნუმეროლოგია</b><span data-tx="home.39">ცხოვრების გზა, დაბადების დღე, პირადი წელი, სახელის რიცხვები და პითაგორას კვადრატი</span></a>
       <a class="tool" href="#marriage"><span class="ti"><svg viewBox="0 0 28 20" width="26" height="19" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="11" r="7"/><circle cx="18" cy="11" r="7"/></g><path d="M8 3.2l2-2.2 2 2.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><b data-tx="home.40">დაოჯახება</b><span data-tx="home.41">რომელ წლებშია ქორწინებისა და სერიოზული ურთიერთობის ყველაზე ხელსაყრელი დრო.</span></a>
@@ -1290,6 +1321,16 @@ label.pill>input,label.opt>input{width:auto;flex:none;margin:0}
     <div class="lifegrid"><div class="panel lifeform"><h3 data-tx="trials.3" class="ph3">დაბადების მონაცემები</h3><p data-tx="trials.4" class="note">ნახე შენი პირადი პროგნოზი მომდევნო წლებისთვის.</p><div class="bslot"></div><p data-tx="trials.5" class="note">მიმდინარე პერიოდის მოკლე შეჯამება მონაცემების შეყვანისთანავე უფასოდ გამოჩნდება.</p></div><div class="liferes" id="trRes" aria-live="polite"></div></div>
   </section>
 
+  <section class="sec page" id="year" data-page="year">
+    <div class="sec-head"><h2 data-tx="year.1">წლის პროგნოზი</h2>
+      <p data-tx="year.2" class="muted">დეტალური პროგნოზი თვეების მიხედვით, იანვრიდან დეკემბრის ჩათვლით. ვითვლით, როდის ეხება იუპიტერი, სატურნი, მარსი, ვენერა და სხვა პლანეტები შენი რუკის მნიშვნელოვან წერტილებს, და აქედან ვადგენთ, რომელი თვეებია ხელსაყრელი სიყვარულისთვის, კარიერისთვის, ფულისა და ენერგიისთვის.</p>
+      <p class="muted"><span data-tx="year.3">სახლებისა და სფეროების ზუსტად დასადგენად დაბადების დროა საჭირო.</span> თუ არ იცი, ჯერ <a href="#ascendant">დაადგინე ასცენდენტი</a>.</p></div>
+    <div class="lifegrid"><div class="panel lifeform"><h3 data-tx="year.4" class="ph3">რომელი წელი</h3>
+      <div class="fctl"><select id="yrYear" aria-label="წელი"></select></div>
+      <h3 data-tx="year.5" class="ph3" style="margin-top:14px">დაბადების მონაცემები</h3><div class="bslot"></div>
+      <p data-tx="year.6" class="note">წლის მთავარ თემებსა და თვეების მიმოხილვას უფასოდ ნახავ.</p></div><div class="liferes" id="yrRes" aria-live="polite"></div></div>
+  </section>
+
   <section class="sec page" id="matrix" data-page="matrix">
     <div class="sec-head"><h2 data-tx="matrix.1">ბედის მატრიცა</h2>
       <p data-tx="matrix.2" class="muted">ბედის მატრიცა ტაროს 22 დიდ არკანს ეყრდნობა. დაბადების დღიდან, თვიდან და წლიდან ვითვლით რიცხვებს და ვალაგებთ რვაკუთხა სქემაზე: ხასიათი, ტალანტები, ფული, სიყვარული, კარმული კუდი, ცხოვრების დანიშნულება და ასაკობრივი რუკა.</p></div>
@@ -1420,13 +1461,14 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     career:{t:"პროფესია",k:"single",p:6.90,inc:["career"],d:"რომელი სფეროები შეგეფერება, როგორ მუშაობ საუკეთესოდ და სად გაქვს ფინანსური წარმატების ყველაზე დიდი შანსი."},
     marriage:{t:"დაოჯახება",k:"single",p:9.90,inc:["marriage"],d:"რომელ წლებშია ქორწინებისა და სერიოზული ურთიერთობის ყველაზე ხელსაყრელი დრო და როგორი პარტნიორი გჭირდება."},
     trials:{t:"შესაძლებლობები და გამოწვევები",k:"single",p:9.90,inc:["trials"],d:"როდის ჯობს ახალი საქმის წამოწყება და როდის გმართებს მეტი სიფრთხილე."},
+    year:{t:"წლის პროგნოზი",k:"single",p:14.90,inc:["year"],d:"დეტალური პროგნოზი თვეების მიხედვით: თვის ფოკუსი, ხელსაყრელი და დატვირთული პერიოდები, უკუსვლები და დაბნელებები."},
     matrix:{t:"ბედის მატრიცა",k:"single",p:9.90,inc:["matrix"],d:"სრული ახსნა: ხასიათი, ტალანტები, ფული, სიყვარული, კარმული კუდი, დანიშნულება, ასაკობრივი რუკა, ენერგეტიკული ცენტრები და წყვილის მატრიცა."},
     numerology:{t:"ნუმეროლოგია",k:"single",p:7.90,inc:["numerology"],d:"ყველა რიცხვი შენი თარიღიდან და სახელიდან და რას ნიშნავს ისინი."},
     full:{t:"სრული ციალი",sub:"სრული წვდომა ყველა ანალიზზე",k:"bundle",p:49.90,inc:["asc","natal","karmic","compat","career","marriage","trials"],d:"ყველა ანალიზი ერთ ადამიანზე, მისი ერთი წყვილის ჩათვლით."}},
-  F2P:{matrix:"matrix",asc:"asc_natal",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
-  FN:{matrix:"ბედის მატრიცის სრული ახსნა",asc:"ასცენდენტი და დაბადების სავარაუდო დრო",natal:"სრული ნატალური რუკა",karmic:"კარმული კავშირები",compat:"წყვილის ანალიზი",career:"პროფესია",marriage:"დაოჯახება",trials:"შესაძლებლობები და გამოწვევები",numerology:"ნუმეროლოგია"},
-  PG:{matrix:"matrix",asc:"ascendant",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
-  FT:{matrix:["შენი მატრიცის სრული ახსნა","ხასიათი, ტალანტები, ფული, სიყვარული, კარმული კუდი, დანიშნულება, ასაკობრივი რუკა და წყვილის მატრიცა."],natal:["შენი რუკის სრული ანალიზი","ხასიათი, სიყვარული, ფული და ცხოვრების გზა: ყველაფერი შენი დაბადების მონაცემებით დაწერილი."],
+  F2P:{year:"year",matrix:"matrix",asc:"asc_natal",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
+  FN:{year:"წლის პროგნოზი თვეების მიხედვით",matrix:"ბედის მატრიცის სრული ახსნა",asc:"ასცენდენტი და დაბადების სავარაუდო დრო",natal:"სრული ნატალური რუკა",karmic:"კარმული კავშირები",compat:"წყვილის ანალიზი",career:"პროფესია",marriage:"დაოჯახება",trials:"შესაძლებლობები და გამოწვევები",numerology:"ნუმეროლოგია"},
+  PG:{year:"year",matrix:"matrix",asc:"ascendant",natal:"natal",karmic:"compat",compat:"compat",career:"career",marriage:"marriage",trials:"trials",numerology:"numerology"},
+  FT:{year:["წლის სრული პროგნოზი","12 თვის დეტალური ახსნა: თვის ფოკუსი, ხელსაყრელი და დატვირთული პერიოდები ზუსტი თარიღებით, უკუსვლები და დაბნელებები."],matrix:["შენი მატრიცის სრული ახსნა","ხასიათი, ტალანტები, ფული, სიყვარული, კარმული კუდი, დანიშნულება, ასაკობრივი რუკა და წყვილის მატრიცა."],natal:["შენი რუკის სრული ანალიზი","ხასიათი, სიყვარული, ფული და ცხოვრების გზა: ყველაფერი შენი დაბადების მონაცემებით დაწერილი."],
     asc:["გაიგე, რომელ საათზე დაიბადე","ციალი გამოთვლის შენი დაბადების სავარაუდო დროს და ამ დროით სრულ ნატალურ რუკას აგებს."],
     karmic:["ყველა კარმული კავშირი","რა გაკავშირებთ, რისი სწავლა შეგიძლიათ ერთმანეთისგან და რას ნიშნავს ეს კავშირები ერთად."],
     compat:["როგორ მოქმედებთ ერთმანეთზე","დეტალური ანალიზი: სად ეხმარებით ერთმანეთს, სად ეჯახებით და რა გაძლიერებთ წყვილად."],
@@ -1478,8 +1520,9 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
     if(ch&&ch.tagName==="H3")ch.remove();
     if(cmp){cmp.insertAdjacentHTML("beforebegin",(bt?'<div class="panel interp"><h3 class="ph3">რას ნიშნავს შენი ასცენდენტი</h3><p>'+escH(bt)+'</p></div>':'')+PW.card("asc",k,["დაბადების სავარაუდო დრო","ყველა შესაძლო ასცენდენტი პროცენტებით","ქულა დროის მიხედვით","სრული ნატალური რუკა ამ დროით"],"","asc_natal"));cmp.remove();}},
   refresh(){const pg=document.querySelector(".page:not([hidden])"),id=pg&&pg.dataset.page;
-    try{if(id==="natal")buildNatal(false);else if(id==="compat"&&$("sRes").innerHTML)runSyn();else if(id==="ascendant"&&$("qRes").innerHTML)runRect();else if(["career","trials","marriage","numerology","matrix"].includes(id))buildLife();showMyAsc();}catch(e){console.error(e);}},
+    try{if(id==="natal")buildNatal(false);else if(id==="compat"&&$("sRes").innerHTML)runSyn();else if(id==="ascendant"&&$("qRes").innerHTML)runRect();else if(["career","trials","marriage","numerology","matrix","year"].includes(id))buildLife();showMyAsc();}catch(e){console.error(e);}},
   async init(){PW.wire();
+    (()=>{const ys=document.getElementById("yrYear");if(!ys)return;const cy=new Date().getFullYear(),def=yrDefault();for(let y=cy-1;y<=cy+2;y++)ys.add(new Option(String(y),y,false,y===def));ys.value=def;ys.addEventListener("change",()=>buildLife());})();
     (()=>{const b=document.getElementById("navBtn"),n=document.getElementById("mainNav");if(!b||!n)return;
       const set=o=>{n.hidden=!o;b.setAttribute("aria-expanded",o?"true":"false");};
       b.addEventListener("click",e=>{e.stopPropagation();set(n.hidden);});
@@ -7707,9 +7750,96 @@ function mxPairRun(x){const out=$("mxPair");if(!out)return;const D=+$("mxPD").va
     mxCard(c.earth,"რას აშენებთ ერთად",MXA[c.earth].g)+mxCard(c.P,"წყვილის ფული",MXA[c.P].k+".")+mxCard(c.O,"წყვილის სიყვარულის ენერგია",MXA[c.O].k+".")+
     mxCard(c.D,"წყვილის კარმული ამოცანა",MXA[c.D].k+".")+mxCard(c.pers,"ურთიერთობის დანიშნულება",MXA[c.pers].g)+'</div>'+
     '<p class="note">პარტნიორის მთავარი რიცხვები: ცენტრი '+y.E+' ('+MXA[y.E].n+'), ტალანტი '+y.B+', კარმული კუდი '+y.D+'. ეს ნუმეროლოგიური მეთოდია და <a href="#compat">ასტროლოგიურ წყვილის ანალიზს</a> არ ცვლის.</p>';}
+/* ---------- yearly forecast (calendar year, month by month) ---------- */
+const YRT={Jupiter:{g:"ზრდა, მხარდაჭერა და იღბალი: კარგი დროა ახლის დასაწყებად.",h:"შესაძლებლობები ბევრია, მაგრამ გადაჭარბების საფრთხეც დიდია: ზედმეტს ნუ აიღებ.",c:"ახალი, დიდი შესაძლებლობის დასაწყისი."},
+  Saturn:{g:"მყარი შედეგი შრომითა და მოთმინებით: კარგი დროა გრძელვადიანი გეგმებისთვის.",h:"დატვირთვა, შეზღუდვები და პასუხისმგებლობა: იმუშავე ნელა და თანმიმდევრულად.",c:"სერიოზული ეტაპი: რაც ახლა აშენდება, დიდხანს გაძლებს."},
+  Uranus:{g:"სასიამოვნო სიახლეები და მოულოდნელი შესაძლებლობები.",h:"მოულოდნელი ცვლილებები: დატოვე ადგილი იმპროვიზაციისთვის.",c:"მკვეთრი შემობრუნება და განახლება."},
+  Neptune:{g:"შთაგონება, ინტუიცია და შემოქმედება.",h:"ბუნდოვანება და ილუზიები: მნიშვნელოვანი გადაწყვეტილებები ორჯერ გადაამოწმე.",c:"ოცნებებისა და შთაგონების პერიოდი, ოღონდ ფაქტებს ყურადღებით უყურე."},
+  Pluto:{g:"შინაგანი ძალა და ღრმა, დადებითი ცვლილებები.",h:"ძლიერი წნეხი და გარდაქმნა: რაც მოძველდა, ცვლილებას მოითხოვს.",c:"ღრმა გარდაქმნა: ძველის დასრულება და ახლის დაწყება."},
+  Mars:{g:"ენერგია და ინიციატივა: კარგი დღეებია აქტიური ნაბიჯებისთვის.",h:"დაძაბულობა და აჩქარება: მოერიდე კამათს და ზედმეტ რისკს.",c:"ენერგიის მატება: დაიწყე ის, რასაც დიდი ხანია აჭიანურებ."},
+  Venus:{g:"სასიამოვნო დღეები სიყვარულისთვის, შეხვედრებისთვის და შენაძენებისთვის.",h:"ურთიერთობებში მცირე დაძაბულობა ან ზედმეტი ხარჯი.",c:"სიყვარულისა და სილამაზის დღეები: კარგი დროა შეხვედრისთვის ან საკუთარ თავზე ზრუნვისთვის."}};
+const YRD={Sun:"მიზნები და თავდაჯერება",Moon:"ემოციები, სახლი და ოჯახი",Mercury:"საუბრები, დოკუმენტები და სწავლა",Venus:"სიყვარული, სილამაზე და ფული",Mars:"ენერგია და ინიციატივა",
+  Jupiter:"ზრდა და შესაძლებლობები",Saturn:"პასუხისმგებლობა და გრძელვადიანი გეგმები",ASC:"იმიჯი და ურთიერთობა გარშემომყოფებთან",MC:"კარიერა და საზოგადოებრივი სტატუსი"};
+const YRNK={Sun:"მზე",Moon:"მთვარე",Mercury:"მერკური",Venus:"ვენერა",Mars:"მარსი",Jupiter:"იუპიტერი",Saturn:"სატურნი",ASC:"ასცენდენტი",MC:"ცის შუაგული"};
+const YRRET={Mercury:"მერკური უკუსვლაშია: გადაამოწმე დოკუმენტები და შეთანხმებები. ტექნიკის ყიდვა და ახალი ხელშეკრულება სჯობს გადადო. კარგი დროა ძველ საქმეებს დაუბრუნდე.",
+  Venus:"ვენერა უკუსვლაშია: შეიძლება ძველი ურთიერთობები დაბრუნდეს. დიდ შენაძენებსა და იმიჯის მკვეთრ ცვლილებას ჯობს მოიცადო.",
+  Mars:"მარსი უკუსვლაშია: ენერგია შინაგანია. ახალი დიდი საქმის დაწყებას ჯობს მოიცადო, დაწყებულს კი ბოლომდე მიიყვანე."};
+const YRSPH=[["love","სიყვარული"],["career","კარიერა"],["money","ფული"],["energy","ენერგია"]];
+function yrDefault(){const n=new Date();return n.getMonth()>=9?n.getFullYear()+1:n.getFullYear();}
+function yrCompute(b,Y){
+  const t0=Date.UTC(Y,0,1,12),N=Math.round((Date.UTC(Y+1,0,1,12)-t0)/864e5),day=i=>new Date(t0+i*864e5);
+  const TR=["Sun","Mercury","Venus","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto"],L={},RT={};
+  TR.forEach(k=>{L[k]=[];RT[k]=[];for(let i=0;i<=N;i++){const l=lonOf(k,day(i));L[k].push(l==null?null:norm(l));}
+    for(let i=0;i<N;i++){let dl=L[k][i+1]-L[k][i];if(dl>180)dl-=360;if(dl<-180)dl+=360;RT[k].push(dl<0);}});
+  const T={Sun:b.P("Sun").lon,Mercury:b.P("Mercury").lon,Venus:b.P("Venus").lon,Mars:b.P("Mars").lon,Jupiter:b.P("Jupiter").lon,Saturn:b.P("Saturn").lon};
+  if(!b.unknown)T.Moon=b.P("Moon").lon;if(b.an){T.ASC=b.an.asc;T.MC=b.an.mc;}
+  const ORB={Mars:1.5,Venus:1.5,Jupiter:2,Saturn:2,Uranus:1.5,Neptune:1.5,Pluto:1.5};
+  const TGT={Mars:["Sun","Moon","Venus","Mars","ASC","MC"],Venus:["Sun","Moon","Venus","Mars","ASC"]};
+  const ev=[];
+  Object.keys(ORB).forEach(k=>{(TGT[k]||Object.keys(T)).forEach(t=>{if(T[t]==null)return;[0,60,90,120,180].forEach(a=>{
+    if((k==="Mars"||k==="Venus")&&a===60)return;let cur=null;
+    for(let i=0;i<=N;i++){const l=L[k][i];if(l==null)continue;const x=Math.abs(sep(l,T[t])-a);
+      if(x<=ORB[k]){if(cur&&i-cur.e<=((k==="Mars"||k==="Venus")?3:12)){cur.e=i;if(x<cur.mx){cur.mx=x;cur.m=i}}else{cur={k,t,a,s:i,e:i,m:i,mx:x};ev.push(cur);}}}});});});
+  const typ=e=>e.a===0?"c":(e.a===60||e.a===120)?"g":"h";
+  const good=e=>typ(e)==="g"||(typ(e)==="c"&&(e.k==="Jupiter"||e.k==="Venus"));
+  const W={Jupiter:2,Saturn:2,Uranus:1.5,Neptune:1.2,Pluto:1.8,Mars:1,Venus:.8};
+  const sph=e=>{const s=[];if(e.k==="Venus"||["Venus","Moon"].includes(e.t)||(e.t==="ASC"&&e.a===180))s.push("love");
+    if(["MC","Saturn"].includes(e.t)||(e.t==="Sun"&&["Jupiter","Saturn","Pluto"].includes(e.k)))s.push("career");
+    if(e.t==="Jupiter"||(e.k==="Jupiter"&&e.t==="Venus")||(e.k==="Saturn"&&e.t==="Venus"))s.push("money");
+    if(e.k==="Mars"||e.t==="Mars"||(e.t==="Sun"&&!s.length))s.push("energy");return s;};
+  ev.forEach(e=>{e.type=typ(e);e.good=good(e);e.w=W[e.k]*(e.good?1:-1);e.sph=sph(e);e.sd=day(e.s);e.ed=day(e.e);e.md=day(e.m);});
+  ev.sort((x,y)=>x.s-y.s);
+  const hs=l=>b.an?houseIdx(l,b.an.cusps):null;
+  const rets=[];["Mercury","Venus","Mars"].forEach(k=>{let cur=null;RT[k].forEach((r,i)=>{if(r){if(cur&&i-cur.e<=1)cur.e=i;else{cur={k,s:i,e:i};rets.push(cur);}}});});
+  rets.forEach(r=>{r.sd=day(r.s);r.ed=day(r.e);r.h=hs(L[r.k][r.s]);});
+  const ecl=[];try{let le=Astronomy.SearchLunarEclipse(new Date(Date.UTC(Y,0,1)));while(le.peak.date.getUTCFullYear()===Y){ecl.push({kind:"lunar",d:le.peak.date,sub:le.kind});le=Astronomy.NextLunarEclipse(le.peak);}}catch(e){}
+  try{let se=Astronomy.SearchGlobalSolarEclipse(new Date(Date.UTC(Y,0,1)));while(se.peak.date.getUTCFullYear()===Y){ecl.push({kind:"solar",d:se.peak.date,sub:se.kind});se=Astronomy.NextGlobalSolarEclipse(se.peak);}}catch(e){}
+  ecl.forEach(x=>{x.lon=norm(x.kind==="solar"?lonOf("Sun",x.d):lonOf("Moon",x.d));x.h=hs(x.lon);x.hits=Object.keys(T).filter(t=>sep(x.lon,T[t])<=3||Math.abs(sep(x.lon,T[t])-180)<=3);});
+  ecl.sort((p,q)=>p.d-q.d);
+  const months=[];for(let m=0;m<12;m++){const a=Math.round((Date.UTC(Y,m,1,12)-t0)/864e5),z=Math.round((Date.UTC(Y,m+1,1,12)-t0)/864e5)-1,mid=Math.round((a+z)/2);
+    const evs=ev.filter(e=>e.e>=a&&e.s<=z),sc={love:0,career:0,money:0,energy:0};
+    evs.forEach(e=>{const ov=(Math.min(e.e,z)-Math.max(e.s,a)+1)/(z-a+1),f=Math.min(1,.35+ov);e.sph.forEach(s=>sc[s]+=e.w*f);});
+    if(b.an){const hJ=hs(L.Jupiter[mid]),hV=hs(L.Venus[mid]),hS=hs(L.Saturn[mid]),hM=hs(L.Mars[mid]);
+      const add=(h,v)=>{if([5,7].includes(h))sc.love+=v;if(h===10)sc.career+=v;if([2,8].includes(h))sc.money+=v;};add(hJ,.8);add(hV,.6);add(hS,-.6);if([1,6].includes(hM))sc.energy+=.4;}
+    months.push({m,a,z,evs,sc,sunH:hs(L.Sun[mid]),marsH:hs(L.Mars[mid]),venH:hs(L.Venus[mid]),
+      rets:rets.filter(r=>r.e>=a&&r.s<=z),ecl:ecl.filter(x=>x.d.getUTCMonth()===m)});}
+  const jupH=b.an?[...new Set([0,N/2|0,N].map(i=>hs(L.Jupiter[i])))]:[],satH=b.an?[...new Set([0,N/2|0,N].map(i=>hs(L.Saturn[i])))]:[];
+  return {Y,months,ev,rets,ecl,jupH,satH};}
+const yrRate=v=>v>=.8?"good":v<=-.8?"hard":"mid";
+const yrDate=d=>d.getUTCDate()+" "+MONTHS[d.getUTCMonth()];
+const yrRange=(s,e)=>s.getTime()===e.getTime()?yrDate(s):(s.getUTCMonth()===e.getUTCMonth()?s.getUTCDate()+"–"+yrDate(e):yrDate(s)+" – "+yrDate(e));
+function yrEvCard(e,Y){const pk=YRNK[e.k]||BODIES.find(x=>x.k===e.k).ka,cls=e.good?"good":e.type==="c"?"mid":"hard";
+  const sd=yrDate(e.sd),ed=yrDate(e.ed.getUTCFullYear()>Y?new Date(Date.UTC(Y,11,31,12)):e.ed);
+  return '<div class="yrev '+cls+'"><div class="yrevh"><b>'+pk+' · შენი '+YRNK[e.t]+'</b><small>'+ANAME[e.a]+'</small></div>'+
+    '<div class="muted num">'+yrRange(e.sd,e.ed.getUTCFullYear()>Y?new Date(Date.UTC(Y,11,31,12)):e.ed)+(e.e-e.s>3?' · ზუსტად '+yrDate(e.md):'')+'</div><p><b>'+YRD[e.t]+':</b> '+YRT[e.k][e.type]+'</p></div>';}
+function buildYear(){const el=$("yrRes");if(!el)return;const b=lifeBase();if(b.err){el.innerHTML='<p class="err">'+b.err+'</p>';return}
+  if(!HAS){el.innerHTML='<p class="err">ასტრონომიული გამოთვლები ვერ ჩაიტვირთა. განაახლე გვერდი.</p>';return}
+  const Y=+($("yrYear")&&$("yrYear").value)||yrDefault();let R;try{R=yrCompute(b,Y);}catch(e){el.innerHTML='<p class="err">გამოთვლა ვერ მოხერხდა.</p>';return}
+  const HLs=h=>h?HL[h-1]:"";
+  const dot=v=>{const r=yrRate(v);return '<span class="yrdot '+r+'" title="'+{good:"ხელსაყრელი",mid:"ნეიტრალური",hard:"დატვირთული"}[r]+'"></span>';};
+  const best=k=>R.months.map(m=>[m.m,m.sc[k]]).filter(x=>x[1]>=.8).sort((p,q)=>q[1]-p[1]).slice(0,3).sort((p,q)=>p[0]-q[0]).map(x=>MONTHS[x[0]]).join(", ")||"გამორჩეული თვე არ ჩანს";
+  const nowM=new Date().getFullYear()===Y?new Date().getMonth():-1;
+  const sum='<div class="panel yrsum"><h3 class="ph3">'+Y+' წლის მთავარი თემები</h3>'+
+    (b.an?'<div class="yrthemes"><div><small>წლის იღბლის სფერო (იუპიტერი)</small><p>ყველაზე მეტი ზრდა და შესაძლებლობა იქნება '+R.jupH.map(HLs).join(", შემდეგ კი ")+'.</p></div>'+
+      '<div><small>სად გჭირდება მეტი შრომა (სატურნი)</small><p>მეტი პასუხისმგებლობა და შრომა მოგიწევს '+R.satH.map(HLs).join(", შემდეგ კი ")+'.</p></div></div>':
+      '<p class="note">დაბადების დრო უცნობია, ამიტომ სახლები და სფეროები ნაკლებად ზუსტია. <a href="#ascendant">დაადგინე ასცენდენტი</a> უფრო სრული პროგნოზისთვის.</p>')+
+    '<div class="yrbest">'+YRSPH.map(([k,n])=>'<div><small>'+n+'</small><b>'+best(k)+'</b></div>').join("")+'</div>'+
+    '<h4 class="lh4">თვეების მიმოხილვა</h4><div class="yrtblw"><table class="yrtbl"><thead><tr><th>თვე</th>'+YRSPH.map(([,n])=>'<th>'+n+'</th>').join("")+'</tr></thead><tbody>'+
+    R.months.map(m=>'<tr'+(m.m===nowM?' class="cur"':'')+'><td>'+MONTHS[m.m]+'</td>'+YRSPH.map(([k])=>'<td>'+dot(m.sc[k])+'</td>').join("")+'</tr>').join("")+'</tbody></table></div>'+
+    '<p class="yrleg"><span>'+dot(1)+' ხელსაყრელი</span><span>'+dot(0)+' ნეიტრალური</span><span>'+dot(-1)+' დატვირთული</span></p></div>';
+  const mon=R.months.map(m=>{const pos=m.evs.filter(e=>e.good),neg=m.evs.filter(e=>!e.good);
+    const foc=b.an?'<ul class="yrfoc"><li><b>თვის ფოკუსი:</b> ყურადღება გადადის '+HLs(m.sunH)+'.</li><li><b>ენერგია</b> ყველაზე მეტად იხარჯება '+HLs(m.marsH)+'.</li><li><b>სიამოვნებასა და სიყვარულს</b> ყველაზე ადვილად იპოვი '+HLs(m.venH)+'.</li></ul>':'';
+    const ret=m.rets.map(r=>'<div class="yrnote"><b>'+yrRange(r.sd,r.ed)+'</b> '+YRRET[r.k]+(r.h?' ეს მეტად იგრძნობა '+HLs(r.h)+'.':'')+'</div>').join("");
+    const ec=m.ecl.map(x=>'<div class="yrnote ecl"><b>'+yrDate(x.d)+': '+(x.kind==="solar"?"მზის":"მთვარის")+' დაბნელება.</b> '+(x.kind==="solar"?"ახალი დასაწყისი":"რაღაცის დასრულება ან კულმინაცია")+(x.h?' '+HLs(x.h):'')+'.'+
+      (x.hits.length?' ის პირდაპირ ეხება შენი რუკის წერტილებს ('+x.hits.map(t=>YRNK[t]).join(", ")+'), ამიტომ ამ სფეროში მოვლენები შეიძლება განსაკუთრებით მნიშვნელოვანი იყოს.':'')+'</div>').join("");
+    return '<div class="panel yrmon'+(m.m===nowM?' cur':'')+'"><h3 class="ph3">'+MONTHS[m.m]+' '+Y+'</h3><div class="yrrate">'+YRSPH.map(([k,n])=>'<span>'+dot(m.sc[k])+n+'</span>').join("")+'</div>'+foc+ret+ec+
+      (pos.length?'<h4 class="lh4">ხელსაყრელი გავლენები</h4><div class="yrevs">'+pos.map(e=>yrEvCard(e,Y)).join("")+'</div>':'')+
+      (neg.length?'<h4 class="lh4">რას მიაქციო ყურადღება</h4><div class="yrevs">'+neg.map(e=>yrEvCard(e,Y)).join("")+'</div>':'')+
+      (!pos.length&&!neg.length?'<p class="muted">ამ თვეში გამორჩეული გავლენა არ ჩანს: მშვიდი თვეა, კარგია მიმდინარე საქმეებისთვის.</p>':'')+'</div>';}).join("");
+  el.innerHTML=sum+mon;}
 function buildLife(){const pg=document.querySelector(".page:not([hidden])");const id=pg&&pg.dataset.page;
-  try{if(id==="career")buildCareer();else if(id==="trials")buildTrials();else if(id==="marriage")buildMarriage();else if(id==="numerology")buildNumer();else if(id==="matrix")buildMatrix();
-    const el=$({career:"carRes",trials:"trRes",marriage:"mrRes",numerology:"nuRes",matrix:"mxRes"}[id]);if(el)PW.gate(el,id,[PW.key(readForm())],{keep:1});}catch(e){console.error(e);}}
+  try{if(id==="career")buildCareer();else if(id==="trials")buildTrials();else if(id==="marriage")buildMarriage();else if(id==="numerology")buildNumer();else if(id==="matrix")buildMatrix();else if(id==="year")buildYear();
+    const el=$({career:"carRes",trials:"trRes",marriage:"mrRes",numerology:"nuRes",matrix:"mxRes",year:"yrRes"}[id]);if(el)PW.gate(el,id,[PW.key(readForm())],{keep:1});}catch(e){console.error(e);}}
 const NBD={"1": ["ლიდერობა", "დამოუკიდებელი, ამბიციური და ინიციატივიანი ხარ. გიყვარს პირველობა და საკუთარი გზით სიარული.", "სიჯიუტე, ეგოიზმი და სხვების რჩევის უგულებელყოფა."], "2": ["თანამშრომლობა", "მგრძნობიარე, ტაქტიანი და მშვიდობისმოყვარე ხარ. საუკეთესოდ წყვილში ან გუნდში მუშაობ.", "ზედმეტი მგრძნობელობა, გაუბედაობა და გადაწყვეტილების მიღების სიძნელე."], "3": ["გამოხატვა", "კომუნიკაბელური, შემოქმედებითი და მხიარული ხარ. სიტყვა და ხელოვნება შენი ძალაა.", "ბევრ საქმეზე გაფანტვა, ზედაპირულობა და ფულის უყაირათო ხარჯვა."], "4": ["წესრიგი", "საიმედო, შრომისმოყვარე და პრაქტიკული ხარ. ყველაფერს მყარ საფუძველზე აშენებ.", "სიჯიუტე, რუტინაში ჩაკეტვა და ცვლილებების შიში."], "5": ["თავისუფლება", "ცნობისმოყვარე, მოქნილი და თავგადასავლების მოყვარული ხარ. ცვლილებებს ადვილად ეგუები.", "მოუსვენრობა, იმპულსურობა და ვალდებულებების თავიდან არიდება."], "6": ["პასუხისმგებლობა", "მზრუნველი, ერთგული და ოჯახზე ორიენტირებული ხარ. სილამაზე და ჰარმონია გჭირდება.", "ზედმეტი კონტროლი, სხვების საქმეში ჩარევა და საკუთარი თავის დავიწყება."], "7": ["სიბრძნე", "ანალიტიკური, ღრმა და ინტუიციური ხარ. მარტოობა და ჭეშმარიტების ძიება გჭირდება.", "ჩაკეტილობა, ეჭვიანობა და ემოციების დამალვა."], "8": ["ძალაუფლება", "ამბიციური, ორგანიზებული და ძლიერი ხარ. ბიზნესი და მართვა გეხერხება.", "მატერიალიზმი, ზედმეტი შრომა და კონტროლის სურვილი."], "9": ["ჰუმანიზმი", "გულუხვი, თანამგრძნობი და იდეალისტი ხარ. ფართო ხედვა და შემოქმედებითი ნიჭი გაქვს.", "წარსულზე მიჯაჭვულობა, ემოციური ცვალებადობა და თავგანწირვა."], "10": ["დამოუკიდებლობა", "ენერგიული, თავდაჯერებული და მიზანდასახული ხარ. ახალ საქმეს ადვილად იწყებ.", "ამპარტავნება, მოუთმენლობა და მარტოობისკენ მიდრეკილება."], "11": ["ინტუიცია", "შთამაგონებელი, მგრძნობიარე და იდეალისტი ხარ. ძლიერი ინტუიცია და სულიერი ნიჭი გაქვს.", "ნერვული დაძაბულობა, ზედმეტი მოლოდინები და უპრაქტიკობა."], "12": ["შემოქმედება", "კომუნიკაბელური, ხელოვნებისადმი მიდრეკილი და მხიარული ხარ. სხვებს ადვილად აინტერესებ.", "გაფანტულობა, ზედმეტი თვითკრიტიკა და მსხვერპლის როლი."], "13": ["შრომა", "შრომისმოყვარე, ორგანიზებული და გამძლე ხარ. დიდ საქმეს ნაბიჯ-ნაბიჯ აშენებ.", "სიჯიუტე, დაუთმობლობა და სიზარმაცე, როცა საქმე არ გიყვარს."], "14": ["ცვლილება", "მოქნილი, ენერგიული და ცნობისმოყვარე ხარ. გიყვარს მოგზაურობა და ახალი გამოცდილება.", "იმპულსურობა, ზომიერების ნაკლებობა და არასტაბილურობა."], "15": ["სიმამაცე", "მგრძნობიარე, დამოუკიდებელი და ენერგიული ხარ. გამბედაობა გაქვს, ოჯახი კი შენთვის ყველაფერია. გიყვარს თავისუფლება, სილამაზე და კომფორტი.", "აჯანყებულობა, ფლანგვა, ემოციური აფეთქებები და სიჯიუტე მიზნის მიღწევისას."], "16": ["ჩაღრმავება", "ინტუიციური, ანალიტიკური და დამოუკიდებელი ხარ. ცხოვრების სიღრმეები გაინტერესებს.", "ამპარტავნება, ჩაკეტილობა და მოულოდნელი კრიზისები."], "17": ["ავტორიტეტი", "ამბიციური, საქმიანი და ძლიერი ნებისყოფის ხარ. ბიზნესი და ფინანსები გეხერხება.", "სიმკაცრე, კონტროლის სურვილი და ემოციების დამალვა."], "18": ["მსახურება", "თანამგრძნობი, ფართო ხედვისა და ლიდერის უნარის მქონე ხარ. სხვების დახმარება გაძლიერებს.", "ემოციური დაძაბულობა, კონფლიქტები და სიჯიუტე."], "19": ["დამოუკიდებლობის გაკვეთილი", "ამბიციური, ენერგიული და შემოქმედებითი ხარ. ყველაფერს საკუთარი ძალით აღწევ.", "დახმარების მიღების სიძნელე, ეგოიზმი და მარტოობა."], "20": ["პარტნიორობა", "რბილი, დიპლომატიური და მზრუნველი ხარ. ურთიერთობები შენთვის ცხოვრების ცენტრია.", "სხვებზე ზედმეტი დამოკიდებულება და ადვილად წყენა."], "21": ["ხიბლი", "კომუნიკაბელური, შემოქმედებითი და სოციალური ხარ. ადამიანებს ადვილად იზიდავ.", "ზედაპირულობა, ყურადღების ნაკლებობის შიში და ეჭვი საკუთარ თავში."], "22": ["ოსტატი-მშენებელი", "დიდი ხედვისა და პრაქტიკული ნიჭის ადამიანი ხარ. შეგიძლია დიდი საქმის აშენება.", "ნერვული დაძაბულობა, ზედმეტი სიფრთხილე და მაღალი მოთხოვნები."], "23": ["თავგადასავალი", "მოქნილი, ცნობისმოყვარე და ადამიანებთან ურთიერთობის ოსტატი ხარ.", "მოუსვენრობა, მოუთმენლობა და ვალდებულებების შიში."], "24": ["ოჯახი", "ერთგული, მზრუნველი და პრაქტიკული ხარ. სახლი და ოჯახი შენი საყრდენია.", "ზედმეტი საკუთრების გრძნობა, ეჭვიანობა და სიჯიუტე."], "25": ["შინაგანი ხედვა", "ანალიტიკური, ინტუიციური და ღრმა მოაზროვნე ხარ. გამოცდილებიდან სწავლობ.", "ეჭვიანობა, ჩაკეტილობა და ემოციების დამალვა."], "26": ["მენეჯმენტი", "ორგანიზებული, ამბიციური და პასუხისმგებლიანი ხარ. ოჯახსა და კარიერას ერთნაირად აფასებ.", "ზედმეტი კონტროლი, ამპარტავნება და მატერიალიზმი."], "27": ["თანაგრძნობა", "ბრძენი, შემოქმედებითი და გულისხმიერი ხარ. სხვებს ადვილად შთააგონებ.", "ემოციური ცვალებადობა, მოუთმენლობა და ჩაკეტილობა."], "28": ["თანამშრომელი ლიდერი", "დამოუკიდებელი და ამბიციური ხარ, მაგრამ თანამშრომლობაც შეგიძლია. ახალ იდეებს ხორცს ასხამ.", "სიჯიუტე, ავტორიტარულობა და მოუთმენლობა."], "29": ["შთაგონება", "მგრძნობიარე, ინტუიციური და შემოქმედებითი ხარ. ადამიანების გაგების იშვიათი ნიჭი გაქვს.", "განწყობის ცვალებადობა, ნერვიულობა და ურთიერთობებში უკიდურესობები."], "30": ["გამომსახველობა", "კომუნიკაბელური, მხიარული და შემოქმედებითი ხარ. სიტყვითა და ხელოვნებით ადამიანებს იზიდავ.", "ზედაპირულობა, ფლანგვა და სიჯიუტე."], "31": ["მიზანდასახულობა", "პრაქტიკული, შრომისმოყვარე და ერთგული ხარ. წესრიგსა და სტაბილურობას აფასებ.", "სიჯიუტე, მარტოობის შიში და რუტინაში ჩაკეტვა."]};
 const NAR=[["1-5-9", "განსაზღვრულობის ისარი", "მიზანდასახული და მტკიცე ხარ: რასაც გადაწყვეტ, აუცილებლად აკეთებ, და დაბრკოლებები ვერ გაჩერებს. ზოგჯერ ეს სიჯიუტეში გადადის.", "გაჭიანურების ისარი", "გადაწყვეტილებების გადადებისკენ მიდრეკილება გაქვს. მიზნების ჩაწერა და ვადების დაწესება გეხმარება."], ["3-5-7", "სულიერების ისარი", "ღრმა თანაგრძნობა, შინაგანი რწმენა და სულიერი საკითხებისადმი ინტერესი გაქვს.", "ეჭვის ისარი", "რწმენა და ნდობა შეიძლება გიჭირდეს. შინაგანი მუშაობა და ახლობლებთან გულახდილობა სიმშვიდეს მოგცემს."], ["1-2-3", "დაგეგმვის ისარი", "ორგანიზებული ხარ და კარგად გეგმავ: იცი, რა გინდა და როგორ მიაღწიო.", "დაუგეგმაობის ისარი", "გეგმების შედგენა და დაცვა გიჭირს. სიები და გრაფიკები დიდად გეხმარება."], ["4-5-6", "ნებისყოფის ისარი", "ძლიერი ნება და მოქმედების უნარი გაქვს: რთულ სიტუაციაში არ იბნევი.", "იმედგაცრუების ისარი", "რთულ მომენტებში სწრაფად კარგავ მოტივაციას. მცირე, მიღწევადი მიზნები გეხმარება."], ["7-8-9", "აქტიურობის ისარი", "ენერგიული და მოქმედებაზე ორიენტირებული ხარ: სიტყვას საქმე მოსდევს.", "პასიურობის ისარი", "მოქმედების დაწყება გიჭირს. რეგულარული ფიზიკური აქტივობა ენერგიას გმატებს."], ["1-4-7", "პრაქტიკულობის ისარი", "ხელით მუშაობა და მატერიალური საქმე გეხერხება: მიწიერი და რეალისტი ხარ.", "უპრაქტიკობის ისარი", "ყოველდღიური პრაქტიკული საქმე გიჭირს. კონკრეტული ჩვევების გამომუშავება გეხმარება."], ["2-5-8", "ემოციური ბალანსის ისარი", "ემოციურად მდგრადი და თანამგრძნობი ხარ, სხვებს მშვიდად უსმენ.", "მგრძნობელობის ისარი", "ემოციურად დაუცველი ხარ და ადვილად გწყინს. საკუთარი გრძნობების გამოხატვა გეხმარება."], ["3-6-9", "ინტელექტის ისარი", "კარგი მეხსიერება და გონებრივი უნარები გაქვს, სწავლა ადვილად გეძლევა.", "მეხსიერების ისარი", "ყურადღება და მეხსიერება ვარჯიშს საჭიროებს: კითხვა და სწავლა გონებას აძლიერებს."]];
 const NPYL=["პირადი წელი 1 ახალი 9-წლიანი ციკლის დასაწყისია. ის, რასაც ახლა დათესავ, მომდევნო წლებში გაიზრდება: დრო ახალი საქმის, სამსახურის, პროექტის ან ცხოვრების ეტაპის დასაწყებად. მნიშვნელოვანია ინიციატივა, საკუთარ ძალებზე დაყრდნობა, ძველი ჩვევების გაშვება და მკაფიო მიზნების დასახვა. სხვების ლოდინი ამ წელს არ ამართლებს.", "პირადი წელი 2 მოთმინებისა და ურთიერთობების დროა. წინა წელს დაწყებული საქმე ნელა იზრდება და ზრუნვას საჭიროებს. წინა პლანზე პარტნიორობა, თანამშრომლობა, დიპლომატია და დეტალებია, შესაძლოა ახალი მნიშვნელოვანი ურთიერთობაც დაიწყოს. ემოციები მგრძნობიარეა, ამიტომ დასვენება და მშვიდი გარემო გჭირდება.", "პირადი წელი 3 თვითგამოხატვისა და სოციალური აქტივობის წელია. ბევრი ახალი ნაცნობი, შეხვედრა, მოგზაურობა და შემოქმედებითი შესაძლებლობა მოდის. კარგი დროა ხელოვნებისთვის, წერისთვის, საჯარო გამოსვლისთვის და ცხოვრებით ტკბობისთვის. ძალასა და ფულს ნუ გაფანტავ: ყველაფერს ერთად ნუ მოჰკიდებ ხელს.", "პირადი წელი 4 შრომისა და საძირკვლის წელია. დრო ორგანიზებისთვის, ფინანსების მოწესრიგებისთვის და სახლზე, ჯანმრთელობასა და კარიერის მყარ საფუძველზე ზრუნვისთვის. შეიძლება დატვირთული და ზოგჯერ მძიმე იყოს, მაგრამ ახლა ჩადებული შრომა წლობით გამოგადგება. მთავარია მოთმინება და დისციპლინა.", "პირადი წელი 5 ცვლილებებისა და თავისუფლების წელია. წინა წლების შეზღუდვები სუსტდება და ცხოვრება მოძრაობაში მოდის: გადასვლა, მოგზაურობა, ახალი სამსახური ან მოულოდნელი შესაძლებლობები. ცვლილება შიშის საგანი კი არა, წინსვლის შანსია. მთავარი გამოწვევაა, ერთ მიზანზე დარჩე და იმპულსურ გადაწყვეტილებებს ერიდო.", "პირადი წელი 6 ოჯახისა და პასუხისმგებლობის წელია. წინა პლანზე სახლი, ქორწინება, შვილები, ახლობლებზე ზრუნვა და საზოგადოებრივი მოვალეობებია. კარგი დროა ურთიერთობების გასამყარებლად და სახლის მოსაწყობად. ერიდე სხვების ტვირთის მთლიანად საკუთარ თავზე აღებას.", "პირადი წელი 7 შინაგანი მუშაობისა და გააზრების წელია. დრო სწავლის, კვლევის, დასვენების, სულიერი ზრდისა და საკუთარი თავის უკეთ გაცნობისთვის. გარეგანი მიღწევები შეიძლება ნელა მოდიოდეს, მაგრამ ინტუიცია და სიბრძნე იზრდება. მარტო ყოფნის დრო აუცილებელია.", "პირადი წელი 8 შედეგებისა და ძალის წელია. წინა წლების შრომა ახლა ფინანსებში, კარიერულ წინსვლასა და აღიარებაში აისახება. დრო დიდი გადაწყვეტილებების, ინვესტიციებისა და ხელმძღვანელობისთვის. ძალაუფლება და ფული პატიოსნად და ბალანსით გამოიყენე.", "პირადი წელი 9 ციკლის დასრულების წელია. დრო შეჯამებისთვის და იმის გაშვებისთვის, რაც აღარ გემსახურება: ურთიერთობები, სამსახური ან ჩვევები. კარგი დროა სხვების დახმარებისა და ქველმოქმედებისთვის. ახალ დიდ საქმეს მომავალი წლისთვის მოემზადე."];
@@ -7928,7 +8058,7 @@ $("nMore").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(
     try{navigator.clipboard.writeText(t.value).then(ok,()=>{t.select();});}catch(_){t.select();}}});
 buildNatal(true);
 /* ---------- pages ---------- */
-const PAGES=["home","ascendant","natal","compat","career","trials","marriage","pricing","admin"],ALIAS={matrix:"home",numerology:"home",karmic:"compat",report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
+const PAGES=["home","ascendant","natal","compat","career","trials","marriage","year","pricing","admin"],ALIAS={matrix:"home",numerology:"home",karmic:"compat",report:"natal",rect:"ascendant",horoscope:"home",sky:"home",moon:"home",signs:"home",retro:"home",profession:"career"};
 let precTouched=false;document.querySelectorAll('input[name="prec"]').forEach(r=>r.addEventListener("change",()=>{precTouched=true;}));
 function route(){
   const h=location.hash.slice(1),sign=S.findIndex(x=>x.id===h);
@@ -7938,7 +8068,7 @@ function route(){
   const slot=document.querySelector('.page[data-page="'+page+'"] .bslot'),box=$("bformBox");
   if(slot&&box.parentElement!==slot)slot.appendChild(box);
   if(page==="ascendant"&&!precTouched&&$("pExact").checked){$("pUnknown").checked=true;updPrec();updWin();}
-  if(["career","trials","marriage","numerology","matrix"].includes(page))setTimeout(buildLife,30);
+  if(["career","trials","marriage","numerology","matrix","year"].includes(page))setTimeout(buildLife,30);
   if(page==="karmic"&&!$("kRes").innerHTML)runKarma();
   if(page==="admin"&&window.ADM_OPEN)window.ADM_OPEN();
   window.scrollTo(0,0);

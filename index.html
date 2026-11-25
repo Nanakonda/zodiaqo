@@ -1529,8 +1529,8 @@ const PW={mode:"off",owned:[],promo:null,ctx:null,
       n.addEventListener("click",e=>{if(e.target.closest("a"))set(false);});
       document.addEventListener("click",e=>{if(!n.hidden&&!e.target.closest(".navdd"))set(false);});
       document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!n.hidden){set(false);b.focus();}});})();
-    try{const qs=new URLSearchParams(location.search);if(qs.has("pw")){if(qs.get("pw")==="1")localStorage.setItem("tsiali_pw","1");else localStorage.removeItem("tsiali_pw");qs.delete("pw");history.replaceState(null,"",location.pathname+(qs.toString()?"?"+qs:"")+location.hash);}}catch(e){}
-    let pv=false;try{pv=localStorage.getItem("tsiali_pw")==="1";}catch(e){}
+    try{const qs=new URLSearchParams(location.search);if(qs.has("pw")){localStorage.removeItem("tsiali_pw");if(qs.get("pw")==="1")sessionStorage.setItem("tsiali_pw","1");else sessionStorage.removeItem("tsiali_pw");qs.delete("pw");history.replaceState(null,"",location.pathname+(qs.toString()?"?"+qs:"")+location.hash);}}catch(e){}
+    let pv=false;try{localStorage.removeItem("tsiali_pw");pv=sessionStorage.getItem("tsiali_pw")==="1";}catch(e){}
     PW.mode=PW_LIVE?"live":pv?"preview":"off";
     document.querySelectorAll(".pwnav").forEach(a=>a.hidden=PW.mode==="off");
     if(PW.mode!=="off")document.documentElement.classList.add("pw-on");
